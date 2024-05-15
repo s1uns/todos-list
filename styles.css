@@ -1,0 +1,115 @@
+html {
+    background-color: antiquewhite;
+    font-size: 62.5%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: goldenrod;
+    font-size: 10rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 33%;
+    background: white;
+    border-radius: 1rem;
+}
+
+.todos-block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.todos-list {
+    width: 95%;
+    list-style-type: none;
+    padding: 0;
+}
+
+.todo-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 0.5rem;
+    width: 100%;
+    font-size: 5rem;
+    border: 0.05rem dotted black;
+}
+
+.todo-item input {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    font-size: 5rem;
+    margin-right: 1.5rem;
+    z-index: 500;
+    border-radius: 100%;
+}
+
+.todo-item input:hover {
+    cursor: pointer;
+}
+
+.todo-item:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.todo-title {
+    padding-left: 4rem;
+    width: 100%;
+}
+
+.todo-item.active .todo-title {
+    background-color: rgb(236, 235, 235);
+    opacity: 0.2;
+    text-decoration: line-through;
+}
+
+input {
+    border-radius: 0.5rem;
+    font-size: 5rem;
+    width: 100%;
+}
+
+.todos-footer {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.todos-footer button {
+    height: 3rem;
+    background-color: white;
+    border: none;
+    border: 0.1rem solid transparent;
+    transition: all ease-in 0.3s;
+}
+
+.todos-footer button:hover {
+    cursor: pointer;
+    border: 0.01rem solid gray;
+}
+
+.todos-footer button.active {
+    border: 0.01rem solid black;
+}
+
+.todos-filters {
+    height: 100%;
+}
