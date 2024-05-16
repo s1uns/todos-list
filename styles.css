@@ -82,7 +82,8 @@ h1 {
 }
 
 .todo-title,
-.update-todo-input {
+.update-todo-input,
+.updated-icon {
     padding-left: 4rem;
     font-size: 5rem;
     width: 100%;
@@ -129,4 +130,9 @@ h1 {
 
 .todos-filters {
     height: 100%;
+}
+
+.updated-icon {
+    position: absolute;
+    left: 70%;
 }

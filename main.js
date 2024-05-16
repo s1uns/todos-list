@@ -8,70 +8,47 @@ let activeFilterBtn = document.getElementById("active-btn");
 let completedFilterBtn = document.getElementById("completed-btn");
 let clearCompletedBtn = document.getElementById("clear-btn");
 
-allFilterBtn.addEventListener("click", () => {
-    clearButtonsClasses();
-    currentFilter = "all";
-    allFilterBtn.classList.add("active");
-    updateData();
-});
+allFilterBtn.addEventListener("click", (e) => setFilter(e, "all"));
 
-activeFilterBtn.addEventListener("click", () => {
-    clearButtonsClasses();
-    currentFilter = "active";
-    activeFilterBtn.classList.add("active");
-    updateData();
-});
+activeFilterBtn.addEventListener("click", (e) => setFilter(e, "active"));
 
-completedFilterBtn.addEventListener("click", () => {
-    clearButtonsClasses();
-    currentFilter = "completed";
-    completedFilterBtn.classList.add("active");
-    updateData();
-});
+completedFilterBtn.addEventListener("click", (e) => setFilter(e, "completed"));
 
 clearCompletedBtn.addEventListener("click", () => {
-    todosArray = todosArray.filter(
-        (todo) => !todo.classList.contains("completed")
-    );
+    todosArray = todosArray.filter((todo) => !todo.isCompleted);
     updateData();
 });
+
+function setFilter(e, string) {
+    clearButtonsClasses();
+    currentFilter = string;
+    e.target.classList.add("active");
+    updateData();
+}
 
 todoInput.addEventListener("keypress", createTodo);
 
 function updateData() {
-    while (todosList.firstChild) todosList.removeChild(todosList.firstChild);
+    todosList.innerHTML = "";
+    const filteredArray = todosArray.filter((item) => {
+        if (currentFilter === "active") {
+            return !item.isCompleted;
+        }
 
-    switch (currentFilter) {
-        case "all":
-            todosArray.forEach((todo) => {
-                todosList.append(todo);
-            });
-            break;
+        if (currentFilter === "completed") {
+            return item.isCompleted;
+        }
+        return true;
+    });
 
-        case "active":
-            todosArray
-                .filter((todo) => !todo.classList.contains("completed"))
-                .forEach((todo) => {
-                    todosList.append(todo);
-                });
-            break;
+    // todosList.innerHTML = filteredArray.map(
+    //     (item) => createTodoElement(item).outerHTML
+    // );
 
-        case "completed":
-            todosArray
-                .filter((todo) => todo.classList.contains("completed"))
-                .forEach((todo) => {
-                    todosList.append(todo);
-                });
-            break;
-
-        default:
-            alert("Wrong filter!");
-            break;
-    }
+    filteredArray.forEach((item) => createTodoElement(item));
 
     todosCounter.innerText = `${
-        todosArray.filter((todo) => !todo.classList.contains("completed"))
-            .length
+        todosArray.filter((todo) => !todo.isCompleted).length
     } items left`;
 }
 
@@ -82,43 +59,60 @@ function createTodo(e) {
             return;
         }
 
-        let todo = document.createElement("li");
-        todo.id = todosArray.length + 1;
-        todo.classList.add("todo-item");
+        todosArray.push({
+            id: todosArray.length + 1,
+            title: todoInput.value,
+            isCompleted: false,
+            isUpdated: false,
+        });
 
-        let checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = false;
-        checkbox.classList.add("chek-todo-btn");
-
-        let todoTitle = document.createElement("span");
-        todoTitle.innerHTML = todoInput.value;
-        todoTitle.classList.add("todo-title");
-
-        let deleteTodoBtn = document.createElement("p");
-        deleteTodoBtn.innerHTML = "✖️";
-        deleteTodoBtn.classList.add("delete-btn");
-
-        todo.append(checkbox);
-        todo.append(todoTitle);
-        todo.append(deleteTodoBtn);
-        todosArray.push(todo);
-        todosList.append(todo);
-
-        todo.addEventListener("dblclick", updateTodo);
-        checkbox.addEventListener("change", checkTodo);
-        deleteTodoBtn.addEventListener("click", deleteTodo);
         todoInput.value = "";
         updateData();
     }
 }
 
-function checkTodo(e) {
-    if (e.target.checked) {
-        e.target.parentElement.classList.add("completed");
-    } else {
-        e.target.parentElement.classList.remove("completed");
+function createTodoElement(todo) {
+    let todoElement = document.createElement("li");
+    todoElement.id = todo.id;
+    todoElement.classList.add("todo-item");
+    if (todo.isCompleted) {
+        todoElement.classList.add("completed");
     }
+
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.isCompleted;
+    checkbox.classList.add("chek-todo-btn");
+
+    let todoTitle = document.createElement("span");
+    todoTitle.innerHTML = todo.title;
+    todoTitle.classList.add("todo-title");
+
+    let updatedIcon = document.createElement("span");
+    updatedIcon.innerHTML = todo.isUpdated ? "🖊" : "";
+    updatedIcon.classList.add("updated-icon");
+
+    let deleteTodoBtn = document.createElement("p");
+    deleteTodoBtn.innerHTML = "✖️";
+    deleteTodoBtn.classList.add("delete-btn");
+
+    todosList.append(todoElement);
+    todoElement.append(checkbox);
+    todoElement.append(todoTitle);
+    todoElement.append(updatedIcon);
+    todoElement.append(deleteTodoBtn);
+
+    todosList.append(todoElement);
+
+    todoElement.addEventListener("dblclick", updateTodo);
+    checkbox.addEventListener("change", checkTodo);
+    deleteTodoBtn.addEventListener("click", deleteTodo);
+}
+
+//TODO: fix ID issue
+function checkTodo(e) {
+    todosArray[e.target.parentElement.id - 1].isCompleted =
+        !todosArray[e.target.parentElement.id - 1].isCompleted;
     updateData();
 }
 
@@ -146,13 +140,14 @@ function updateTodo(e) {
     }
 }
 
+//TODO: fix ID issue
 function changeTodoTitle(e, todo) {
     let todoInput = e.target;
     let todoNewTitle = document.createElement("span");
     todoNewTitle.innerHTML = todoInput.value;
     todoNewTitle.classList.add("todo-title");
-    todosArray[todo.id - 1].getElementsByClassName("todo-title").innerHTML =
-        todoNewTitle;
+    todosArray[todo.id - 1].title = todoNewTitle.innerText;
+    todosArray[todo.id - 1].isUpdated = true;
     todoInput.replaceWith(todoNewTitle);
     updateData();
 }
