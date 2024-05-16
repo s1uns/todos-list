@@ -1,22 +1,19 @@
-let body = document.body;
 let todoInput = document.getElementById("add-todo");
 let todosList = document.getElementById("todos-list");
 let todosCounter = document.getElementById("counter");
 let todosArray = [];
+const filters = ["all", "active", "completed"];
+let allFilterBtn = document.getElementById("all-btn");
+let activeFilterBtn = document.getElementById("all-btn");
+let completedFilterBtn = document.getElementById("all-btn");
 
 todoInput.addEventListener("keypress", createTodo);
 
 function updateData() {
-    todosList.innerHTML = todosArray.map((todo) => todo.outerHTML);
-    let checkBtns = document.querySelectorAll(".chek-todo-btn");
-    checkBtns.forEach((checkBtn) => {
-        checkBtn.addEventListener("change", checkTodo);
+    todosArray.forEach((todo) => {
+        todosList.append(todo);
     });
 
-    let deleteBtns = document.querySelectorAll(".delete-btn");
-    deleteBtns.forEach((deleteBtn) => {
-        deleteBtn.addEventListener("click", deleteTodo);
-    });
     todosCounter.innerText = `${todosArray.length} items`;
 }
 
@@ -33,7 +30,7 @@ function createTodo(e) {
 
         let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        checkbox.checked = true;
+        checkbox.checked = false;
         checkbox.classList.add("chek-todo-btn");
 
         let todoTitle = document.createElement("span");
@@ -48,8 +45,12 @@ function createTodo(e) {
         todo.append(todoTitle);
         todo.append(deleteTodoBtn);
         todosArray.push(todo);
-        updateData();
+        todosList.append(todo);
+
+        checkbox.addEventListener("change", checkTodo);
+        deleteTodoBtn.addEventListener("click", deleteTodo);
         todoInput.value = "";
+        updateData();
     }
 }
 
@@ -65,5 +66,5 @@ function deleteTodo(e) {
     let todo = e.target.parentElement;
     todosArray = todosArray.filter((item) => item.id != todo.id);
     todo.remove();
-    todosCounter.innerText = `${todosArray.length} items`;
+    updateData();
 }
