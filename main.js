@@ -69,7 +69,10 @@ function updateData() {
             break;
     }
 
-    todosCounter.innerText = `${todosArray.length} items`;
+    todosCounter.innerText = `${
+        todosArray.filter((todo) => !todo.classList.contains("completed"))
+            .length
+    } items left`;
 }
 
 function createTodo(e) {
@@ -102,6 +105,7 @@ function createTodo(e) {
         todosArray.push(todo);
         todosList.append(todo);
 
+        todo.addEventListener("dblclick", updateTodo);
         checkbox.addEventListener("change", checkTodo);
         deleteTodoBtn.addEventListener("click", deleteTodo);
         todoInput.value = "";
@@ -115,12 +119,41 @@ function checkTodo(e) {
     } else {
         e.target.parentElement.classList.remove("completed");
     }
+    updateData();
 }
 
 function deleteTodo(e) {
     let todo = e.target.parentElement;
     todosArray = todosArray.filter((item) => item.id != todo.id);
     todo.remove();
+    updateData();
+}
+
+function updateTodo(e) {
+    if (e.target.classList.contains("todo-title")) {
+        let todoOldTitle = e.target;
+        let todoInput = document.createElement("input");
+        let todo = todoOldTitle.parentElement;
+        todoInput.value = todoOldTitle.innerHTML;
+        todoInput.classList.add("update-todo-input");
+        todoOldTitle.replaceWith(todoInput);
+        todoInput.focus();
+        todoInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                changeTodoTitle(e, todo);
+            }
+        });
+    }
+}
+
+function changeTodoTitle(e, todo) {
+    let todoInput = e.target;
+    let todoNewTitle = document.createElement("span");
+    todoNewTitle.innerHTML = todoInput.value;
+    todoNewTitle.classList.add("todo-title");
+    todosArray[todo.id - 1].getElementsByClassName("todo-title").innerHTML =
+        todoNewTitle;
+    todoInput.replaceWith(todoNewTitle);
     updateData();
 }
 

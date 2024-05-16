@@ -45,11 +45,10 @@ h1 {
     align-items: center;
     border-radius: 0.5rem;
     width: 100%;
-    font-size: 5rem;
     border: 0.05rem dotted black;
 }
 
-.todo-item input {
+.todo-item .chek-todo-btn {
     position: absolute;
     width: 3rem;
     height: 3rem;
@@ -82,8 +81,10 @@ h1 {
     margin-bottom: 0.5rem;
 }
 
-.todo-title {
+.todo-title,
+.update-todo-input {
     padding-left: 4rem;
+    font-size: 5rem;
     width: 100%;
 }
 
@@ -93,7 +94,7 @@ h1 {
     text-decoration: line-through;
 }
 
-input {
+.create-todo-input {
     border-radius: 0.5rem;
     font-size: 5rem;
     width: 100%;
