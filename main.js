@@ -2,17 +2,72 @@ let todoInput = document.getElementById("add-todo");
 let todosList = document.getElementById("todos-list");
 let todosCounter = document.getElementById("counter");
 let todosArray = [];
-const filters = ["all", "active", "completed"];
+let currentFilter = "all";
 let allFilterBtn = document.getElementById("all-btn");
-let activeFilterBtn = document.getElementById("all-btn");
-let completedFilterBtn = document.getElementById("all-btn");
+let activeFilterBtn = document.getElementById("active-btn");
+let completedFilterBtn = document.getElementById("completed-btn");
+let clearCompletedBtn = document.getElementById("clear-btn");
+
+allFilterBtn.addEventListener("click", () => {
+    clearButtonsClasses();
+    currentFilter = "all";
+    allFilterBtn.classList.add("active");
+    updateData();
+});
+
+activeFilterBtn.addEventListener("click", () => {
+    clearButtonsClasses();
+    currentFilter = "active";
+    activeFilterBtn.classList.add("active");
+    updateData();
+});
+
+completedFilterBtn.addEventListener("click", () => {
+    clearButtonsClasses();
+    currentFilter = "completed";
+    completedFilterBtn.classList.add("active");
+    updateData();
+});
+
+clearCompletedBtn.addEventListener("click", () => {
+    todosArray = todosArray.filter(
+        (todo) => !todo.classList.contains("completed")
+    );
+    updateData();
+});
 
 todoInput.addEventListener("keypress", createTodo);
 
 function updateData() {
-    todosArray.forEach((todo) => {
-        todosList.append(todo);
-    });
+    while (todosList.firstChild) todosList.removeChild(todosList.firstChild);
+
+    switch (currentFilter) {
+        case "all":
+            todosArray.forEach((todo) => {
+                todosList.append(todo);
+            });
+            break;
+
+        case "active":
+            todosArray
+                .filter((todo) => !todo.classList.contains("completed"))
+                .forEach((todo) => {
+                    todosList.append(todo);
+                });
+            break;
+
+        case "completed":
+            todosArray
+                .filter((todo) => todo.classList.contains("completed"))
+                .forEach((todo) => {
+                    todosList.append(todo);
+                });
+            break;
+
+        default:
+            alert("Wrong filter!");
+            break;
+    }
 
     todosCounter.innerText = `${todosArray.length} items`;
 }
@@ -67,4 +122,10 @@ function deleteTodo(e) {
     todosArray = todosArray.filter((item) => item.id != todo.id);
     todo.remove();
     updateData();
+}
+
+function clearButtonsClasses() {
+    allFilterBtn.classList.remove("active");
+    activeFilterBtn.classList.remove("active");
+    completedFilterBtn.classList.remove("active");
 }
