@@ -1,12 +1,13 @@
-let todoInput = document.getElementById("add-todo");
-let todosList = document.getElementById("todos-list");
-let todosCounter = document.getElementById("counter");
+const todoInput = document.getElementById("add-todo");
+const todosList = document.getElementById("todos-list");
+const todosCounter = document.getElementById("counter");
+const allFilterBtn = document.getElementById("all-btn");
+const activeFilterBtn = document.getElementById("active-btn");
+const completedFilterBtn = document.getElementById("completed-btn");
+const clearCompletedBtn = document.getElementById("clear-btn");
 let todosArray = [];
 let currentFilter = "all";
-let allFilterBtn = document.getElementById("all-btn");
-let activeFilterBtn = document.getElementById("active-btn");
-let completedFilterBtn = document.getElementById("completed-btn");
-let clearCompletedBtn = document.getElementById("clear-btn");
+
 
 allFilterBtn.addEventListener("click", (e) => setFilter(e, "all"));
 
@@ -19,14 +20,14 @@ clearCompletedBtn.addEventListener("click", () => {
     updateData();
 });
 
+todoInput.addEventListener("keypress", createTodo);
+
 function setFilter(e, string) {
     clearButtonsClasses();
     currentFilter = string;
     e.target.classList.add("active");
     updateData();
 }
-
-todoInput.addEventListener("keypress", createTodo);
 
 function updateData() {
     todosList.innerHTML = "";
@@ -40,10 +41,6 @@ function updateData() {
         }
         return true;
     });
-
-    // todosList.innerHTML = filteredArray.map(
-    //     (item) => createTodoElement(item).outerHTML
-    // );
 
     filteredArray.forEach((item) => createTodoElement(item));
 
@@ -72,31 +69,30 @@ function createTodo(e) {
 }
 
 function createTodoElement(todo) {
-    let todoElement = document.createElement("li");
+    const todoElement = document.createElement("li");
     todoElement.id = todo.id;
     todoElement.classList.add("todo-item");
     if (todo.isCompleted) {
         todoElement.classList.add("completed");
     }
 
-    let checkbox = document.createElement("input");
+    const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = todo.isCompleted;
     checkbox.classList.add("chek-todo-btn");
 
-    let todoTitle = document.createElement("span");
+    const todoTitle = document.createElement("span");
     todoTitle.innerHTML = todo.title;
     todoTitle.classList.add("todo-title");
 
-    let updatedIcon = document.createElement("span");
+    const updatedIcon = document.createElement("span");
     updatedIcon.innerHTML = todo.isUpdated ? "🖊" : "";
     updatedIcon.classList.add("updated-icon");
 
-    let deleteTodoBtn = document.createElement("p");
+    const deleteTodoBtn = document.createElement("p");
     deleteTodoBtn.innerHTML = "✖️";
     deleteTodoBtn.classList.add("delete-btn");
 
-    todosList.append(todoElement);
     todoElement.append(checkbox);
     todoElement.append(todoTitle);
     todoElement.append(updatedIcon);
@@ -109,46 +105,41 @@ function createTodoElement(todo) {
     deleteTodoBtn.addEventListener("click", deleteTodo);
 }
 
-//TODO: fix ID issue
 function checkTodo(e) {
-    todosArray[e.target.parentElement.id - 1].isCompleted =
-        !todosArray[e.target.parentElement.id - 1].isCompleted;
+    const todo = todosArray.find(
+        (item) => item.id == e.target.parentElement.id
+    );
+    todo.isCompleted = !todo.isCompleted;
     updateData();
 }
 
 function deleteTodo(e) {
-    let todo = e.target.parentElement;
+    const todo = e.target.parentElement;
     todosArray = todosArray.filter((item) => item.id != todo.id);
-    todo.remove();
     updateData();
 }
 
 function updateTodo(e) {
     if (e.target.classList.contains("todo-title")) {
-        let todoOldTitle = e.target;
-        let todoInput = document.createElement("input");
-        let todo = todoOldTitle.parentElement;
+        const todoOldTitle = e.target;
+        const todoInput = document.createElement("input");
+        const todo = todoOldTitle.parentElement;
         todoInput.value = todoOldTitle.innerHTML;
         todoInput.classList.add("update-todo-input");
         todoOldTitle.replaceWith(todoInput);
         todoInput.focus();
         todoInput.addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
-                changeTodoTitle(e, todo);
+                changeTodoTitle(e, todo.id);
             }
         });
     }
 }
 
-//TODO: fix ID issue
-function changeTodoTitle(e, todo) {
-    let todoInput = e.target;
-    let todoNewTitle = document.createElement("span");
-    todoNewTitle.innerHTML = todoInput.value;
-    todoNewTitle.classList.add("todo-title");
-    todosArray[todo.id - 1].title = todoNewTitle.innerText;
-    todosArray[todo.id - 1].isUpdated = true;
-    todoInput.replaceWith(todoNewTitle);
+function changeTodoTitle(e, id) {
+    const todo = todosArray.find((item) => item.id == id);
+    todo.title = e.target.value;
+    todo.isUpdated = true;
     updateData();
 }
 
