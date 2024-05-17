@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <title>ToDos List Pure JS</title>
+    </head>
+    <body>
+        <h1>ToDoS</h1>
+        <div class="container">
+            <input
+                class="create-todo-input"
+                type="text"
+                id="add-todo"
+                placeholder="What needs to be done?"
+            />
+            <div class="todos-block">
+                <ul class="todos-list" id="todos-list"></ul>
+
+                <div class="todos-footer">
+                    <span id="counter">0 items</span>
+                    <div class="todos-filters">
+                        <button id="all-btn" class="active">All</button>
+                        <button id="active-btn">Active</button>
+                        <button id="completed-btn">Completed</button>
+                    </div>
+                    <button id="clear-btn">Clear completed</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
+</html>
