@@ -108,10 +108,7 @@ const checkTodo = (e) => {
         (item) => item.id == e.target.parentElement.id
     );
 
-    const todoElement = [...todosList.querySelectorAll(".todo-item")].find(
-        (item) => item.id == todo.id
-    );
-
+    const todoElement = document.getElementById(todo.id);
     todo.isCompleted = !todo.isCompleted;
     saveToLocalStorage();
 
@@ -156,10 +153,7 @@ const changeTodoTitle = (e, id) => {
 
     const todo = todosArray.find((item) => item.id == id);
 
-    const todoElement = [...todosList.querySelectorAll(".todo-item")].find(
-        (item) => item.id == todo.id
-    );
-
+    const todoElement = document.getElementById(todo.id);
     const wasUpdated = todo.isUpdated;
     const todoNewTitle = document.createElement("span");
     todoNewTitle.innerHTML = todoInput.value;
