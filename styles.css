@@ -62,6 +62,7 @@ h1 {
     position: absolute;
     right: 0.5rem;
     font-size: 3rem;
+    z-index: 500;
 }
 
 .delete-btn:hover {

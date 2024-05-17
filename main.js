@@ -9,16 +9,14 @@ const storage = localStorage.getItem("todos");
 let todosArray = storage ? JSON.parse(storage) : [];
 let currentFilter = "all";
 
-
 const setFilter = (e, string) => {
     clearButtonsClasses();
     currentFilter = string;
     e.target.classList.add("active");
-    updateData();
+    loadData();
 };
 
-const updateData = () => {
-    localStorage.setItem("todos", JSON.stringify(todosArray));
+const loadData = () => {
     todosList.innerHTML = "";
     const filteredArray = todosArray.filter((item) => {
         if (currentFilter === "active") {
@@ -32,7 +30,10 @@ const updateData = () => {
     });
 
     filteredArray.forEach((item) => createTodoElement(item));
+    updateCounter();
+};
 
+const updateCounter = () => {
     todosCounter.innerText = `${
         todosArray.filter((todo) => !todo.isCompleted).length
     } items left`;
@@ -41,21 +42,27 @@ const updateData = () => {
 const createTodo = (e) => {
     if (e.key === "Enter") {
         const trimmedString = todoInput.value.trim();
+        const lastId = todosArray.length
+            ? todosArray[todosArray.length - 1].id
+            : 0;
 
         if (trimmedString.length == 0) {
             alert("Enter something first!");
             return;
         }
 
-        todosArray.push({
-            id: todosArray.length + 1,
+        const todo = {
+            id: lastId + 1,
             title: trimmedString,
             isCompleted: false,
             isUpdated: false,
-        });
+        };
+
+        todosArray.push(todo);
 
         todoInput.value = "";
-        updateData();
+        createTodoElement(todo);
+        saveToLocalStorage();
     }
 };
 
@@ -76,13 +83,13 @@ const createTodoElement = (todo) => {
     todoTitle.innerHTML = todo.title;
     todoTitle.classList.add("todo-title");
 
-    const updatedIcon = document.createElement("span");
-    updatedIcon.innerHTML = todo.isUpdated ? "🖊" : "";
-    updatedIcon.classList.add("updated-icon");
-
     const deleteTodoBtn = document.createElement("p");
     deleteTodoBtn.innerHTML = "✖️";
     deleteTodoBtn.classList.add("delete-btn");
+
+    const updatedIcon = document.createElement("span");
+    updatedIcon.innerHTML = todo.isUpdated ? "🖊" : "";
+    updatedIcon.classList.add("updated-icon");
 
     todoElement.append(checkbox);
     todoElement.append(todoTitle);
@@ -100,14 +107,26 @@ const checkTodo = (e) => {
     const todo = todosArray.find(
         (item) => item.id == e.target.parentElement.id
     );
+
+    const todoElement = [...todosList.querySelectorAll(".todo-item")].find(
+        (item) => item.id == todo.id
+    );
+
     todo.isCompleted = !todo.isCompleted;
-    updateData();
+    saveToLocalStorage();
+
+    if (todo.isCompleted) {
+        todoElement.classList.add("completed");
+    } else {
+        todoElement.classList.remove("completed");
+    }
 };
 
 const deleteTodo = (e) => {
     const todo = e.target.parentElement;
     todosArray = todosArray.filter((item) => item.id != todo.id);
-    updateData();
+    todo.remove();
+    saveToLocalStorage();
 };
 
 const updateTodo = (e) => {
@@ -129,22 +148,51 @@ const updateTodo = (e) => {
 
 const changeTodoTitle = (e, id) => {
     const trimmedString = e.target.value.trim();
-
+    const todoInput = e.target;
     if (trimmedString.length == 0) {
         alert("Enter something first!");
         return;
     }
 
     const todo = todosArray.find((item) => item.id == id);
-    todo.title = e.target.value;
-    todo.isUpdated = true;
-    updateData();
+
+    const todoElement = [...todosList.querySelectorAll(".todo-item")].find(
+        (item) => item.id == todo.id
+    );
+
+    const wasUpdated = todo.isUpdated;
+    const todoNewTitle = document.createElement("span");
+    todoNewTitle.innerHTML = todoInput.value;
+
+    if (todo.title != todoInput.value) {
+        todo.title = e.target.value;
+        todo.isUpdated = true;
+        saveToLocalStorage();
+    }
+
+    if (todo.isUpdated && !wasUpdated) {
+        const updatedIcon = document.createElement("span");
+        updatedIcon.innerHTML = todo.isUpdated ? "🖊" : "";
+        updatedIcon.classList.add("updated-icon");
+
+        todoElement.append(updatedIcon);
+    }
+
+    todoNewTitle.classList.add("todo-title");
+
+    todoInput.replaceWith(todoNewTitle);
+    todoElement.addEventListener("dblclick", updateTodo);
 };
 
 const clearButtonsClasses = () => {
     allFilterBtn.classList.remove("active");
     activeFilterBtn.classList.remove("active");
     completedFilterBtn.classList.remove("active");
+};
+
+const saveToLocalStorage = () => {
+    localStorage.setItem("todos", JSON.stringify(todosArray));
+    updateCounter();
 };
 
 allFilterBtn.addEventListener("click", (e) => setFilter(e, "all"));
@@ -155,9 +203,9 @@ completedFilterBtn.addEventListener("click", (e) => setFilter(e, "completed"));
 
 clearCompletedBtn.addEventListener("click", () => {
     todosArray = todosArray.filter((todo) => !todo.isCompleted);
-    updateData();
+    loadData();
 });
 
 todoInput.addEventListener("keypress", createTodo);
 
-updateData();
+loadData();
