@@ -5,31 +5,20 @@ const allFilterBtn = document.getElementById("all-btn");
 const activeFilterBtn = document.getElementById("active-btn");
 const completedFilterBtn = document.getElementById("completed-btn");
 const clearCompletedBtn = document.getElementById("clear-btn");
-let todosArray = [];
+const storage = localStorage.getItem("todos");
+let todosArray = storage ? JSON.parse(storage) : [];
 let currentFilter = "all";
 
 
-allFilterBtn.addEventListener("click", (e) => setFilter(e, "all"));
-
-activeFilterBtn.addEventListener("click", (e) => setFilter(e, "active"));
-
-completedFilterBtn.addEventListener("click", (e) => setFilter(e, "completed"));
-
-clearCompletedBtn.addEventListener("click", () => {
-    todosArray = todosArray.filter((todo) => !todo.isCompleted);
-    updateData();
-});
-
-todoInput.addEventListener("keypress", createTodo);
-
-function setFilter(e, string) {
+const setFilter = (e, string) => {
     clearButtonsClasses();
     currentFilter = string;
     e.target.classList.add("active");
     updateData();
-}
+};
 
-function updateData() {
+const updateData = () => {
+    localStorage.setItem("todos", JSON.stringify(todosArray));
     todosList.innerHTML = "";
     const filteredArray = todosArray.filter((item) => {
         if (currentFilter === "active") {
@@ -47,18 +36,20 @@ function updateData() {
     todosCounter.innerText = `${
         todosArray.filter((todo) => !todo.isCompleted).length
     } items left`;
-}
+};
 
-function createTodo(e) {
+const createTodo = (e) => {
     if (e.key === "Enter") {
-        if (todoInput.value.length == 0) {
+        const trimmedString = todoInput.value.trim();
+
+        if (trimmedString.length == 0) {
             alert("Enter something first!");
             return;
         }
 
         todosArray.push({
             id: todosArray.length + 1,
-            title: todoInput.value,
+            title: trimmedString,
             isCompleted: false,
             isUpdated: false,
         });
@@ -66,9 +57,9 @@ function createTodo(e) {
         todoInput.value = "";
         updateData();
     }
-}
+};
 
-function createTodoElement(todo) {
+const createTodoElement = (todo) => {
     const todoElement = document.createElement("li");
     todoElement.id = todo.id;
     todoElement.classList.add("todo-item");
@@ -103,23 +94,23 @@ function createTodoElement(todo) {
     todoElement.addEventListener("dblclick", updateTodo);
     checkbox.addEventListener("change", checkTodo);
     deleteTodoBtn.addEventListener("click", deleteTodo);
-}
+};
 
-function checkTodo(e) {
+const checkTodo = (e) => {
     const todo = todosArray.find(
         (item) => item.id == e.target.parentElement.id
     );
     todo.isCompleted = !todo.isCompleted;
     updateData();
-}
+};
 
-function deleteTodo(e) {
+const deleteTodo = (e) => {
     const todo = e.target.parentElement;
     todosArray = todosArray.filter((item) => item.id != todo.id);
     updateData();
-}
+};
 
-function updateTodo(e) {
+const updateTodo = (e) => {
     if (e.target.classList.contains("todo-title")) {
         const todoOldTitle = e.target;
         const todoInput = document.createElement("input");
@@ -134,17 +125,39 @@ function updateTodo(e) {
             }
         });
     }
-}
+};
 
-function changeTodoTitle(e, id) {
+const changeTodoTitle = (e, id) => {
+    const trimmedString = e.target.value.trim();
+
+    if (trimmedString.length == 0) {
+        alert("Enter something first!");
+        return;
+    }
+
     const todo = todosArray.find((item) => item.id == id);
     todo.title = e.target.value;
     todo.isUpdated = true;
     updateData();
-}
+};
 
-function clearButtonsClasses() {
+const clearButtonsClasses = () => {
     allFilterBtn.classList.remove("active");
     activeFilterBtn.classList.remove("active");
     completedFilterBtn.classList.remove("active");
-}
+};
+
+allFilterBtn.addEventListener("click", (e) => setFilter(e, "all"));
+
+activeFilterBtn.addEventListener("click", (e) => setFilter(e, "active"));
+
+completedFilterBtn.addEventListener("click", (e) => setFilter(e, "completed"));
+
+clearCompletedBtn.addEventListener("click", () => {
+    todosArray = todosArray.filter((todo) => !todo.isCompleted);
+    updateData();
+});
+
+todoInput.addEventListener("keypress", createTodo);
+
+updateData();
