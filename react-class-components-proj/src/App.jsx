@@ -44,7 +44,6 @@ class App extends Component {
                       },
                   ],
             currentFilter: "all",
-            itemsCount: 0,
         };
         this.setFilter = this.setFilter.bind(this);
         this.clearCompleted = this.clearCompleted.bind(this);
@@ -54,9 +53,29 @@ class App extends Component {
         this.setState((prevState) => ({ ...prevState, currentFilter: filter }));
     }
 
-    clearCompleted() {}
+    clearCompleted() {
+        this.setState((prevState) => ({
+            ...prevState,
+            todos: this.state.todos.filter((todo) => !todo.isCompleted),
+        }));
+    }
+
+    checkTodo = (id) => {
+        const todos = this.state.todos;
+        const todo = this.state.todos.find((todo) => todo.id === id);
+        todo.isCompleted = !todo.isCompleted;
+
+        this.setState((prevState) => ({ ...prevState, todos: todos }));
+        this.render()
+    };
+
+    
     render() {
-        const { todos, currentFilter, itemsCount } = this.state;
+        const { todos, currentFilter } = this.state;
+        const itemsCount = this.state.todos.filter(
+            (todo) => !todo.isCompleted
+        ).length;
+
         return (
             <>
                 <h1>ToDoS</h1>
@@ -70,6 +89,7 @@ class App extends Component {
                                     id={item.id}
                                     title={item.title}
                                     isCompleted={item.isCompleted}
+                                    checkTodo={this.checkTodo}
                                 />
                             ))}
                         </ul>

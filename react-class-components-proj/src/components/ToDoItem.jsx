@@ -8,7 +8,13 @@ export default class ToDoItem extends Component {
             title: this.props.title,
             isCompleted: this.props.isCompleted,
         };
+        this.checkTodo = this.checkTodo.bind(this);
     }
+
+    checkTodo = (id) => {
+        this.props.checkTodo(id);
+        this.setState(prevState => ({...prevState, isCompleted: !this.props.isCompleted}))
+    };
     render() {
         const { id, title, isCompleted } = this.state;
         return (
@@ -21,7 +27,7 @@ export default class ToDoItem extends Component {
                         type="checkbox"
                         className="chek-todo-btn"
                         checked={isCompleted}
-                        onChange={() => {}}
+                        onChange={() => this.checkTodo(id)}
                     />
                     <span className="todo-title">{title}</span>
                     <p className="delete-btn">✖️</p>
