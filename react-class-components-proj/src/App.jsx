@@ -10,69 +10,102 @@ class App extends Component {
         super(props);
         this.state = {
             todos: localStorage.getItem("todos")
-                ? localStorage.getItem("todos")
-                : [
-                      {
-                          id: 1,
-                          title: "Task 1",
-                          isCompleted: false,
-                          isUpdated: false,
-                      },
-                      {
-                          id: 2,
-                          title: "Task 2",
-                          isCompleted: true,
-                          isUpdated: false,
-                      },
-                      {
-                          id: 3,
-                          title: "Task 3",
-                          isCompleted: true,
-                          isUpdated: false,
-                      },
-                      {
-                          id: 4,
-                          title: "Task 4",
-                          isCompleted: false,
-                          isUpdated: false,
-                      },
-                      {
-                          id: 5,
-                          title: "Task 5",
-                          isCompleted: true,
-                          isUpdated: false,
-                      },
-                  ],
+                ? JSON.parse(localStorage.getItem("todos"))
+                : [],
             currentFilter: "all",
         };
         this.setFilter = this.setFilter.bind(this);
         this.clearCompleted = this.clearCompleted.bind(this);
+        this.deleteTodo = this.deleteTodo.bind(this);
+        this.createTodo = this.createTodo.bind(this);
+        this.updateTodo = this.updateTodo.bind(this);
+        this.filtrateTodos = this.filtrateTodos.bind(this);
     }
 
-    setFilter(filter) {
-        this.setState((prevState) => ({ ...prevState, currentFilter: filter }));
-    }
+    setFilter = (filter) => {
+        this.setState((prevState) => ({
+            ...prevState,
+            currentFilter: filter,
+            todos: this.filtrateTodos(filter),
+        }));
+    };
 
-    clearCompleted() {
+    filtrateTodos = (filter) => {
+        const allTodos = JSON.parse(localStorage.getItem("todos"));
+        this.setState((prevState) => ({
+            ...prevState,
+            todos: allTodos.filter((todo) => {
+                if (filter === "active") {
+                    return !todo.isCompleted;
+                }
+
+                if (filter === "completed") {
+                    return todo.isCompleted;
+                }
+
+                return true;
+            }),
+        }));
+    };
+
+    clearCompleted = () => {
         this.setState((prevState) => ({
             ...prevState,
             todos: this.state.todos.filter((todo) => !todo.isCompleted),
         }));
-    }
-
-    checkTodo = (id) => {
-        const todos = this.state.todos;
-        const todo = this.state.todos.find((todo) => todo.id === id);
-        todo.isCompleted = !todo.isCompleted;
-
-        this.setState((prevState) => ({ ...prevState, todos: todos }));
-        this.render()
     };
 
-    
+    createTodo = (title) => {
+        const todos = JSON.parse(localStorage.getItem("todos"));
+        const todo = {
+            id: todos.length ? todos[todos.length - 1].id + 1 : 1,
+            title: title,
+            isCompleted: false,
+            isUpdated: false,
+        };
+
+        localStorage.setItem("todos", JSON.stringify([...todos, todo]));
+
+        this.setState((prevState) => ({
+            ...prevState,
+            todos: this.filtrateTodos(this.state.currentFilter),
+        }));
+    };
+
+    checkTodo = (id) => {
+        const todos = JSON.parse(localStorage.getItem("todos"));
+        const todo = todos.find((todo) => todo.id === id);
+        todo.isCompleted = !todo.isCompleted;
+        todo.isUpdated = true;
+        this.setState((prevState) => ({ ...prevState, todos: todos }));
+        localStorage.setItem("todos", JSON.stringify(todos));
+    };
+
+    deleteTodo = (id) => {
+        const todos = JSON.parse(localStorage.getItem("todos"));
+        localStorage.setItem(
+            "todos",
+            JSON.stringify([...todos.filter((todo) => todo.id !== id)])
+        );
+
+        this.setState((prevState) => ({
+            ...prevState,
+            todos: this.state.todos.filter((todo) => todo.id !== id),
+        }));
+    };
+
+    updateTodo = (newTodo) => {
+        const todos = JSON.parse(localStorage.getItem("todos"));
+        const oldTodo = todos.find((todo) => todo.id === newTodo.id);
+        oldTodo.title = newTodo.title;
+        oldTodo.isUpdated = true;
+        this.setState((prevState) => ({ ...prevState, todos: todos }));
+        localStorage.setItem("todos", JSON.stringify(todos));
+    };
+
     render() {
         const { todos, currentFilter } = this.state;
-        const itemsCount = this.state.todos.filter(
+        const itemsCount = JSON.parse(localStorage.getItem("todos")).filter(
             (todo) => !todo.isCompleted
         ).length;
 
@@ -80,7 +113,7 @@ class App extends Component {
             <>
                 <h1>ToDoS</h1>
                 <div className="container">
-                    <ToDoInput />
+                    <ToDoInput createTodo={this.createTodo} />
                     <div className="todos-block">
                         <ul className="todos-list" id="todos-list">
                             {todos.map((item) => (
@@ -90,6 +123,8 @@ class App extends Component {
                                     title={item.title}
                                     isCompleted={item.isCompleted}
                                     checkTodo={this.checkTodo}
+                                    deleteTodo={this.deleteTodo}
+                                    updateTodo={this.updateTodo}
                                 />
                             ))}
                         </ul>

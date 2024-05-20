@@ -15,10 +15,20 @@ class Footer extends Component {
         this.setState((prevState) => ({ ...prevState, currentFilter: filter }));
         this.props.setFilter(filter);
     };
+
     clearCompleted = () => {
         this.props.clearCompleted();
     };
 
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.itemsCount !== this.props.itemsCount) {
+            this.setState((prevState) => ({
+                ...prevState,
+                itemsCount: this.props.itemsCount,
+            }));
+        }
+    }
     render() {
         const { itemsCount, currentFilter } = this.state;
 
