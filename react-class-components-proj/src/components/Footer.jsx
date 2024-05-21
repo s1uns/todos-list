@@ -10,8 +10,8 @@ class Footer extends Component {
     }
 
     setFilter = (filter) => {
-        this.setState((prevState) => ({ ...prevState, currentFilter: filter }));
         this.props.setFilter(filter);
+        this.setState({ currentFilter: filter });
     };
 
     clearCompleted = () => {
@@ -20,10 +20,9 @@ class Footer extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.itemsCount !== this.props.itemsCount) {
-            this.setState((prevState) => ({
-                ...prevState,
+            this.setState({
                 itemsCount: this.props.itemsCount,
-            }));
+            });
         }
     }
 

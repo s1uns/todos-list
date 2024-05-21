@@ -48,12 +48,11 @@ export default class ToDoItem extends Component {
     };
 
     toggleEditing = () => {
-        console.log(this.state.isEditing);
-
-        this.setState({
-            isEditing: !this.state.isEditing,
-        });
-        console.log(this.state);
+        if (!this.props.isCompleted) {
+            this.setState({
+                isEditing: !this.state.isEditing,
+            });
+        }
     };
 
     render() {
