@@ -7,8 +7,6 @@ class Footer extends Component {
             itemsCount: this.props.itemsCount,
             currentFilter: this.props.currentFilter,
         };
-        this.setFilter = this.setFilter.bind(this);
-        this.clearCompleted = this.clearCompleted.bind(this);
     }
 
     setFilter = (filter) => {
@@ -20,7 +18,6 @@ class Footer extends Component {
         this.props.clearCompleted();
     };
 
-
     componentDidUpdate(prevProps) {
         if (prevProps.itemsCount !== this.props.itemsCount) {
             this.setState((prevState) => ({
@@ -29,8 +26,10 @@ class Footer extends Component {
             }));
         }
     }
+
     render() {
         const { itemsCount, currentFilter } = this.state;
+        const { setFilter, clearCompleted } = this;
 
         return (
             <div className="todos-footer">
@@ -39,14 +38,14 @@ class Footer extends Component {
                     <button
                         id="all-btn"
                         className={currentFilter === "all" ? "active" : ""}
-                        onClick={() => this.setFilter("all")}
+                        onClick={() => setFilter("all")}
                     >
                         All
                     </button>
                     <button
                         id="active-btn"
                         className={currentFilter === "active" ? "active" : ""}
-                        onClick={() => this.setFilter("active")}
+                        onClick={() => setFilter("active")}
                     >
                         Active
                     </button>
@@ -55,12 +54,12 @@ class Footer extends Component {
                         className={
                             currentFilter === "completed" ? "active" : ""
                         }
-                        onClick={() => this.setFilter("completed")}
+                        onClick={() => setFilter("completed")}
                     >
                         Completed
                     </button>
                 </div>
-                <button id="clear-btn" onClick={this.clearCompleted}>
+                <button id="clear-btn" onClick={clearCompleted}>
                     Clear completed
                 </button>
             </div>

@@ -11,10 +11,6 @@ export default class ToDoItem extends Component {
             isEditing: false,
         };
         this.wrapperRef = React.createRef();
-        this.handleClickOutside = this.handleClickOutside.bind(this);
-        this.checkTodo = this.checkTodo.bind(this);
-        this.deleteTodo = this.deleteTodo.bind(this);
-        this.updateTodo = this.updateTodo.bind(this);
     }
     componentDidMount() {
         document.addEventListener("mousedown", this.handleClickOutside);
@@ -24,7 +20,7 @@ export default class ToDoItem extends Component {
         document.removeEventListener("mousedown", this.handleClickOutside);
     }
 
-    handleClickOutside(event) {
+    handleClickOutside = (event) => {
         if (
             this.wrapperRef &&
             this.wrapperRef.current &&
@@ -32,7 +28,7 @@ export default class ToDoItem extends Component {
         ) {
             this.toggleEditing();
         }
-    }
+    };
     checkTodo = (id) => {
         this.props.checkTodo(id);
         this.setState((prevState) => ({
@@ -73,6 +69,8 @@ export default class ToDoItem extends Component {
 
     render() {
         const { id, title, isCompleted, isUpdated, isEditing } = this.state;
+        const { wrapperRef, updateTodo, toggleEditing, checkTodo, deleteTodo } =
+            this;
         return (
             <>
                 <li
@@ -83,28 +81,25 @@ export default class ToDoItem extends Component {
                         type="checkbox"
                         className="chek-todo-btn"
                         checked={isCompleted}
-                        onChange={() => this.checkTodo(id)}
+                        onChange={() => checkTodo(id)}
                     />
                     {isEditing ? (
                         <input
-                            ref={this.wrapperRef}
+                            ref={wrapperRef}
                             className="update-todo-input"
                             autoFocus
                             defaultValue={title}
-                            onKeyDown={this.updateTodo}
+                            onKeyDown={updateTodo}
                         />
                     ) : (
                         <span
                             className="todo-title"
-                            onDoubleClick={() => this.toggleEditing()}
+                            onDoubleClick={() => toggleEditing()}
                         >
                             {title}
                         </span>
                     )}
-                    <p
-                        className="delete-btn"
-                        onClick={() => this.deleteTodo(id)}
-                    >
+                    <p className="delete-btn" onClick={() => deleteTodo(id)}>
                         ✖️
                     </p>
                     {isUpdated ? <span class="updated-icon">🖊</span> : ""}

@@ -5,9 +5,10 @@ export default class FiltersBlock extends Component {
         super(props);
         this.state = {
             currentFilter: "string",
-            filters: []
+            filters: [],
         };
     }
+    
     render() {
         return <div>FiltersBlock</div>;
     }

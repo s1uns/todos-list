@@ -14,12 +14,6 @@ class App extends Component {
                 : [],
             currentFilter: "all",
         };
-        this.setFilter = this.setFilter.bind(this);
-        this.clearCompleted = this.clearCompleted.bind(this);
-        this.deleteTodo = this.deleteTodo.bind(this);
-        this.createTodo = this.createTodo.bind(this);
-        this.updateTodo = this.updateTodo.bind(this);
-        this.filtrateTodos = this.filtrateTodos.bind(this);
     }
 
     setFilter = (filter) => {
@@ -85,7 +79,7 @@ class App extends Component {
         const todos = JSON.parse(localStorage.getItem("todos"));
         localStorage.setItem(
             "todos",
-            JSON.stringify([...todos.filter((todo) => todo.id !== id)])
+            JSON.stringify([...todos.filter((todo) => todo.id !== id)]),
         );
 
         this.setState((prevState) => ({
@@ -105,15 +99,23 @@ class App extends Component {
 
     render() {
         const { todos, currentFilter } = this.state;
+        const {
+            createTodo,
+            checkTodo,
+            deleteTodo,
+            updateTodo,
+            setFilter,
+            clearCompleted,
+        } = this;
         const itemsCount = JSON.parse(localStorage.getItem("todos")).filter(
-            (todo) => !todo.isCompleted
+            (todo) => !todo.isCompleted,
         ).length;
 
         return (
             <>
                 <h1>ToDoS</h1>
                 <div className="container">
-                    <ToDoInput createTodo={this.createTodo} />
+                    <ToDoInput createTodo={createTodo} />
                     <div className="todos-block">
                         <ul className="todos-list" id="todos-list">
                             {todos.map((item) => (
@@ -122,9 +124,9 @@ class App extends Component {
                                     id={item.id}
                                     title={item.title}
                                     isCompleted={item.isCompleted}
-                                    checkTodo={this.checkTodo}
-                                    deleteTodo={this.deleteTodo}
-                                    updateTodo={this.updateTodo}
+                                    checkTodo={checkTodo}
+                                    deleteTodo={deleteTodo}
+                                    updateTodo={updateTodo}
                                 />
                             ))}
                         </ul>
@@ -132,8 +134,8 @@ class App extends Component {
                     <Footer
                         itemsCount={itemsCount}
                         currentFilter={currentFilter}
-                        setFilter={this.setFilter}
-                        clearCompleted={this.clearCompleted}
+                        setFilter={setFilter}
+                        clearCompleted={clearCompleted}
                     />
                 </div>
             </>
