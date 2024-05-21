@@ -6,8 +6,9 @@ export default class ToDoItem extends Component {
         this.state = {
             isEditing: false,
         };
-        this.wrapperRef = React.createRef();
+        this.inputRef = React.createRef();
     }
+
     componentDidMount() {
         document.addEventListener("mousedown", this.handleClickOutside);
     }
@@ -18,47 +19,59 @@ export default class ToDoItem extends Component {
 
     handleClickOutside = (event) => {
         if (
-            this.wrapperRef &&
-            this.wrapperRef.current &&
-            !this.wrapperRef.current.contains(event.target)
+            this.inputRef &&
+            this.inputRef.current &&
+            !this.inputRef.current.contains(event.target)
         ) {
             this.toggleEditing();
         }
     };
-    checkTodo = (id) => {
-        this.props.checkTodo(id);
+
+    checkTodo = () => {
+        const { id, checkTodo } = this.props;
+        checkTodo(id);
     };
 
-    deleteTodo = (id) => {
-        this.props.deleteTodo(id);
+    deleteTodo = () => {
+        const { id, deleteTodo } = this.props;
+        deleteTodo(id);
     };
 
     updateTodo = (e) => {
+        const { id, title, updateTodo } = this.props;
+
         if (e.key === "Enter") {
+            const trimmedString = e.target.value.trim();
+            if (trimmedString.length == 0) {
+                alert("Enter something first!");
+                return;
+            }
+
             const newTodo = {
-                id: this.props.id,
-                title: e.target.value,
+                id: id,
+                title: trimmedString,
                 isUpdated: false,
             };
-            if (this.props.title !== e.target.value) {
-                this.props.updateTodo(newTodo);
+            if (title !== e.target.value) {
+                updateTodo(newTodo);
             }
             this.toggleEditing();
         }
     };
 
     toggleEditing = () => {
-        if (!this.props.isCompleted) {
+        const { isCompleted } = this.props;
+        const { isEditing } = this.state;
+        if (!isCompleted) {
             this.setState({
-                isEditing: !this.state.isEditing,
+                isEditing: !isEditing,
             });
         }
     };
 
     render() {
         const { id, title, isCompleted, isUpdated } = this.props;
-        const { wrapperRef, updateTodo, toggleEditing, checkTodo, deleteTodo } =
-            this;
+
         return (
             <>
                 <li
@@ -69,25 +82,25 @@ export default class ToDoItem extends Component {
                         type="checkbox"
                         className="chek-todo-btn"
                         checked={isCompleted}
-                        onChange={() => checkTodo(id)}
+                        onChange={() => this.checkTodo(id)}
                     />
                     {this.state.isEditing ? (
                         <input
-                            ref={wrapperRef}
+                            ref={this.inputRef}
                             className="update-todo-input"
                             autoFocus
                             defaultValue={title}
-                            onKeyDown={updateTodo}
+                            onKeyDown={this.updateTodo}
                         />
                     ) : (
                         <span
                             className="todo-title"
-                            onDoubleClick={() => toggleEditing()}
+                            onDoubleClick={this.toggleEditing}
                         >
                             {title}
                         </span>
                     )}
-                    <p className="delete-btn" onClick={() => deleteTodo(id)}>
+                    <p className="delete-btn" onClick={this.deleteTodo}>
                         ✖️
                     </p>
                     {isUpdated ? <span className="updated-icon">🖊</span> : ""}

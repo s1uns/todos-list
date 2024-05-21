@@ -1,34 +1,18 @@
 import React, { Component } from "react";
 
 class Footer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            itemsCount: this.props.itemsCount,
-            currentFilter: this.props.currentFilter,
-        };
-    }
-
     setFilter = (filter) => {
-        this.props.setFilter(filter);
-        this.setState({ currentFilter: filter });
+        const { setFilter } = this.props;
+        setFilter(filter);
     };
 
     clearCompleted = () => {
-        this.props.clearCompleted();
+        const { clearCompleted } = this.props;
+        clearCompleted();
     };
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.itemsCount !== this.props.itemsCount) {
-            this.setState({
-                itemsCount: this.props.itemsCount,
-            });
-        }
-    }
-
     render() {
-        const { itemsCount, currentFilter } = this.state;
-        const { setFilter, clearCompleted } = this;
+        const { itemsCount, currentFilter } = this.props;
 
         return (
             <div className="todos-footer">
@@ -37,14 +21,14 @@ class Footer extends Component {
                     <button
                         id="all-btn"
                         className={currentFilter === "all" ? "active" : ""}
-                        onClick={() => setFilter("all")}
+                        onClick={() => this.setFilter("all")}
                     >
                         All
                     </button>
                     <button
                         id="active-btn"
                         className={currentFilter === "active" ? "active" : ""}
-                        onClick={() => setFilter("active")}
+                        onClick={() => this.setFilter("active")}
                     >
                         Active
                     </button>
@@ -53,12 +37,12 @@ class Footer extends Component {
                         className={
                             currentFilter === "completed" ? "active" : ""
                         }
-                        onClick={() => setFilter("completed")}
+                        onClick={() => this.setFilter("completed")}
                     >
                         Completed
                     </button>
                 </div>
-                <button id="clear-btn" onClick={clearCompleted}>
+                <button id="clear-btn" onClick={this.clearCompleted}>
                     Clear completed
                 </button>
             </div>

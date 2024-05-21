@@ -1,7 +1,7 @@
 import "./App.css";
 import Footer from "./components/Footer";
 import ToDoInput from "./components/ToDoInput";
-
+import { v4 as uuid } from "uuid";
 import React, { Component } from "react";
 import ToDoItem from "./components/ToDoItem";
 
@@ -16,37 +16,29 @@ class App extends Component {
         };
     }
 
+    componentDidUpdate() {
+        const { todos } = this.state;
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }
+
     setFilter = (filter) => {
         this.setState({
             currentFilter: filter,
         });
     };
 
-    filtrateTodos = (filter) => {
-        return this.state.todos.filter((todo) => {
-            if (filter === "active") {
-                return !todo.isCompleted;
-            }
-
-            if (filter === "completed") {
-                return todo.isCompleted;
-            }
-
-            return true;
-        });
-    };
-
     clearCompleted = () => {
+        const { todos } = this.state;
+        const filtratedTodos = todos.filter((todo) => !todo.isCompleted);
         this.setState({
-            todos: this.state.todos.filter((todo) => !todo.isCompleted),
+            todos: filtratedTodos,
         });
-        this.saveData();
     };
 
     createTodo = (title) => {
-        const todos = this.state.todos;
+        const { todos } = this.state;
         const todo = {
-            id: todos.length ? todos[todos.length - 1].id + 1 : 1,
+            id: uuid(),
             title: title,
             isCompleted: false,
             isUpdated: false,
@@ -55,78 +47,68 @@ class App extends Component {
         this.setState({
             todos: [...todos, todo],
         });
-        this.saveData();
     };
 
     checkTodo = (id) => {
-        const todos = JSON.parse(localStorage.getItem("todos"));
+        const { todos } = this.state;
         const todo = todos.find((todo) => todo.id === id);
         todo.isCompleted = !todo.isCompleted;
         this.setState({ todos: todos });
-        localStorage.setItem("todos", JSON.stringify(todos));
     };
 
     deleteTodo = (id) => {
-        const todos = JSON.parse(localStorage.getItem("todos"));
-        localStorage.setItem(
-            "todos",
-            JSON.stringify([...todos.filter((todo) => todo.id !== id)]),
-        );
-
+        const { todos } = this.state;
+        const filtratedTodos = todos.filter((todo) => todo.id !== id);
         this.setState({
-            todos: this.state.todos.filter((todo) => todo.id !== id),
+            todos: filtratedTodos,
         });
-        this.saveData();
     };
 
     updateTodo = (newTodo) => {
-        const todos = JSON.parse(localStorage.getItem("todos"));
-        const oldTodo = todos.find((todo) => todo.id === newTodo.id);
-        oldTodo.title = newTodo.title;
-        oldTodo.isUpdated = true;
+        const { todos } = this.state;
+        const preparedTodos = todos.map((todo) => {
+            if (todo.id === newTodo.id) {
+                return { ...todo, title: newTodo.title, isUpdated: true };
+            }
+            return todo;
+        });
 
-        this.setState({ todos: todos });
-        this.saveData();
+        this.setState({ todos: preparedTodos });
     };
-
-    saveData = () => {
-        localStorage.setItem("todos", JSON.stringify(this.state.todos));
-    };
-
-    componentDidUpdate(prevProps, prevState) {
-        this.saveData();
-    }
 
     render() {
         const { todos, currentFilter } = this.state;
-        const {
-            createTodo,
-            checkTodo,
-            deleteTodo,
-            updateTodo,
-            setFilter,
-            filtrateTodos,
-            clearCompleted,
-        } = this;
+
         const itemsCount = todos.filter((todo) => !todo.isCompleted).length;
+        const filtratedTodos = todos.filter((todo) => {
+            if (currentFilter === "active") {
+                return !todo.isCompleted;
+            }
+
+            if (currentFilter === "completed") {
+                return todo.isCompleted;
+            }
+
+            return true;
+        });
 
         return (
             <>
                 <h1>ToDoS</h1>
                 <div className="container">
-                    <ToDoInput createTodo={createTodo} />
+                    <ToDoInput createTodo={this.createTodo} />
                     <div className="todos-block">
                         <ul className="todos-list" id="todos-list">
-                            {filtrateTodos(currentFilter).map((item) => (
+                            {filtratedTodos.map((item) => (
                                 <ToDoItem
                                     key={item.id}
                                     id={item.id}
                                     title={item.title}
                                     isCompleted={item.isCompleted}
                                     isUpdated={item.isUpdated}
-                                    checkTodo={checkTodo}
-                                    deleteTodo={deleteTodo}
-                                    updateTodo={updateTodo}
+                                    checkTodo={this.checkTodo}
+                                    deleteTodo={this.deleteTodo}
+                                    updateTodo={this.updateTodo}
                                 />
                             ))}
                         </ul>
@@ -134,8 +116,8 @@ class App extends Component {
                     <Footer
                         itemsCount={itemsCount}
                         currentFilter={currentFilter}
-                        setFilter={setFilter}
-                        clearCompleted={clearCompleted}
+                        setFilter={this.setFilter}
+                        clearCompleted={this.clearCompleted}
                     />
                 </div>
             </>
