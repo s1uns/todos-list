@@ -4,10 +4,6 @@ export default class ToDoItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.id,
-            title: this.props.title,
-            isCompleted: this.props.isCompleted,
-            isUpdated: this.props.isUpdated,
             isEditing: false,
         };
         this.wrapperRef = React.createRef();
@@ -31,10 +27,6 @@ export default class ToDoItem extends Component {
     };
     checkTodo = (id) => {
         this.props.checkTodo(id);
-        this.setState((prevState) => ({
-            ...prevState,
-            isCompleted: !this.props.isCompleted,
-        }));
     };
 
     deleteTodo = (id) => {
@@ -44,31 +36,28 @@ export default class ToDoItem extends Component {
     updateTodo = (e) => {
         if (e.key === "Enter") {
             const newTodo = {
-                id: this.state.id,
+                id: this.props.id,
                 title: e.target.value,
                 isUpdated: false,
             };
-            if (this.state.title !== e.target.value) {
+            if (this.props.title !== e.target.value) {
                 this.props.updateTodo(newTodo);
-                this.setState((prevState) => ({
-                    ...prevState,
-                    title: newTodo.title,
-                    isUpdated: true,
-                }));
             }
-            this.setState((prevState) => ({ ...prevState, isEditing: false }));
+            this.toggleEditing();
         }
     };
 
     toggleEditing = () => {
-        this.setState((prevState) => ({
-            ...prevState,
+        console.log(this.state.isEditing);
+
+        this.setState({
             isEditing: !this.state.isEditing,
-        }));
+        });
+        console.log(this.state);
     };
 
     render() {
-        const { id, title, isCompleted, isUpdated, isEditing } = this.state;
+        const { id, title, isCompleted, isUpdated } = this.props;
         const { wrapperRef, updateTodo, toggleEditing, checkTodo, deleteTodo } =
             this;
         return (
@@ -83,7 +72,7 @@ export default class ToDoItem extends Component {
                         checked={isCompleted}
                         onChange={() => checkTodo(id)}
                     />
-                    {isEditing ? (
+                    {this.state.isEditing ? (
                         <input
                             ref={wrapperRef}
                             className="update-todo-input"
@@ -102,7 +91,7 @@ export default class ToDoItem extends Component {
                     <p className="delete-btn" onClick={() => deleteTodo(id)}>
                         ✖️
                     </p>
-                    {isUpdated ? <span class="updated-icon">🖊</span> : ""}
+                    {isUpdated ? <span className="updated-icon">🖊</span> : ""}
                 </li>
             </>
         );
