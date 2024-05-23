@@ -1,4 +1,4 @@
-const actionType = {
+export const actionType = {
     ADD_TODO: "ADD_TODO",
     CHECK_TODO: "CHECK_TODO",
     EDIT_TODO: "EDIT_TODO",
