@@ -1,73 +1,109 @@
 import { actionSuccessType, stateActionType } from "./ActionTypes";
-import { EventEmitter as eventEmitter } from "./EventEmitter";
+import eventEmitter from "./EventEmitter";
 
 class Store {
     constructor() {
         this.state = {
-            todos: [],
+            todos: [
+                {
+                    id: "123213",
+                    title: "1231231",
+                    isCompleted: false,
+                    isUpdated: false,
+                },
+            ],
             currentFilter: "all",
         };
 
         eventEmitter.subscribe(
             actionSuccessType.ADD_TODO_SUCCESS,
-            (newTodo) => {
-                const { todos } = this.state;
-                todos = [...todos, newTodo];
-                eventEmitter.emit(stateActionType.STATE_UPDATED);
-            },
+            this.createTodo,
         );
 
         eventEmitter.subscribe(
             actionSuccessType.DELETE_TODO_SUCCESS,
-            (todoId) => {
-                const { todos } = this.state;
-                todos = todos.filter((todo) => todo.id !== todoId);
-
-                eventEmitter.emit(stateActionType.STATE_UPDATED);
-            },
+            this.deleteTodo,
         );
 
         eventEmitter.subscribe(
             actionSuccessType.CHECK_TODO_SUCCESS,
-            (todoId) => {
-                const { todos } = this.state;
-                todos = todos.map((todo) => {
-                    if (todo.id === todoId) {
-                        todo.isChecked = !todo.isChecked;
-                    }
-
-                    return todo;
-                });
-                eventEmitter.emit(stateActionType.STATE_UPDATED);
-            },
+            this.checkTodo,
         );
 
         eventEmitter.subscribe(
             actionSuccessType.EDIT_TODO_SUCCESS,
-            (newTodo) => {
-                const { todos } = this.state;
-                todos = todos.map((todo) => {
-                    if (
-                        todo.id === newTodo.id &&
-                        todo.title !== newTodo.title
-                    ) {
-                        todo.title = newTodo.title;
-                        todo.isUpdated = true;
-                    }
-
-                    return todo;
-                });
-                eventEmitter.emit(stateActionType.STATE_UPDATED);
-            },
+            this.editTodo,
         );
 
         eventEmitter.subscribe(
             actionSuccessType.SET_FILTER_SUCCESS,
-            (filter) => {
-                const { currentFilter } = this.state;
-                currentFilter = filter;
-                eventEmitter.emit(stateActionType.STATE_UPDATED);
-            },
+            this.setFilter,
         );
     }
+
+    createTodo = ({ payload }) => {
+        const { todos } = this.state;
+        const newTodosList = [...todos, payload];
+        this.state = { todos: newTodosList };
+
+        eventEmitter.emit({
+            type: stateActionType.STATE_UPDATED,
+            payload: newTodosList,
+        });
+    };
+
+    deleteTodo = ({ payload }) => {
+        const { todos } = this.state;
+        const newTodosList = todos.filter((todo) => todo.id !== payload);
+        this.state = { todos: newTodosList };
+
+        eventEmitter.emit({
+            type: stateActionType.STATE_UPDATED,
+            payload: newTodosList,
+        });
+    };
+
+    checkTodo = ({ payload }) => {
+        const { todos } = this.state;
+        const newTodosList = todos.map((todo) => {
+            if (todo.id === payload) {
+                todo.isCompleted = !todo.isCompleted;
+            }
+
+            return todo;
+        });
+        this.state = { todos: newTodosList };
+
+        eventEmitter.emit({
+            type: stateActionType.STATE_UPDATED,
+            payload: newTodosList,
+        });
+    };
+
+    editTodo = ({ payload }) => {
+        const { todos } = this.state;
+        const newTodosList = todos.map((todo) => {
+            if (todo.id === payload.id) {
+                todo.title = payload.title;
+                todo.isUpdated = true;
+            }
+
+            return todo;
+        });
+        this.state = { todos: newTodosList };
+
+        eventEmitter.emit({
+            type: stateActionType.STATE_UPDATED,
+            payload: newTodosList,
+        });
+    };
+
+    setFilter = (filter) => {
+        const { currentFilter } = this.state;
+        currentFilter = filter;
+        eventEmitter.emit(stateActionType.STATE_UPDATED);
+    };
 }
+
+const store = new Store();
+export default store;

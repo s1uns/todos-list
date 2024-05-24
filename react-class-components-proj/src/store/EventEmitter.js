@@ -18,11 +18,13 @@ class EventEmitter {
         );
     }
 
-    emit(event, ...args) {
-        if (this.events[event]) {
-            this.events[event].forEach((listener) => listener(...args));
+    emit(action) {
+        const subscriptions = this.events[action.type];
+        if (subscriptions) {
+            subscriptions.forEach((listener) => listener.call(null, action));
         }
     }
 }
 
-export default new EventEmitter();
+const eventEmitter = new EventEmitter();
+export default eventEmitter;

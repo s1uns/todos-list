@@ -4,17 +4,29 @@ import ToDoInput from "./components/ToDoInput";
 import { v4 as uuid } from "uuid";
 import React, { Component } from "react";
 import ToDoItem from "./components/ToDoItem";
+import store from "./store/Store";
+import eventEmitter from "./store/EventEmitter";
+import { stateActionType } from "./store/ActionTypes";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos: localStorage.getItem("todos")
-                ? JSON.parse(localStorage.getItem("todos"))
-                : [],
+            todos: store.state.todos,
             currentFilter: "all",
         };
+
+        eventEmitter.subscribe(
+            stateActionType.STATE_UPDATED,
+            this.stateUpdated,
+        );
     }
+
+    stateUpdated = (stateUpdatedAction) => {
+        console.log("New list: ", stateUpdatedAction.payload);
+
+        this.setState({ todos: stateUpdatedAction.payload });
+    };
 
     componentDidUpdate() {
         const { todos } = this.state;
@@ -33,48 +45,7 @@ class App extends Component {
         this.setState({
             todos: filtratedTodos,
         });
-    };
-
-    createTodo = (title) => {
-        const { todos } = this.state;
-        const todo = {
-            id: uuid(),
-            title: title,
-            isCompleted: false,
-            isUpdated: false,
-        };
-
-        this.setState({
-            todos: [...todos, todo],
-        });
-    };
-
-    checkTodo = (id) => {
-        const { todos } = this.state;
-        const todo = todos.find((todo) => todo.id === id);
-        todo.isCompleted = !todo.isCompleted;
-        this.setState({ todos: todos });
-    };
-
-    deleteTodo = (id) => {
-        const { todos } = this.state;
-        const filtratedTodos = todos.filter((todo) => todo.id !== id);
-        this.setState({
-            todos: filtratedTodos,
-        });
-    };
-
-    updateTodo = (newTodo) => {
-        const { todos } = this.state;
-        const preparedTodos = todos.map((todo) => {
-            if (todo.id === newTodo.id) {
-                return { ...todo, title: newTodo.title, isUpdated: true };
-            }
-            return todo;
-        });
-
-        this.setState({ todos: preparedTodos });
-    };
+    };    
 
     render() {
         const { todos, currentFilter } = this.state;
@@ -99,7 +70,10 @@ class App extends Component {
                     <ToDoInput createTodo={this.createTodo} />
                     <div className="todos-block">
                         <ul className="todos-list" id="todos-list">
+                        {console.log("Filtrated items: ", filtratedTodos)}
                             {filtratedTodos.map((item) => (
+
+                                
                                 <ToDoItem
                                     key={item.id}
                                     id={item.id}
