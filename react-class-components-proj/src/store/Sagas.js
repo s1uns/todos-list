@@ -28,6 +28,11 @@ class Sagas {
             actionRequestType.SET_FILTER_REQUEST,
             this.setFilter,
         );
+
+        eventEmitter.subscribe(
+            actionRequestType.CLEAR_COMPLETED_REQUEST,
+            this.clearCompleted,
+        );
     }
 
     addTodo = ({ payload }) => {
@@ -65,8 +70,17 @@ class Sagas {
         });
     };
 
-    setFilter = (filter) => {
-        eventEmitter.emit(actionSuccessType.SET_FILTER_SUCCESS, filter);
+    setFilter = ({ payload }) => {
+        eventEmitter.emit({
+            type: actionSuccessType.SET_FILTER_SUCCESS,
+            payload: payload,
+        });
+    };
+
+    clearCompleted = () => {
+        eventEmitter.emit({
+            type: actionSuccessType.CLEAR_COMPLETED_SUCCESS,
+        });
     };
 }
 

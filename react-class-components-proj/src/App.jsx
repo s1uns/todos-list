@@ -1,7 +1,6 @@
 import "./App.css";
 import Footer from "./components/Footer";
 import ToDoInput from "./components/ToDoInput";
-import { v4 as uuid } from "uuid";
 import React, { Component } from "react";
 import ToDoItem from "./components/ToDoItem";
 import store from "./store/Store";
@@ -13,7 +12,7 @@ class App extends Component {
         super(props);
         this.state = {
             todos: store.state.todos,
-            currentFilter: "all",
+            currentFilter: store.state.currentFilter,
         };
 
         eventEmitter.subscribe(
@@ -23,33 +22,14 @@ class App extends Component {
     }
 
     stateUpdated = (stateUpdatedAction) => {
-        console.log("New list: ", stateUpdatedAction.payload);
-
-        this.setState({ todos: stateUpdatedAction.payload });
-    };
-
-    componentDidUpdate() {
-        const { todos } = this.state;
-        localStorage.setItem("todos", JSON.stringify(todos));
-    }
-
-    setFilter = (filter) => {
         this.setState({
-            currentFilter: filter,
+            todos: stateUpdatedAction.payload.todos,
+            currentFilter: stateUpdatedAction.payload.currentFilter,
         });
     };
-
-    clearCompleted = () => {
-        const { todos } = this.state;
-        const filtratedTodos = todos.filter((todo) => !todo.isCompleted);
-        this.setState({
-            todos: filtratedTodos,
-        });
-    };    
 
     render() {
         const { todos, currentFilter } = this.state;
-
         const itemsCount = todos.filter((todo) => !todo.isCompleted).length;
         const filtratedTodos = todos.filter((todo) => {
             if (currentFilter === "active") {
@@ -70,10 +50,7 @@ class App extends Component {
                     <ToDoInput createTodo={this.createTodo} />
                     <div className="todos-block">
                         <ul className="todos-list" id="todos-list">
-                        {console.log("Filtrated items: ", filtratedTodos)}
                             {filtratedTodos.map((item) => (
-
-                                
                                 <ToDoItem
                                     key={item.id}
                                     id={item.id}
