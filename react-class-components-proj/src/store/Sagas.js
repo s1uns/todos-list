@@ -1,32 +1,46 @@
 import { v4 as uuid } from "uuid";
-import { eventEmitter } from "./EventEmitter";
-import { actionType } from "./ActionTypes";
+import { EventEmitter as eventEmitter } from "./EventEmitter";
+import { actionRequestType, actionSuccessType } from "./ActionTypes";
 
-export const getTodos = () => {
-    return eventEmitter.emit(actionType.GET_TODOS);
-};
+class Sagas {
+    constructor() {
+        eventEmitter.subscribe(
+            actionRequestType.ADD_TODO_REQUEST,
+            (newTodo) => {
+                newTodo.id = uuid();
+                eventEmitter.emit(actionSuccessType.ADD_TODO_SUCCESS, newTodo);
+            },
+        );
 
-export const getFilter = () => {
-    return eventEmitter.emit(actionType.GET_FILTER);
-};
+        eventEmitter.subscribe(
+            actionRequestType.DELETE_TODO_REQUEST,
+            (todoId) => {
+                eventEmitter.emit(
+                    actionSuccessType.DELETE_TODO_SUCCESS,
+                    todoId,
+                );
+            },
+        );
 
-export const addTodo = (addTodoAction) => {
-    addTodoAction.payload.id = uuid();
-    eventEmitter.emit(actionType.ADD_TODO, addTodoAction.payload);
-};
+        eventEmitter.subscribe(
+            actionRequestType.EDIT_TODO_REQUEST,
+            (newTodo) => {
+                eventEmitter.emit(actionSuccessType.EDIT_TODO_SUCCESS, newTodo);
+            },
+        );
 
-export const deleteTodo = (deleteTodoAction) => {
-    eventEmitter.emit(actionType.DELETE_TODO, deleteTodoAction.payload.id);
-};
+        eventEmitter.subscribe(
+            actionRequestType.CHECK_TODO_REQUEST,
+            (todoId) => {
+                eventEmitter.emit(actionSuccessType.CHECK_TODO_SUCCESS, todoId);
+            },
+        );
 
-export const checkTodo = (checkTodoAction) => {
-    eventEmitter.emit(actionType.CHECK_TODO, checkTodoAction.payload.id);
-};
-
-export const editTodo = (editTodoAction) => {
-    eventEmitter.emit(actionType.EDIT_TODO, editTodoAction.payload);
-};
-
-export const setFilter = (setTodoAction) => {
-    return eventEmitter.emit(actionType.SET_FILTER, setTodoAction.payload);
-};
+        eventEmitter.subscribe(
+            actionRequestType.SET_FILTER_REQUEST,
+            (filter) => {
+                eventEmitter.emit(actionSuccessType.SET_FILTER_SUCCESS, filter);
+            },
+        );
+    }
+}

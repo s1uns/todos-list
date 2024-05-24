@@ -1,46 +1,28 @@
-const EventEmitter = require("events");
-import { actionType } from "./ActionTypes";
-import { initialState } from "./Store";
+class EventEmitter {
+    constructor() {
+        this.events = {};
+    }
 
-export const eventEmitter = new EventEmitter();
-
-eventEmitter.on(actionType.GET_TODOS, () => {
-    return initialState.todos;
-});
-
-eventEmitter.on(actionType.GET_FILTER, () => {
-    return initialState.currentFilter;
-});
-
-eventEmitter.on(actionType.ADD_TODO, (todo) => {
-    initialState.todos = [...initialState.todos, todo];
-});
-
-eventEmitter.on(actionType.DELETE_TODO, (todoId) => {
-    initialState.todos = initialState.todos.filter(
-        (todo) => todo.id !== todoId,
-    );
-});
-
-eventEmitter.on(actionType.CHECK_TODO, (todoId) => {
-    initialState.todos = initialState.todos.map((todo) => {
-        if (todo.id === todoId) {
-            todo.isChecked = !todo.isChecked;
+    subscribe(event, listener) {
+        if (!this.events[event]) {
+            this.events[event] = [];
         }
-        return todo;
-    });
-});
+        this.events[event].push(listener);
+    }
 
-eventEmitter.on(actionType.EDIT_TODO, (newTodo) => {
-    initialState.todos = initialState.todos.map((todo) => {
-        if (todo.id === newTodo.id && todo.title !== newTodo.title) {
-            todo.title = newTodo.title;
-            todo.isUpdated = true;
+    unsubscribe(event, listenerToRemove) {
+        if (!this.events[event]) return;
+
+        this.events[event] = this.events[event].filter(
+            (listener) => listener !== listenerToRemove,
+        );
+    }
+
+    emit(event, ...args) {
+        if (this.events[event]) {
+            this.events[event].forEach((listener) => listener(...args));
         }
-        return todo;
-    });
-});
+    }
+}
 
-eventEmitter.on(actionType.SET_FILTER, (filter) => {
-    initialState.currentFilter = filter;
-});
+export default new EventEmitter();

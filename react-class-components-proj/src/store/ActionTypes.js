@@ -1,20 +1,19 @@
-export const actionType = {
-    GET_TODOS: "GET_TODOS",
-    GET_FILTER: "GET_FILTER",
-    ADD_TODO: "ADD_TODO",
-    CHECK_TODO: "CHECK_TODO",
-    EDIT_TODO: "EDIT_TODO",
-    DELETE_TODO: "DELETE_TODO",
-    SET_FILTER: "SET_FILTER",
+export const actionRequestType = {
+    ADD_TODO_REQUEST: "ADD_TODO_REQUEST",
+    CHECK_TODO_REQUEST: "CHECK_TODO_REQUEST",
+    EDIT_TODO_REQUEST: "EDIT_TODO_REQUEST",
+    DELETE_TODO_REQUEST: "DELETE_TODO_REQUEST",
+    SET_FILTER_REQUEST: "SET_FILTER_REQUEST",
 };
 
-const getTodosAction = (payload) => ({ type: actionType.GET_TODOS, payload });
-const getFilterAction = (payload) => ({ type: actionType.GET_FILTER, payload });
-const addTodoAction = (payload) => ({ type: actionType.ADD_TODO, payload });
-const checkTodoAction = (payload) => ({ type: actionType.CHECK_TODO, payload });
-const editTodoAction = (payload) => ({ type: actionType.EDIT_TODO, payload });
-const deleteTodoAction = (payload) => ({
-    type: actionType.DELETE_TODO,
-    payload,
-});
-const setFilterAction = (payload) => ({ type: actionType.SET_FILTER, payload });
+export const actionSuccessType = {
+    ADD_TODO_SUCCESS: "ADD_TODO_SUCCESS",
+    CHECK_TODO_SUCCESS: "CHECK_TODO_SUCCESS",
+    EDIT_TODO_SUCCESS: "EDIT_TODO_SUCCESS",
+    DELETE_TODO_SUCCESS: "DELETE_TODO_SUCCESS",
+    SET_FILTER_SUCCESS: "SET_FILTER_SUCCESS",
+};
+
+export const stateActionType = {
+    STATE_UPDATED: "STATE_UPDATED",
+};
