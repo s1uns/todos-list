@@ -4,6 +4,14 @@ import { initialState } from "./Store";
 
 export const eventEmitter = new EventEmitter();
 
+eventEmitter.on(actionType.GET_TODOS, () => {
+    return initialState.todos;
+});
+
+eventEmitter.on(actionType.GET_FILTER, () => {
+    return initialState.currentFilter;
+});
+
 eventEmitter.on(actionType.ADD_TODO, (todo) => {
     initialState.todos = [...initialState.todos, todo];
 });
@@ -33,3 +41,6 @@ eventEmitter.on(actionType.EDIT_TODO, (newTodo) => {
     });
 });
 
+eventEmitter.on(actionType.SET_FILTER, (filter) => {
+    initialState.currentFilter = filter;
+});
