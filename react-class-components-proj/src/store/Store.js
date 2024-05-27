@@ -4,8 +4,12 @@ import eventEmitter from "./EventEmitter";
 class Store {
     constructor() {
         this.state = {
-            todos: [],
-            currentFilter: "all",
+            todos: localStorage.getItem("todos")
+                ? JSON.parse(localStorage.getItem("todos"))
+                : [],
+            currentFilter: localStorage.getItem("currentFilter")
+                ? JSON.parse(localStorage.getItem("currentFilter"))
+                : "all",
         };
 
         eventEmitter.subscribe(
@@ -39,11 +43,19 @@ class Store {
         );
     }
 
+    saveState = () => {
+        const { todos, currentFilter } = this.state;
+
+        localStorage.setItem("todos", JSON.stringify(todos));
+        localStorage.setItem("currentFilter", JSON.stringify(currentFilter));
+    };
+
     createTodo = ({ payload }) => {
         const { todos, currentFilter } = this.state;
         const newTodosList = [...todos, payload];
         this.state = { todos: newTodosList, currentFilter: currentFilter };
 
+        this.saveState();
         eventEmitter.emit({
             type: stateActionType.STATE_UPDATED,
             payload: { todos: newTodosList, currentFilter: currentFilter },
@@ -55,6 +67,7 @@ class Store {
         const newTodosList = todos.filter((todo) => todo.id !== payload);
         this.state = { todos: newTodosList, currentFilter: currentFilter };
 
+        this.saveState();
         eventEmitter.emit({
             type: stateActionType.STATE_UPDATED,
             payload: { todos: newTodosList, currentFilter: currentFilter },
@@ -72,6 +85,7 @@ class Store {
         });
         this.state = { todos: newTodosList, currentFilter: currentFilter };
 
+        this.saveState();
         eventEmitter.emit({
             type: stateActionType.STATE_UPDATED,
             payload: { todos: newTodosList, currentFilter: currentFilter },
@@ -90,6 +104,7 @@ class Store {
         });
         this.state = { todos: newTodosList, currentFilter: currentFilter };
 
+        this.saveState();
         eventEmitter.emit({
             type: stateActionType.STATE_UPDATED,
             payload: { todos: newTodosList, currentFilter: currentFilter },
@@ -100,6 +115,7 @@ class Store {
         const { todos } = this.state;
         this.state = { todos: todos, currentFilter: payload };
 
+        this.saveState();
         eventEmitter.emit({
             type: stateActionType.STATE_UPDATED,
             payload: { todos: todos, currentFilter: payload },
@@ -112,6 +128,7 @@ class Store {
         const newTodosList = todos.filter((todo) => !todo.isCompleted);
         this.state = { todos: newTodosList, currentFilter: currentFilter };
 
+        this.saveState();
         eventEmitter.emit({
             type: stateActionType.STATE_UPDATED,
             payload: { todos: newTodosList, currentFilter: currentFilter },
