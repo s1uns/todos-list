@@ -4,12 +4,14 @@ html {
 }
 #root {
     width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 body {
+    height: 100vh;
 }
 
 h1 {
@@ -25,6 +27,7 @@ h1 {
     width: 33%;
     background: white;
     border-radius: 1rem;
+    padding: 3rem;
 }
 
 .todos-block {
@@ -139,4 +142,40 @@ h1 {
 .updated-icon {
     position: absolute;
     left: 70%;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    width: 30%;
+    height: 50%;
+    text-align: center;
+}
+.login-container h2 {
+    margin-bottom: 2rem;
+}
+.login-container input {
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+.login-container button {
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+.login-container button:hover {
+    background-color: #0056b3;
 }

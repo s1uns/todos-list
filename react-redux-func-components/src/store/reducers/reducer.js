@@ -1,11 +1,11 @@
-import { actionSuccessType } from "../actionTypes";
+import { actionSuccessType } from "../actions/actionTypes";
 
 const initialState = {
     todos: [],
     currentFilter: "All",
 };
 
-export default function todosReducer(state = initialState, action) {
+export function todosReducer(state = initialState, action) {
     switch (action.type) {
         case actionSuccessType.ADD_TODO_SUCCESS: {
             const newTodosList = [...state.todos, action.payload];
@@ -75,7 +75,7 @@ export default function todosReducer(state = initialState, action) {
     }
 }
 
-export default function filterReducer(state = initialState, action) {
+export function filterReducer(state = initialState, action) {
     switch (action.type) {
         case actionSuccessType.SET_FILTER_SUCCESS: {
             const newFilter = action.payload.currentFilter;
