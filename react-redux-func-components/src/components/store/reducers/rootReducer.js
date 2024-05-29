@@ -2,7 +2,9 @@ import { combineReducers } from "redux";
 import { todosReducer } from "./reducer";
 import { filterReducer } from "./reducer";
 
-export default combineReducers({
+const rootReducer = combineReducers({
     todosReducer,
     filterReducer,
 });
+
+export default rootReducer;
