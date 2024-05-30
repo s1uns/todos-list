@@ -1,12 +1,19 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { actionRequestType } from "../store/actions/actionTypes";
 
 export default function Footer({ itemsCount, currentFilter }) {
+    const dispatch = useDispatch();
+
     const setFilter = (filter) => {
-        // setFilter(filter);
+        dispatch({
+            type: actionRequestType.SET_FILTER_REQUEST,
+            payload: filter,
+        });
     };
 
     const clearCompleted = () => {
-        // clearCompleted();
+        dispatch({ type: actionRequestType.CLEAR_COMPLETED_REQUEST });
     };
     return (
         <div className="todos-footer">

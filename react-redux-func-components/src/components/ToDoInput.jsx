@@ -1,6 +1,9 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { actionRequestType } from "../store/actions/actionTypes";
 
 export default function ToDoInput() {
+    const dispatch = useDispatch();
     const createTodo = (e) => {
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();
@@ -10,6 +13,14 @@ export default function ToDoInput() {
             }
 
             e.target.value = "";
+            dispatch({
+                type: actionRequestType.ADD_TODO_REQUEST,
+                payload: {
+                    title: trimmedString,
+                    isCompleted: false,
+                    isUpdated: false,
+                },
+            });
         }
     };
 
