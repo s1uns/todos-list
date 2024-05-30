@@ -1,14 +1,19 @@
 import React, { Component } from "react";
+import eventEmitter from "../store/EventEmitter";
+import { actionRequestType } from "../store/ActionTypes";
 
 class Footer extends Component {
     setFilter = (filter) => {
-        const { setFilter } = this.props;
-        setFilter(filter);
+        eventEmitter.emit({
+            type: actionRequestType.SET_FILTER_REQUEST,
+            payload: filter,
+        });
     };
 
     clearCompleted = () => {
-        const { clearCompleted } = this.props;
-        clearCompleted();
+        eventEmitter.emit({
+            type: actionRequestType.CLEAR_COMPLETED_REQUEST,
+        });
     };
 
     render() {

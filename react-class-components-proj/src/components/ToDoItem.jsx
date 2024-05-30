@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import eventEmitter from "../store/EventEmitter";
+import { actionRequestType } from "../store/ActionTypes";
 
 export default class ToDoItem extends Component {
     constructor(props) {
@@ -28,21 +30,29 @@ export default class ToDoItem extends Component {
     };
 
     checkTodo = () => {
-        const { id, checkTodo } = this.props;
-        checkTodo(id);
+        const { id } = this.props;
+
+        eventEmitter.emit({
+            type: actionRequestType.CHECK_TODO_REQUEST,
+            payload: id,
+        });
     };
 
     deleteTodo = () => {
-        const { id, deleteTodo } = this.props;
-        deleteTodo(id);
+        const { id } = this.props;
+
+        eventEmitter.emit({
+            type: actionRequestType.DELETE_TODO_REQUEST,
+            payload: id,
+        });
     };
 
     updateTodo = (e) => {
-        const { id, title, updateTodo } = this.props;
+        const { id, title } = this.props;
 
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();
-            if (trimmedString.length == 0) {
+            if (trimmedString.length === 0) {
                 alert("Enter something first!");
                 return;
             }
@@ -50,10 +60,13 @@ export default class ToDoItem extends Component {
             const newTodo = {
                 id: id,
                 title: trimmedString,
-                isUpdated: false,
             };
+
             if (title !== e.target.value) {
-                updateTodo(newTodo);
+                eventEmitter.emit({
+                    type: actionRequestType.EDIT_TODO_REQUEST,
+                    payload: newTodo,
+                });
             }
             this.toggleEditing();
         }
@@ -61,6 +74,7 @@ export default class ToDoItem extends Component {
 
     toggleEditing = () => {
         const { isCompleted } = this.props;
+        
         const { isEditing } = this.state;
         if (!isCompleted) {
             this.setState({
@@ -70,7 +84,9 @@ export default class ToDoItem extends Component {
     };
 
     render() {
+
         const { id, title, isCompleted, isUpdated } = this.props;
+
 
         return (
             <>
@@ -82,7 +98,7 @@ export default class ToDoItem extends Component {
                         type="checkbox"
                         className="chek-todo-btn"
                         checked={isCompleted}
-                        onChange={() => this.checkTodo(id)}
+                        onChange={this.checkTodo}
                     />
                     {this.state.isEditing ? (
                         <input

@@ -1,17 +1,23 @@
 import React, { Component } from "react";
+import eventEmitter from "../store/EventEmitter";
+import { actionRequestType } from "../store/ActionTypes";
 
 class ToDoInput extends Component {
     createTodo = (e) => {
-        const { createTodo } = this.props;
-
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();
-            if (trimmedString.length == 0) {
+            if (trimmedString.length === 0) {
                 alert("Enter something first!");
                 return;
             }
 
-            createTodo(trimmedString);
+            eventEmitter.emit(
+                {
+                    type: actionRequestType.ADD_TODO_REQUEST,
+                    payload: trimmedString
+                }
+            );
+
             e.target.value = "";
         }
     };

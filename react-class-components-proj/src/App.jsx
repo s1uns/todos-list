@@ -1,84 +1,35 @@
 import "./App.css";
 import Footer from "./components/Footer";
 import ToDoInput from "./components/ToDoInput";
-import { v4 as uuid } from "uuid";
 import React, { Component } from "react";
 import ToDoItem from "./components/ToDoItem";
+import store from "./store/Store";
+import eventEmitter from "./store/EventEmitter";
+import { stateActionType } from "./store/ActionTypes";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos: localStorage.getItem("todos")
-                ? JSON.parse(localStorage.getItem("todos"))
-                : [],
-            currentFilter: "all",
-        };
-    }
-
-    componentDidUpdate() {
-        const { todos } = this.state;
-        localStorage.setItem("todos", JSON.stringify(todos));
-    }
-
-    setFilter = (filter) => {
-        this.setState({
-            currentFilter: filter,
-        });
-    };
-
-    clearCompleted = () => {
-        const { todos } = this.state;
-        const filtratedTodos = todos.filter((todo) => !todo.isCompleted);
-        this.setState({
-            todos: filtratedTodos,
-        });
-    };
-
-    createTodo = (title) => {
-        const { todos } = this.state;
-        const todo = {
-            id: uuid(),
-            title: title,
-            isCompleted: false,
-            isUpdated: false,
+            todos: store.state.todos,
+            currentFilter: store.state.currentFilter,
         };
 
+        eventEmitter.subscribe(
+            stateActionType.STATE_UPDATED,
+            this.stateUpdated,
+        );
+    }
+
+    stateUpdated = (stateUpdatedAction) => {
         this.setState({
-            todos: [...todos, todo],
+            todos: stateUpdatedAction.payload.todos,
+            currentFilter: stateUpdatedAction.payload.currentFilter,
         });
-    };
-
-    checkTodo = (id) => {
-        const { todos } = this.state;
-        const todo = todos.find((todo) => todo.id === id);
-        todo.isCompleted = !todo.isCompleted;
-        this.setState({ todos: todos });
-    };
-
-    deleteTodo = (id) => {
-        const { todos } = this.state;
-        const filtratedTodos = todos.filter((todo) => todo.id !== id);
-        this.setState({
-            todos: filtratedTodos,
-        });
-    };
-
-    updateTodo = (newTodo) => {
-        const { todos } = this.state;
-        const preparedTodos = todos.map((todo) => {
-            if (todo.id === newTodo.id) {
-                return { ...todo, title: newTodo.title, isUpdated: true };
-            }
-            return todo;
-        });
-
-        this.setState({ todos: preparedTodos });
     };
 
     render() {
         const { todos, currentFilter } = this.state;
-
         const itemsCount = todos.filter((todo) => !todo.isCompleted).length;
         const filtratedTodos = todos.filter((todo) => {
             if (currentFilter === "active") {
