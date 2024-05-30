@@ -1,4 +1,4 @@
-import { takeEvery, put, all } from "redux-saga/effects";
+import { takeEvery, put, } from "redux-saga/effects";
 import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
 import { v4 as uuidv4 } from "uuid";
 
@@ -26,10 +26,6 @@ function* workClearCompleted() {
     yield put({ type: actionSuccessType.CLEAR_COMPLETED_SUCCESS });
 }
 
-function* workSetFilter({ payload }) {
-    yield put({ type: actionSuccessType.SET_FILTER_SUCCESS, payload: payload });
-}
-
 function* todosSagas() {
     yield takeEvery(actionRequestType.ADD_TODO_REQUEST, workAddTodo);
     yield takeEvery(actionRequestType.DELETE_TODO_REQUEST, workDeleteTodo);
@@ -41,10 +37,4 @@ function* todosSagas() {
     );
 }
 
-function* filtersSagas() {
-    yield takeEvery(actionRequestType.SET_FILTER_REQUEST, workSetFilter);
-}
-
-export default function* rootSaga() {
-    yield all([todosSagas(), filtersSagas()]);
-}
+export default todosSagas;
