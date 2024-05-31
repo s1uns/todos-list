@@ -1,4 +1,4 @@
-import migrate from "./migrations/migrationsManager";
+const migrate = require("./migrations/migrationsManager.js");
 
 const express = require("express");
 
