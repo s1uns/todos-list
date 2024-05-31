@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+
 const connection = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: "root",
@@ -6,16 +7,17 @@ const connection = mysql.createConnection({
     database: "todolist",
 });
 
+
 const makeRequest = (query) => {
     connection.connect();
 
     connection.query(query, (err, rows, fields) => {
-        if (err) throw err;
+        if (err) console.log("Error occured: ", err.message);
     });
 
     connection.end();
 };
 
-module.exports = () => {
-    makeRequest;
+module.exports = {
+    makeRequest,
 };
