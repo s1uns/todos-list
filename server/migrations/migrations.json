@@ -1,4 +1,4 @@
 {
-    "firstMigration": "CREATE TABLE IF NOT EXISTS User (username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY (username));",
-    "secondMigration": "CREATE TABLE IF NOT EXISTS ToDos (id NVARCHAR(255) PRIMARY KEY, title NVARCHAR(255) NOT NULL, isCompleted BOOLEAN NOT NULL DEFAULT 0, isUpdated BOOLEAN NOT NULL DEFAULT 0);"
+    "firstMigration": "ALTER TABLE ToDos ADD COLUMN userEmail NVARCHAR(255), ADD CONSTRAINT fk_user_email FOREIGN KEY (userEmail) REFERENCES User(email);",
+    "secondMigration": "ALTER TABLE User ADD COLUMN userName NVARCHAR(255);"
 }
