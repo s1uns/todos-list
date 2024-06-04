@@ -1,4 +1,4 @@
-const { makeRequest } = require("../db");
+const { makeRequest } = require("../../db");
 const { v4 } = require("uuid");
 
 const addTodo = async (todo) => {
