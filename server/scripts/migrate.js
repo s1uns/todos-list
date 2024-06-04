@@ -2,26 +2,19 @@ const { makeRequest } = require("../db");
 const migrations = require("../migrations/migrations.json");
 
 const mirgationExists = async (migrationName) => {
-    return new Promise((resolve, reject) => {
-        makeRequest(
-            `SELECT COUNT(*) FROM migrations WHERE migrationName = '${migrationName}';`,
-        )
-            .then((rows) => {
-                resolve(
-                    Object.values(
-                        Object.values(JSON.parse(JSON.stringify(rows))[0]),
-                    )[0],
-                );
-            })
-            .catch((err) => {
-                reject(err);
-            });
-    });
+    const exists = await makeRequest(
+        `SELECT COUNT(*) FROM migrations WHERE migrationName = '${migrationName}';`,
+    );
+
+    return Object.values(
+        Object.values(JSON.parse(JSON.stringify(exists))[0]),
+    )[0];
 };
 
 async function migrate() {
     const queries = Object.values(migrations);
     console.log("Initializing the migration process...");
+
     return Promise.all(
         queries.map(async (query) => {
             const migrationName = Object.keys(migrations).find(
@@ -49,6 +42,6 @@ migrate()
         process.exit(0);
     })
     .catch((err) => {
-        console.error("Error:", err);
+        console.error("There was an error during migration process:", err);
         process.exit(1);
     });
