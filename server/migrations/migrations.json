@@ -1,4 +1,3 @@
 {
-    "firstMigration": "ALTER TABLE todos ADD COLUMN userEmail NVARCHAR(255), ADD CONSTRAINT fk_user_email FOREIGN KEY (userEmail) REFERENCES users(email);",
-    "secondMigration": "ALTER TABLE users ADD COLUMN userName NVARCHAR(255);"
+    "usersIdForeignKey": "ALTER TABLE todos ADD COLUMN userId CHAR(36), ADD CONSTRAINT FK_UserTodos FOREIGN KEY (userId) REFERENCES users(id);"
 }
