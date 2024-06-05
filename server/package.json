@@ -2,11 +2,12 @@
     "name": "server",
     "version": "1.0.0",
     "main": "index.js",
+    "type": "module",
     "scripts": {
         "init": "node --env-file=config/.env scripts/initDB.js",
         "migrate": "node --env-file=config/.env scripts/migrate.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "node --env-file=.env app.js"
+        "dev": "npm run migrate && node --env-file=config/.env app.js"
     },
     "keywords": [],
     "author": "",
@@ -14,6 +15,8 @@
     "description": "",
     "dependencies": {
         "express": "^4.19.2",
+        "js-sha256": "^0.11.0",
+        "jsonwebtoken": "^9.0.2",
         "mysql": "^2.18.1",
         "run-func": "^3.0.0",
         "uuid": "^9.0.1"

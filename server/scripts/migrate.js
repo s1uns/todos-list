@@ -1,5 +1,5 @@
-const { makeRequest } = require("../db");
-const migrations = require("../migrations/migrations.json");
+import { makeRequest } from "../db.js";
+import migrations from "../migrations/migrations.json" with { type: "json" };
 
 const mirgationExists = async (migrationName) => {
     const exists = await makeRequest(

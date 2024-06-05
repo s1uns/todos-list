@@ -1,5 +1,5 @@
-const mysql = require("mysql");
-const dbConfig = require("./dbConfig");
+import mysql from "mysql";
+import dbConfig from "./dbConfig.js";
 
 const connection = mysql.createPool(dbConfig);
 const makeRequest = async (query) => {
@@ -13,6 +13,4 @@ const makeRequest = async (query) => {
     });
 };
 
-module.exports = {
-    makeRequest,
-};
+export { makeRequest };

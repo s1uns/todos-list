@@ -1,6 +1,6 @@
-const { makeRequest } = require("../db");
-const initialMigrations = require("../migrations/initialMigrations.json");
-const mysql = require("mysql");
+import { makeRequest } from "../db.js";
+import initialMigrations from "../migrations/initialMigrations.json" with { type: "json" };
+import mysql from "mysql";
 
 const dbConfig = {
     host: process.env.DATABASE_HOST,

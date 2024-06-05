@@ -1,5 +1,5 @@
-const { makeRequest } = require("../../db");
-const { v4 } = require("uuid");
+import { makeRequest } from "../../db.js";
+import { v4 } from "uuid";
 
 const addTodo = async (todo) => {
     todo.id = v4;

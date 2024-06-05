@@ -1,5 +1,5 @@
-const { Router } = require("express");
+import { Router } from "express";
 const router = Router();
-const userController = require("../../controllers/userController/userController");
+// import userController from ("../../controllers/userController/userController");
 
-router.put("/edit-profile", (req, res) => {});
+// router.put("/edit-profile", (req, res) => {});
