@@ -13,7 +13,17 @@ const createUser = async ({
     );
 
 const userExists = async (email) =>
-    await makeRequest(`SELECT COUNT(*) FROM users WHERE email = '${email}';`);
+    Object.values(
+        Object.values(
+            JSON.parse(
+                JSON.stringify(
+                    await makeRequest(
+                        `SELECT COUNT(*) FROM users WHERE email = '${email}';`,
+                    ),
+                ),
+            )[0],
+        ),
+    )[0];
 
 const passwordIsCorrect = async (email, passwordHash) =>
     await makeRequest(
