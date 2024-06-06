@@ -8,7 +8,7 @@ import express from "express";
 const app = express();
 app.use(express.json())
 
-const port = 5000;
+const port =  process.env.SERVER_PORT;
 
 app.get("/", (req, res) => {
     res.send("Started Working, Express!");
