@@ -1,3 +1,4 @@
 {
-    "usersIdForeignKey": "ALTER TABLE todos ADD COLUMN userId CHAR(36), ADD CONSTRAINT FK_UserTodos FOREIGN KEY (userId) REFERENCES users(id);"
+    "usersIdForeignKey": "ALTER TABLE todos ADD COLUMN userId CHAR(36), ADD CONSTRAINT FK_UserTodos FOREIGN KEY (userId) REFERENCES users(id);",
+    "usersFullName": "ALTER TABLE users ADD COLUMN firstName VARCHAR(255), ADD COLUMN lastName VARCHAR(255);"
 }
