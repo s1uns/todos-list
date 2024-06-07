@@ -37,7 +37,7 @@ const register = async (req, res) => {
         return;
     }
 
-    const token = await registerUser({
+    const response = await registerUser({
         email,
         firstName,
         lastName,
@@ -49,7 +49,7 @@ const register = async (req, res) => {
         `The /register response was returned at ${res.getResponseTime()}`,
     );
 
-    res.success(token);
+    res.success(response);
 };
 
 export default register;
