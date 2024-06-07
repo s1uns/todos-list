@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { actionRequestType } from "../store/actions/actionTypes";
 
 export default function RegisterPage() {
+    const [email, setEmail] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleChangeUsername = (e) => {
         setUsername((prevUsername) => e.target.value);
@@ -24,13 +29,33 @@ export default function RegisterPage() {
         setConfirmPassword((prevPassword) => e.target.value);
     };
 
+    const handleChangeFirstName = (e) => {
+        setFirstName((prevFirstName) => e.target.value);
+    };
+
+    const handleChangeLastName = (e) => {
+        setLastName((prevLastName) => e.target.value);
+    };
+
     const handleRegister = () => {
         if (password === confirmPassword) {
-            setUsername((prevUsername) => "");
-            setEmail((prevUsername) => "");
-            setPassword((prevPassword) => "");
-            setConfirmPassword((prevPassword) => "");
-            navigate("/");
+            // setUsername((prevUsername) => "");
+            // setEmail((prevUsername) => "");
+            // setFirstName((prevFirstName) => "");
+            // setLastName((prevLastName) => "");
+            // setPassword((prevPassword) => "");
+            // setConfirmPassword((prevPassword) => "");
+            dispatch({
+                type: actionRequestType.REGISTER_USER_REQUEST,
+                payload: {
+                    email: email,
+                    firstName: firstName,
+                    lastName: lastName,
+                    username: username,
+                    password: password,
+                },
+            });
+            // navigate("/");
             return;
         }
 
@@ -50,6 +75,27 @@ export default function RegisterPage() {
                     value={email}
                     onChange={handleChangeEmail}
                 />
+                <br />
+                <div className="name-input">
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="First Name"
+                        required
+                        value={firstName}
+                        onChange={handleChangeFirstName}
+                    />
+                    <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Last Name"
+                        required
+                        value={lastName}
+                        onChange={handleChangeLastName}
+                    />
+                </div>
                 <br />
                 <input
                     type="text"

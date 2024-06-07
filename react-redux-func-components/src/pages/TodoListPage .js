@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
     const currentFilter = useSelector((state) => state.currentFilter);
+    const user = useSelector((state) => state.user);
+    console.log("User: ", user);
     const itemsCount = todos.filter((todo) => !todo.isCompleted).length;
     const filtratedTodos = todos.filter((todo) => {
         if (currentFilter === "active") {
@@ -21,6 +23,7 @@ const TodoListPage = () => {
     });
     return (
         <>
+            {user.fullName ? <h1>Welcome, {user.fullName}</h1> : <></>}
             <h1>ToDoS</h1>
             <div className="container">
                 <ToDoInput />

@@ -166,6 +166,11 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 0.5rem;
 }
+.name-input {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
 .login-container button {
     width: calc(100% - 2rem);
     padding: 1rem;
