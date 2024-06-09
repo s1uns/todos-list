@@ -55,7 +55,7 @@ export default function RegisterPage() {
                     password: password,
                 },
             });
-            // navigate("/");
+            navigate("/");
             return;
         }
 

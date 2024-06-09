@@ -12,6 +12,7 @@ const registerUser = async (credentials) => {
         if (err.response) {
             alert(err.response.data.message);
         }
+        throw new Error("Failed to register new user.");
     }
 };
 
