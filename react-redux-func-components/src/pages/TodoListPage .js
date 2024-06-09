@@ -24,7 +24,7 @@ const TodoListPage = () => {
     return (
         <>
             <h1>ToDoS</h1>
-            {user.fullName ? <h2>Welcome, {user.fullName}</h2> : <></>}
+            {user ? <h2>Welcome, {user.fullName}</h2> : <></>}
             <div className="container">
                 <ToDoInput />
                 <div className="todos-block">
