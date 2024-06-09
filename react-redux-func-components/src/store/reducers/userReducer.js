@@ -3,15 +3,7 @@ import { actionSuccessType } from "../actions/actionTypes";
 
 const userReducer = handleActions(
     {
-        [actionSuccessType.REGISTER_USER_SUCCESS]: (
-            oldUser = {
-                id: null,
-                email: null,
-                fullName: null,
-                username: null,
-            },
-            { payload },
-        ) => {
+        [actionSuccessType.REGISTER_USER_SUCCESS]: (state, { payload }) => {
             console.log("Payload: ", payload);
             return {
                 id: payload.id,
@@ -21,12 +13,7 @@ const userReducer = handleActions(
             };
         },
     },
-    {
-        id: null,
-        email: null,
-        fullName: null,
-        username: null,
-    },
+    null,
 );
 
 export default userReducer;
