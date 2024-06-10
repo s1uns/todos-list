@@ -9,7 +9,7 @@ const responseMiddleware = (req, res, next) => {
 
     res.badRequest = (errorMessage) => {
         res.status(400).json({
-            code: 200,
+            code: 400,
             message: errorMessage,
             success: false,
         });
