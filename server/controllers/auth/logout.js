@@ -1,9 +1,12 @@
 const logout = async (req, res) => {
-    res.cookie("ACCESS_TOKEN");
-    res.clearCookie("ACCESS_TOKEN");
+    console.log(`The /logout request was catched at ${req.requestTime}`);
 
-    res.cookie("REFRESH_TOKEN");
+    res.clearCookie("ACCESS_TOKEN");
     res.clearCookie("REFRESH_TOKEN");
+
+    console.log(
+        `The /logout response was returned at ${res.getResponseTime()}`,
+    );
 
     res.success({ message: "Successfully logged you out!" });
 };
