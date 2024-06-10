@@ -26,8 +26,6 @@ const userExists = async (email) =>
     )[0];
 
 const getUser = async (email, passwordHash) =>
-    // Object.values(
-    //     Object.values(
     JSON.parse(
         JSON.stringify(
             await makeRequest(
@@ -35,7 +33,5 @@ const getUser = async (email, passwordHash) =>
             ),
         ),
     )[0];
-//     ),
-// )[0];
 
 export { createUser, userExists, getUser };
