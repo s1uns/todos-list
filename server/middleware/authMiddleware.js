@@ -7,7 +7,6 @@ const authMiddleware = (req, res, next) => {
     const secretKey = process.env.SECRET_KEY;
     const accessExpiresIn = process.env.ACCESS_TOKEN_EXPIRES_IN;
 
-    console.log("Token: ", accessToken);
 
     if (!accessToken) {
         if (!refreshToken) {
@@ -33,8 +32,6 @@ const authMiddleware = (req, res, next) => {
             if (err) {
                 return res.forbidden("Failed to authenticate token.");
             }
-
-            console.log("Decoded: ", decoded);
 
             req.userId = decoded.user.userId;
         });
