@@ -3,6 +3,8 @@
 // const { todosRoutes } = require("./routes/todosRoutes/todosRoutes.js");
 import { router as authRouter } from "./routes/auth/index.js";
 import express from "express";
+import cookieParser from "cookie-parser";
+import authMiddleware from "./middleware/authMiddleware.js";
 import reqTimeMiddleware from "./middleware/reqTimeMiddleware.js";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
@@ -11,6 +13,7 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(reqTimeMiddleware, responseMiddleware);
 
@@ -21,7 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRouter);
-// app.use("/todos", todosRoutes);
+// app.use("/todos", authMiddleware, todosRoutes);
 // app.use("/user", userRoutes);
 
 app.listen(port, () => {

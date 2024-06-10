@@ -1,3 +1,3 @@
-import { createUser, userExists, passwordIsCorrect } from "./user.js";
+import { createUser, userExists, getUser } from "./user.js";
 
-export { createUser, userExists, passwordIsCorrect };
+export { createUser, userExists, getUser };

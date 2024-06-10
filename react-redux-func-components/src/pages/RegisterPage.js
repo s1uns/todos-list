@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../store/actions/actionTypes";
 
@@ -10,7 +9,6 @@ export default function RegisterPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleChangeUsername = (e) => {
@@ -39,12 +37,6 @@ export default function RegisterPage() {
 
     const handleRegister = () => {
         if (password === confirmPassword) {
-            // setUsername((prevUsername) => "");
-            // setEmail((prevUsername) => "");
-            // setFirstName((prevFirstName) => "");
-            // setLastName((prevLastName) => "");
-            // setPassword((prevPassword) => "");
-            // setConfirmPassword((prevPassword) => "");
             dispatch({
                 type: actionRequestType.REGISTER_USER_REQUEST,
                 payload: {
@@ -55,7 +47,14 @@ export default function RegisterPage() {
                     password: password,
                 },
             });
-            navigate("/");
+
+            // setUsername((prevUsername) => "");
+            // setEmail((prevUsername) => "");
+            // setFirstName((prevFirstName) => "");
+            // setLastName((prevLastName) => "");
+            // setPassword((prevPassword) => "");
+            // setConfirmPassword((prevPassword) => "");
+
             return;
         }
 

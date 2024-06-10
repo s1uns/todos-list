@@ -23,10 +23,7 @@ const registerUser = async (credentials) => {
         fullName: `${user.firstName} ${user.lastName}`,
     };
 
-    return {
-        ...userInfo,
-        bearer: await generateToken(userInfo),
-    };
+    return userInfo;
 };
 
 export default registerUser;

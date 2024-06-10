@@ -16,4 +16,16 @@ const registerUser = async (credentials) => {
     }
 };
 
-export { registerUser };
+const loginUser = async (credentials) => {
+    try {
+        const response = await axios.post(`${url}auth/login`, credentials);
+        return response;
+    } catch (err) {
+        if (err.response) {
+            alert(err.response.data.message);
+        }
+        throw new Error("Failed to login.");
+    }
+};
+
+export { registerUser, loginUser };

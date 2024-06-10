@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-
 export default function withAuth(WrappedComponent, shouldBeLogged) {
     return (props) => {
         const user = useSelector((state) => state.user);
@@ -16,7 +15,7 @@ export default function withAuth(WrappedComponent, shouldBeLogged) {
             if (user && !shouldBeLogged) {
                 navigate("/");
             }
-        }, []);
+        }, user);
 
         return <WrappedComponent {...props} />;
     };

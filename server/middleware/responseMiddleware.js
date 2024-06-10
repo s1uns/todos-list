@@ -23,6 +23,14 @@ const responseMiddleware = (req, res, next) => {
         });
     };
 
+    res.unauthorized = (errorMessage) => {
+        res.status(401).json({
+            code: 401,
+            message: errorMessage,
+            success: false,
+        });
+    };
+
     res.success = (data) => {
         res.status(200).json({
             code: 200,

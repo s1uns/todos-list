@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { actionRequestType } from "../store/actions/actionTypes";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const handleChangeUsername = (e) => {
-        setUsername((prevUsername) => e.target.value);
+    const handleChangeEmail = (e) => {
+        setEmail((prevUsername) => e.target.value);
     };
 
     const handleChangePassword = (e) => {
@@ -15,9 +17,16 @@ const LoginPage = () => {
     };
 
     const handleLogin = () => {
-        setUsername((prevUsername) => "");
-        setPassword((prevPassword) => "");
-        navigate("/");
+        dispatch({
+            type: actionRequestType.LOGIN_USER_REQUEST,
+            payload: {
+                email: email,
+                password: password,
+            },
+        });
+        // setUsername((prevUsername) => "");
+        // setPassword((prevPassword) => "");
+        return;
     };
 
     return (
@@ -27,12 +36,12 @@ const LoginPage = () => {
             <div className="login-container">
                 <input
                     type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Username"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
                     required
-                    value={username}
-                    onChange={handleChangeUsername}
+                    value={email}
+                    onChange={handleChangeEmail}
                 />
                 <br />
                 <input
@@ -45,9 +54,7 @@ const LoginPage = () => {
                     required
                 />
                 <br />
-                <Link to="/">
-                    <button onClick={handleLogin}>Login</button>
-                </Link>
+                <button onClick={handleLogin}>Login</button>
             </div>
         </>
     );

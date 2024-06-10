@@ -8,7 +8,6 @@ const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
     const currentFilter = useSelector((state) => state.currentFilter);
     const user = useSelector((state) => state.user);
-    console.log("User: ", user);
     const itemsCount = todos.filter((todo) => !todo.isCompleted).length;
     const filtratedTodos = todos.filter((todo) => {
         if (currentFilter === "active") {

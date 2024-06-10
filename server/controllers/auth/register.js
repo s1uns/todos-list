@@ -1,6 +1,7 @@
 import { validateEmail, validatePassword } from "./helpers.js";
 import { registerUser } from "../../services/auth/index.js";
 import { userExists } from "../../models/user.js";
+import { generateToken } from "../../services/auth/helpers.js";
 
 const register = async (req, res) => {
     console.log(`The /register request was catched at ${req.requestTime}`);
@@ -48,6 +49,10 @@ const register = async (req, res) => {
     console.log(
         `The /register response was returned at ${res.getResponseTime()}`,
     );
+
+    const bearer = await generateToken(response);
+
+    res.cookie("bearer", bearer);
 
     res.success(response);
 };

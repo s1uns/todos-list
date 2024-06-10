@@ -25,9 +25,17 @@ const userExists = async (email) =>
         ),
     )[0];
 
-const passwordIsCorrect = async (email, passwordHash) =>
-    await makeRequest(
-        `SELECT COUNT(*) FROM users WHERE email = '${email}' AND password = '${passwordHash}';`,
-    );
+const getUser = async (email, passwordHash) =>
+    // Object.values(
+    //     Object.values(
+    JSON.parse(
+        JSON.stringify(
+            await makeRequest(
+                `SELECT * FROM users WHERE email = '${email}' AND password = '${passwordHash}';`,
+            ),
+        ),
+    )[0];
+//     ),
+// )[0];
 
-export { createUser, userExists, passwordIsCorrect };
+export { createUser, userExists, getUser };

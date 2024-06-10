@@ -1,13 +1,11 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
-import { registerUser } from "../../api/auth";
-import Cookies from "js-cookie";
+import { registerUser, loginUser } from "../../api/auth";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));
     if (response) {
-        const { id, email, fullName, username, bearer } = response.data.data;
-        Cookies.set("bearer", bearer, { expires: 7, secure: true });
+        const { id, email, fullName, username } = response.data.data;
 
         yield put({
             type: actionSuccessType.REGISTER_USER_SUCCESS,
@@ -16,8 +14,21 @@ function* workRegisterUser({ payload }) {
     }
 }
 
+function* workLoginUser({ payload }) {
+    const response = yield call(() => loginUser(payload));
+    if (response) {
+        const { id, email, fullName, username } = response.data.data;
+
+        yield put({
+            type: actionSuccessType.LOGIN_USER_SUCCESS,
+            payload: { id, email, fullName, username },
+        });
+    }
+}
+
 function* userSagas() {
     yield takeEvery(actionRequestType.REGISTER_USER_REQUEST, workRegisterUser);
+    yield takeEvery(actionRequestType.LOGIN_USER_REQUEST, workLoginUser);
 }
 
 export default userSagas;
