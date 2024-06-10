@@ -20,6 +20,10 @@ const userReducer = handleActions(
                 username: payload.username,
             };
         },
+
+        [actionSuccessType.LOGOUT_USER_SUCCESS]: (state) => {
+            return null;
+        },
     },
     null,
 );

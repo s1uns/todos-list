@@ -28,4 +28,9 @@ const loginUser = async (credentials) => {
     }
 };
 
-export { registerUser, loginUser };
+const logoutUser = async () => {
+    const response = await axios.get(`${url}auth/logout`);
+    return response;
+};
+
+export { registerUser, loginUser, logoutUser };

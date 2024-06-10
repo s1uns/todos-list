@@ -188,3 +188,25 @@ h2 {
 .login-container button:hover {
     background-color: #0056b3;
 }
+
+.logout-button {
+    padding: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    height: 33%;
+}
+
+.logout-button:hover {
+    background-color: #0056b3;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5rem;
+}

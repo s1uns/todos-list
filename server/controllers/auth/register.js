@@ -1,7 +1,11 @@
 import { validateEmail, validatePassword } from "./helpers.js";
 import { registerUser } from "../../services/auth/index.js";
 import { userExists } from "../../models/user.js";
-import { generateToken, validateFields } from "../../services/auth/helpers.js";
+import {
+    generateAccessToken,
+    generateRefreshToken,
+} from "../../services/auth/helpers.js";
+import { validateFields } from "./helpers.js";
 
 const register = async (req, res) => {
     console.log(`The /register request was catched at ${req.requestTime}`);
@@ -57,12 +61,30 @@ const register = async (req, res) => {
         password,
     });
 
-    const bearer = await generateToken(response);
+    const accessToken = await generateAccessToken(response);
+    const refreshToken = await generateRefreshToken(response);
 
-    res.cookie("bearer", bearer);
+    res.cookie("ACCESS_TOKEN", accessToken),
+        {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 60 * 5 * 1000,
+        };
+
+    res.cookie("REFRESH_TOKEN", refreshToken),
+        {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            path: "/refresh",
+            maxAge: 24 * 60 * 60 * 1000,
+        };
+
     console.log(
         `The /register response was returned at ${res.getResponseTime()}`,
     );
+
     res.success(response);
 };
 

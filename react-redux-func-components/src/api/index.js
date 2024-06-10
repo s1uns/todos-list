@@ -1,4 +1,4 @@
-import { loginUser, registerUser } from "./auth";
+import { loginUser, registerUser, logoutUser } from "./auth";
 import { createTodo } from "./todo";
 
-export { loginUser, registerUser, createTodo };
+export { loginUser, registerUser, logoutUser, createTodo };

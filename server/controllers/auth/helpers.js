@@ -13,7 +13,7 @@ export const validatePassword = async (password) => {
 
 export const validateFields = async (...args) => {
     return args.reduce(
-        (field) => (field.trim().length === 0 ? false : true),
+        (isValid, field) => (field.trim().length === 0 ? false : true),
         false,
     );
 };
