@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
-import { registerUser, loginUser } from "../../api/auth";
+import { registerUser, loginUser } from "../../api";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));

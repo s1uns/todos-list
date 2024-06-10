@@ -1,10 +1,17 @@
-import { takeEvery, put, } from "redux-saga/effects";
+import { takeEvery, put, call } from "redux-saga/effects";
 import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
-import { v4 as uuidv4 } from "uuid";
+import { createTodo } from "../../api/todo";
 
 function* workAddTodo({ payload }) {
-    payload.id = uuidv4();
-    yield put({ type: actionSuccessType.ADD_TODO_SUCCESS, payload: payload });
+    const response = yield call(() => createTodo(payload));
+    const newTodo = response.data.data;
+
+    if (response) {
+        yield put({
+            type: actionSuccessType.ADD_TODO_SUCCESS,
+            payload: newTodo,
+        });
+    }
 }
 
 function* workDeleteTodo({ payload }) {

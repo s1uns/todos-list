@@ -46,14 +46,12 @@ const register = async (req, res) => {
         password,
     });
 
-    console.log(
-        `The /register response was returned at ${res.getResponseTime()}`,
-    );
-
     const bearer = await generateToken(response);
 
     res.cookie("bearer", bearer);
-
+    console.log(
+        `The /register response was returned at ${res.getResponseTime()}`,
+    );
     res.success(response);
 };
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../store/actions/actionTypes";
-import { Link } from "react-router-dom";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -24,8 +23,7 @@ const LoginPage = () => {
                 password: password,
             },
         });
-        // setUsername((prevUsername) => "");
-        // setPassword((prevPassword) => "");
+
         return;
     };
 

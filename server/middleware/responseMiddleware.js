@@ -31,6 +31,14 @@ const responseMiddleware = (req, res, next) => {
         });
     };
 
+    res.forbidden = (errorMessage) => {
+        res.status(403).json({
+            code: 403,
+            message: errorMessage,
+            success: false,
+        });
+    };
+
     res.success = (data) => {
         res.status(200).json({
             code: 200,

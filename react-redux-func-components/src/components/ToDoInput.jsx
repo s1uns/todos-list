@@ -15,11 +15,7 @@ export default function ToDoInput() {
             e.target.value = "";
             dispatch({
                 type: actionRequestType.ADD_TODO_REQUEST,
-                payload: {
-                    title: trimmedString,
-                    isCompleted: false,
-                    isUpdated: false,
-                },
+                payload: trimmedString,
             });
         }
     };

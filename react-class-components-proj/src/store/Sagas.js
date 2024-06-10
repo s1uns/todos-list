@@ -6,7 +6,7 @@ class Sagas {
     constructor() {
         eventEmitter.subscribe(
             actionRequestType.ADD_TODO_REQUEST,
-            this.addTodo,
+            this.createTodo,
         );
 
         eventEmitter.subscribe(
@@ -35,7 +35,7 @@ class Sagas {
         );
     }
 
-    addTodo = ({ payload }) => {
+    createTodo = ({ payload }) => {
         const newTodo = {
             id: uuid(),
             title: payload,

@@ -1,7 +1,5 @@
-// import { migrate } from "./migrations/migrationsManager.js";
-// const { userRoutes } = require("./routes/userRoutes/userRoutes.js");
-// const { todosRoutes } = require("./routes/todosRoutes/todosRoutes.js");
 import { router as authRouter } from "./routes/auth/index.js";
+import { router as todosRouter } from "./routes/todos/index.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import authMiddleware from "./middleware/authMiddleware.js";
@@ -10,7 +8,7 @@ import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,7 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRouter);
-// app.use("/todos", authMiddleware, todosRoutes);
+app.use("/todos", todosRouter);
 // app.use("/user", userRoutes);
 
 app.listen(port, () => {

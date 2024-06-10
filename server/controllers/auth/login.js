@@ -2,7 +2,7 @@ import { loginUser } from "../../services/auth/index.js";
 import { generateToken } from "../../services/auth/helpers.js";
 
 const login = async (req, res) => {
-    console.log("The request body is: ", req.body);
+    console.log(`The /login request was catched at ${req.requestTime}`);
 
     const { email, password } = req.body;
 
@@ -10,17 +10,19 @@ const login = async (req, res) => {
 
     if (!response) {
         res.unauthorized("The email or password you've specified is wrong.");
+        console.log(
+            `The /login response was returned at ${res.getResponseTime()}`,
+        );
+
         return;
     }
 
     const bearer = await generateToken(response);
 
     res.cookie("bearer", bearer);
-
-    console.log("RESPONSE COOKIE: ", res.cookie);
-    console.log("RESPONSE HEADERS: ", res.headers);
-    console.log("RESPONSE BODY: ", res.body);
+    console.log(`The /login response was returned at ${res.getResponseTime()}`);
     res.success(response);
+    
 };
 
 export default login;

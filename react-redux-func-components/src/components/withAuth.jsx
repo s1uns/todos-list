@@ -15,7 +15,7 @@ export default function withAuth(WrappedComponent, shouldBeLogged) {
             if (user && !shouldBeLogged) {
                 navigate("/");
             }
-        }, user);
+        }, [user]);
 
         return <WrappedComponent {...props} />;
     };

@@ -48,13 +48,6 @@ export default function RegisterPage() {
                 },
             });
 
-            // setUsername((prevUsername) => "");
-            // setEmail((prevUsername) => "");
-            // setFirstName((prevFirstName) => "");
-            // setLastName((prevLastName) => "");
-            // setPassword((prevPassword) => "");
-            // setConfirmPassword((prevPassword) => "");
-
             return;
         }
 

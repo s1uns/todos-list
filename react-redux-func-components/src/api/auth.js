@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_BACKEND_URL;
+axios.defaults.withCredentials = true;
 
-// axios.defaults.withCredentials = true;
+const url = process.env.REACT_APP_BACKEND_URL;
 
 const registerUser = async (credentials) => {
     try {
@@ -12,7 +12,7 @@ const registerUser = async (credentials) => {
         if (err.response) {
             alert(err.response.data.message);
         }
-        throw new Error("Failed to register new user.");
+        return null;
     }
 };
 
@@ -24,7 +24,7 @@ const loginUser = async (credentials) => {
         if (err.response) {
             alert(err.response.data.message);
         }
-        throw new Error("Failed to login.");
+        return null;
     }
 };
 
