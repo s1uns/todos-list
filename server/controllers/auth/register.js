@@ -64,22 +64,21 @@ const register = async (req, res) => {
     const accessToken = await generateAccessToken(response);
     const refreshToken = await generateRefreshToken(response);
 
-    res.cookie("ACCESS_TOKEN", accessToken),
-        {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 60 * 5 * 1000,
-        };
+    res.cookie("ACCESS_TOKEN", accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        expires: setExpirationDate(5 * 60),
+        maxAge: 5 * 60 * 1000,
+    });
 
-    res.cookie("REFRESH_TOKEN", refreshToken),
-        {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            path: "/refresh",
-            maxAge: 24 * 60 * 60 * 1000,
-        };
+    res.cookie("REFRESH_TOKEN", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        expires: setExpirationDate(24 * 60 * 60),
+        maxAge: 24 * 60 * 60 * 1000,
+    });
 
     console.log(
         `The /register response was returned at ${res.getResponseTime()}`,

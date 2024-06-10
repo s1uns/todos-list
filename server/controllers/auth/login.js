@@ -35,8 +35,8 @@ const login = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        expires: setExpirationDate(15),
-        maxAge: 15 * 1000,
+        expires: setExpirationDate(5 * 60),
+        maxAge: 5 * 60 * 1000,
     });
 
     res.cookie("REFRESH_TOKEN", refreshToken, {
