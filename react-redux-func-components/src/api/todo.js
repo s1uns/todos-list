@@ -10,10 +10,8 @@ const createTodo = async (title) => {
         });
         return response;
     } catch (err) {
-        if (err.response) {
-            alert(err.response.data.message);
-        }
-        return null;
+        console.log(err.message);
+        return err.response.data;
     }
 };
 
