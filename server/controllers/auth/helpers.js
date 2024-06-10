@@ -6,6 +6,14 @@ export const validateEmail = async (email) => {
         );
 };
 export const validatePassword = async (password) => {
-    return String(password)
-        .match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$/);
+    return String(password).match(
+        /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$/,
+    );
+};
+
+export const validateFields = async (...args) => {
+    return args.reduce(
+        (field) => (field.trim().length === 0 ? false : true),
+        false,
+    );
 };

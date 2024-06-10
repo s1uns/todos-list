@@ -1,7 +1,7 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-
+//Logout, api-call (401), validation
 const url = process.env.REACT_APP_BACKEND_URL;
 
 const registerUser = async (credentials) => {

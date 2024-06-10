@@ -5,7 +5,15 @@ const createTodo = async (req, res) => {
 
     const { title } = req.body;
 
+    if (title.trim().length == 0) {
+        res.badRequest("The title is empty");
+    }
+
     const userId = req.userId;
+
+    if (!userId) {
+        res.notFound("Couldn't get the user's id");
+    }
 
     const newTodo = await createTodoAsync(title, userId);
 
