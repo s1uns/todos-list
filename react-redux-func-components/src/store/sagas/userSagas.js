@@ -29,13 +29,15 @@ function* workLoginUser({ payload }) {
             payload: { id, email, fullName, username },
         });
     } else {
-        alert(response.message);
-        // toast.open(response.message);
+        // alert(response.message);
+        yield put({
+            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
+            payload: { id: new Date(Date.now()), message: response.message },
+        });
     }
 }
 
 function* workLogoutUser() {
-    console.log("LOGOUT STARTED");
     yield call(() => Cookie.remove("ACCESS_TOKEN"));
     yield call(() => Cookie.remove("REFRESH_TOKEN"));
     yield put({

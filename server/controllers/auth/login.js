@@ -23,7 +23,7 @@ const login = async (req, res) => {
         console.log(
             `The /login response was returned at ${res.getResponseTime()}`,
         );
-        return res.unauthorized(
+        return res.badRequest(
             "The email or password you've specified is wrong.",
         );
     }

@@ -7,22 +7,20 @@ import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor, sagaMiddleware } from "./store/store";
 import rootSaga from "./store/sagas/rootSaga";
-import { ToastProvider } from "./components/toast/Toast";
+import ToastsList from "./components/toast/ToastsList";
 
 sagaMiddleware.run(rootSaga);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
-        <ToastProvider>
-            {" "}
-            <BrowserRouter>
-                <Provider store={store}>
-                    <PersistGate loading={null} persistor={persistor}>
-                        <App />
-                    </PersistGate>
-                </Provider>
-            </BrowserRouter>
-        </ToastProvider>
+        <BrowserRouter>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <ToastsList />
+                    <App />
+                </PersistGate>
+            </Provider>
+        </BrowserRouter>
     </React.StrictMode>,
 );
 
