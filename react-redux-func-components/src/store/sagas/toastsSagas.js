@@ -9,7 +9,6 @@ function* workAddNotification({ payload }) {
 }
 
 function* workDismissNotification({ payload }) {
-    console.log("Payload: ", payload);
     yield put({
         type: actionSuccessType.DISMISS_NOTIFICATION_SUCCESS,
         payload: payload,

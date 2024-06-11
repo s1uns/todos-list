@@ -14,7 +14,6 @@ const authMiddleware = (req, res, next) => {
                     return res.unauthorized("Failed to authenticate token.");
                 } else {
                     const { user } = decoded;
-                    console.log("I'M STILL HERE: ", decoded);
 
                     req.userId = user.userId;
 

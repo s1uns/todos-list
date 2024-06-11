@@ -10,7 +10,6 @@ const registerUser = async (credentials) => {
 
 const loginUser = async (credentials) => {
     const response = await postRequest(`${url}auth/login`, credentials);
-    console.log("Reponse: ", response);
 
     return response;
 };

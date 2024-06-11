@@ -8,7 +8,6 @@ const createTodo = async (title) => {
     const response = await postRequest(`${url}todos/create`, {
         title: title,
     });
-    console.log("Reponse: ", response);
 
     return response;
 };
