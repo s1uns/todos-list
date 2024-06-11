@@ -1,8 +1,7 @@
 import { sha256 } from "js-sha256";
-import { getUser } from "../../models/index.js";
+import { getUser } from "../../models/user/index.js";
 
 const loginUser = async (email, password) => {
-
     const passwordHash = sha256(password);
 
     const user = await getUser(email, passwordHash);

@@ -17,7 +17,8 @@ const getTime = () => {
     var hours = String(now.getHours()).padStart(2, "0");
     var minutes = String(now.getMinutes()).padStart(2, "0");
     var seconds = String(now.getSeconds()).padStart(2, "0");
-    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    var milliseconds = String(now.getMilliseconds()).padStart(3, "0");
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
 
 export default reqTimeMiddleware;

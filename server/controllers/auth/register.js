@@ -1,6 +1,6 @@
 import { validateEmail, validatePassword } from "./helpers.js";
 import { registerUser } from "../../services/auth/index.js";
-import { userExists } from "../../models/user.js";
+import { userExists } from "../../models/user/index.js";
 import {
     generateAccessToken,
     generateRefreshToken,

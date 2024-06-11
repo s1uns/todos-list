@@ -1,7 +1,6 @@
 import { sha256 } from "js-sha256";
 import { v4 as uuid } from "uuid";
-import { createUser, userExists } from "../../models/index.js";
-import { generateAccessToken, generateRefreshToken } from "./helpers.js";
+import { createUser } from "../../models/user/index.js";
 
 const registerUser = async (credentials) => {
     const passwordHash = sha256(credentials.password);

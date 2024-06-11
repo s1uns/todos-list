@@ -1,3 +1,5 @@
+import { makeRequest } from "../../db.js";
+
 const checkTodo = async (checkedTodo) => {
     await makeRequest(
         `UPDATE todos SET isCompleted = ${checkedTodo.isCompleted} WHERE id = '${checkedTodo.id}';`,

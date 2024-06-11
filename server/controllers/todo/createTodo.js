@@ -1,4 +1,4 @@
-import { createTodo as createTodoAsync } from "../../services/todo/index.js";
+import { createTodo as createTodoAsync } from "../../models/todos/index.js";
 
 const createTodo = async (req, res) => {
     console.log(`The /create-todo request was catched at ${req.requestTime}`);
