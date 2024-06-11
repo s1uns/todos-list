@@ -13,6 +13,7 @@ function* workRegisterUser({ payload }) {
             payload: { id, email, fullName, username },
         });
     } else {
+        alert(response.message);
         // toast.open(response.message);
     }
 }
