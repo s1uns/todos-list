@@ -10,7 +10,7 @@ const postRequest = async (url, data) => {
         const response = await axios.post(url, data);
         return response.data;
     } catch (err) {
-        if (err.status == 401) {
+        if (err.response.status == 401) {
             store.dispatch({ type: actionRequestType.LOGOUT_USER_REQUEST });
         }
         console.log(err.message);

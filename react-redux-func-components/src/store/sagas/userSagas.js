@@ -20,7 +20,7 @@ function* workRegisterUser({ payload }) {
 
 function* workLoginUser({ payload }) {
     const response = yield call(() => loginUser(payload));
-    
+
     if (response.success) {
         const { id, email, fullName, username } = response.data;
 
@@ -35,6 +35,7 @@ function* workLoginUser({ payload }) {
 }
 
 function* workLogoutUser() {
+    console.log("LOGOUT STARTED");
     yield call(() => Cookie.remove("ACCESS_TOKEN"));
     yield call(() => Cookie.remove("REFRESH_TOKEN"));
     yield put({

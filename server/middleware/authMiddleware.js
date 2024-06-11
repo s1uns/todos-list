@@ -12,30 +12,30 @@ const authMiddleware = (req, res, next) => {
             jwt.verify(refreshToken, secretKey, (err, decoded) => {
                 if (err) {
                     return res.unauthorized("Failed to authenticate token.");
+                } else {
+                    const { user } = decoded;
+                    console.log("I'M STILL HERE: ", decoded);
+
+                    req.userId = user.userId;
+
+                    const accessToken = jwt.sign({ user }, secretKey, {
+                        expiresIn: accessExpiresIn,
+                    });
+
+                    res.cookie("ACCESS_TOKEN", accessToken, {
+                        // httpOnly: true,
+                        secure: true,
+                        sameSite: "strict",
+                    });
+
+                    next();
                 }
-
-                const { user } = decoded;
-                console.log("Decoded: ", decoded);
-
-                console.log("User: ", user);
-
-                req.userId = user.userId;
-
-                const accessToken = jwt.sign({ user }, secretKey, {
-                    expiresIn: accessExpiresIn,
-                });
-
-                res.cookie("ACCESS_TOKEN", accessToken, {
-                    // httpOnly: true,
-                    secure: true,
-                    sameSite: "strict",
-                });
             });
         } else {
             req.userId = decoded.user.userId;
+            next();
         }
     });
-    next();
 };
 
 export default authMiddleware;

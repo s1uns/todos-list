@@ -6,11 +6,13 @@ function* workAddTodo({ payload }) {
     const response = yield call(() => createTodo(payload));
     const newTodo = response.data;
 
-    if (response) {
+    if (response.success) {
         yield put({
             type: actionSuccessType.ADD_TODO_SUCCESS,
             payload: newTodo,
         });
+    } else {
+        alert(response.message);
     }
 }
 
