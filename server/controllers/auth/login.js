@@ -35,16 +35,14 @@ const login = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        expires: setExpirationDate(5 * 60),
-        maxAge: 5 * 60 * 1000,
+
     });
 
     res.cookie("REFRESH_TOKEN", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        expires: setExpirationDate(24 * 60 * 60),
-        maxAge: 24 * 60 * 60 * 1000,
+
     });
     console.log(`The /login response was returned at ${res.getResponseTime()}`);
     res.success(response);

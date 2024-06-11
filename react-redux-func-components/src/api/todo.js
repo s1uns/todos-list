@@ -8,7 +8,7 @@ const createTodo = async (title) => {
         const response = await axios.post(`${url}todos/create`, {
             title: title,
         });
-        return response;
+        return response.data;
     } catch (err) {
         console.log(err.message);
         return err.response.data;

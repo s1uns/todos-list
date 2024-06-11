@@ -6,6 +6,7 @@ import {
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
 import { validateFields } from "./helpers.js";
+import { setExpirationDate } from "../../utils/index.js";
 
 const register = async (req, res) => {
     console.log(`The /register request was catched at ${req.requestTime}`);
@@ -68,7 +69,7 @@ const register = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        expires: setExpirationDate(5 * 60),
+        expires: setExpirationDate(5 * 60), //remove
         maxAge: 5 * 60 * 1000,
     });
 

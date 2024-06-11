@@ -4,7 +4,7 @@ import { createTodo } from "../../api/todo";
 
 function* workAddTodo({ payload }) {
     const response = yield call(() => createTodo(payload));
-    const newTodo = response.data.data;
+    const newTodo = response.data;
 
     if (response) {
         yield put({

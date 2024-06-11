@@ -13,6 +13,9 @@ const authMiddleware = (req, res, next) => {
             return res.unauthorized("You need to authorize first. ");
         }
 
+
+        //jwt.verify access -> jwt.verify refresh -> error (res.cookie(empty))
+
         const { user } = jwt.verify(refreshToken, secretKey);
         const accessToken = jwt.sign({ user }, secretKey, {
             expiresIn: accessExpiresIn,
@@ -24,10 +27,9 @@ const authMiddleware = (req, res, next) => {
             httpOnly: true,
             secure: true,
             sameSite: "strict",
-            expires: setExpirationDate(5 * 60),
-            maxAge: 5 * 60 * 1000,
         });
     } else {
+        // access token validation
         jwt.verify(accessToken, secretKey, (err, decoded) => {
             if (err) {
                 return res.forbidden("Failed to authenticate token.");

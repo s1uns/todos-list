@@ -3,10 +3,9 @@ import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
 import { registerUser, loginUser, logoutUser } from "../../api";
 
 function* workRegisterUser({ payload }) {
-
     const response = yield call(() => registerUser(payload));
     if (response.success) {
-        const { id, email, fullName, username } = response.data.data;
+        const { id, email, fullName, username } = response.data;
 
         yield put({
             type: actionSuccessType.REGISTER_USER_SUCCESS,
@@ -19,15 +18,16 @@ function* workRegisterUser({ payload }) {
 
 function* workLoginUser({ payload }) {
     const response = yield call(() => loginUser(payload));
-
+    console.log("Resp: ", response);
     if (response.success) {
-        const { id, email, fullName, username } = response.data.data;
+        const { id, email, fullName, username } = response.data;
 
         yield put({
             type: actionSuccessType.LOGIN_USER_SUCCESS,
             payload: { id, email, fullName, username },
         });
     } else {
+        alert(response.message);
         // toast.open(response.message);
     }
 }
