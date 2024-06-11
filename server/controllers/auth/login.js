@@ -32,14 +32,14 @@ const login = async (req, res) => {
     const refreshToken = await generateRefreshToken(response);
 
     res.cookie("ACCESS_TOKEN", accessToken, {
-        httpOnly: true,
+        // httpOnly: true,
         secure: true,
         sameSite: "strict",
 
     });
 
     res.cookie("REFRESH_TOKEN", refreshToken, {
-        httpOnly: true,
+        // httpOnly: true,
         secure: true,
         sameSite: "strict",
 

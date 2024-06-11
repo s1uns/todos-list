@@ -1,6 +1,7 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
-import { registerUser, loginUser, logoutUser } from "../../api";
+import { registerUser, loginUser } from "../../api";
+import Cookie from "js-cookie";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));
@@ -33,8 +34,8 @@ function* workLoginUser({ payload }) {
 }
 
 function* workLogoutUser() {
-    yield call(logoutUser);
-
+    yield call(() => Cookie.remove("ACCESS_TOKEN"));
+    yield call(() => Cookie.remove("REFRESH_TOKEN"));
     yield put({
         type: actionSuccessType.LOGOUT_USER_SUCCESS,
     });
