@@ -45,7 +45,7 @@ const login = async (req, res) => {
 
     });
     console.log(`The /login response was returned at ${res.getResponseTime()}`);
-    res.success(response);
+    return res.success(response);
 };
 
 export default login;

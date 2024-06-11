@@ -12,7 +12,10 @@ function* workAddTodo({ payload }) {
             payload: newTodo,
         });
     } else {
-        alert(response.message);
+        yield put({
+            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
+            payload: { id: new Date(Date.now()), message: response.message },
+        });
     }
 }
 

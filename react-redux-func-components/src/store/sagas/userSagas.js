@@ -13,8 +13,10 @@ function* workRegisterUser({ payload }) {
             payload: { id, email, fullName, username },
         });
     } else {
-        alert(response.message);
-        // toast.open(response.message);
+        yield put({
+            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
+            payload: { id: new Date(Date.now()), message: response.message },
+        });
     }
 }
 
@@ -29,7 +31,6 @@ function* workLoginUser({ payload }) {
             payload: { id, email, fullName, username },
         });
     } else {
-        // alert(response.message);
         yield put({
             type: actionRequestType.ADD_NOTIFICATION_REQUEST,
             payload: { id: new Date(Date.now()), message: response.message },

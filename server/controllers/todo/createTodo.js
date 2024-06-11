@@ -6,13 +6,13 @@ const createTodo = async (req, res) => {
     const { title } = req.body;
 
     if (title.trim().length == 0) {
-        res.badRequest("The title is empty");
+        return res.badRequest("The title is empty");
     }
 
     const userId = req.userId;
 
     if (!userId) {
-        res.notFound("Couldn't get the user's id");
+        return res.notFound("Couldn't get the user's id");
     }
 
     const newTodo = await createTodoAsync(title, userId);
@@ -21,7 +21,7 @@ const createTodo = async (req, res) => {
         `The /create-todo response was returned at ${res.getResponseTime()}`,
     );
 
-    res.success(newTodo);
+    return res.success(newTodo);
 };
 
 export default createTodo;
