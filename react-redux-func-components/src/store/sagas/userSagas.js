@@ -20,7 +20,7 @@ function* workRegisterUser({ payload }) {
 
 function* workLoginUser({ payload }) {
     const response = yield call(() => loginUser(payload));
-    console.log("Resp: ", response);
+    
     if (response.success) {
         const { id, email, fullName, username } = response.data;
 

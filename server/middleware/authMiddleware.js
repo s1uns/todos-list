@@ -4,21 +4,26 @@ import { setExpirationDate } from "../utils/index.js";
 const authMiddleware = (req, res, next) => {
     const accessToken = req.cookies.ACCESS_TOKEN;
     const refreshToken = req.cookies.REFRESH_TOKEN;
+    const secretKey = process.env.SECRET_KEY;
+    const accessExpiresIn = process.env.ACCESS_TOKEN_EXPIRES_IN;
 
     jwt.verify(accessToken, secretKey, (err, decoded) => {
         if (err) {
-            jwt.verify(accessToken, secretKey, (err, decoded) => {
+            jwt.verify(refreshToken, secretKey, (err, decoded) => {
                 if (err) {
                     return res.unauthorized("Failed to authenticate token.");
                 }
 
-                req.userId = decoded.user.userId;
-                const { user } = jwt.verify(refreshToken, secretKey);
+                const { user } = decoded;
+                console.log("Decoded: ", decoded);
+
+                console.log("User: ", user);
+
+                req.userId = user.userId;
+
                 const accessToken = jwt.sign({ user }, secretKey, {
                     expiresIn: accessExpiresIn,
                 });
-
-                req.userId = user.userId;
 
                 res.cookie("ACCESS_TOKEN", accessToken, {
                     // httpOnly: true,
@@ -26,11 +31,10 @@ const authMiddleware = (req, res, next) => {
                     sameSite: "strict",
                 });
             });
+        } else {
+            req.userId = decoded.user.userId;
         }
-
-        req.userId = decoded.user.userId;
     });
-
     next();
 };
 
