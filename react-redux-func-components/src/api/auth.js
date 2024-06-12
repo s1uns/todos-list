@@ -14,7 +14,7 @@ const loginUser = async (credentials) => {
 };
 
 const logoutUser = async () => {
-    const response = await getRequest(`${url}auth/logout`);
+    const response = await postRequest(`${url}auth/logout`);
     return response;
 };
 
