@@ -41,6 +41,9 @@ function* workLoginUser({ payload }) {
 function* workLogoutUser() {
     yield call(() => Cookie.remove("ACCESS_TOKEN"));
     yield call(() => Cookie.remove("REFRESH_TOKEN"));
+    yield put ({
+        type: actionSuccessType.CLEAR_TODOS_SUCCESS
+    })
     yield put({
         type: actionSuccessType.LOGOUT_USER_SUCCESS,
     });

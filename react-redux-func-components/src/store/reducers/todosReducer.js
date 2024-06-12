@@ -14,19 +14,32 @@ const todosReducer = handleActions(
         [actionSuccessType.CHECK_TODO_SUCCESS]: (oldTodos, { payload }) =>
             oldTodos.map((todo) =>
                 todo.id === payload
-                    ? { ...todo, isCompleted: !todo.isCompleted }
+                    ? {
+                          ...todo,
+                          isCompleted: !payload.isCompleted,
+                          isUpdated: payload.isUpdated,
+                          updatedAt: payload.updatedAt,
+                      }
                     : todo,
             ),
 
         [actionSuccessType.EDIT_TODO_SUCCESS]: (oldTodos, { payload }) =>
             oldTodos.map((todo) =>
                 todo.id === payload.id
-                    ? { ...todo, title: payload.title, isUpdated: true }
+                    ? {
+                          ...todo,
+                          title: payload.title,
+                          isUpdated: payload.isUpdated,
+                          updatedAt: payload.updatedAt,
+                      }
                     : todo,
             ),
 
-        [actionSuccessType.CLEAR_COMPLETED_SUCCESS]: (oldTodos) =>
-            oldTodos.filter((todo) => !todo.isCompleted),
+        [actionSuccessType.SET_TODOS_SUCCESS]: (state, { payload }) => [
+            ...payload,
+        ],
+
+        [actionSuccessType.CLEAR_TODOS_SUCCESS]: (state) => [],
     },
     [],
 );

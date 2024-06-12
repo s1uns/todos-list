@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ToDoInput from "../components/ToDoInput";
 import ToDoItem from "../components/ToDoItem";
 import Footer from "../components/Footer";
@@ -23,6 +23,12 @@ const TodoListPage = () => {
 
         return true;
     });
+
+    useEffect(() => {
+        dispatch({
+            type: actionRequestType.GET_TODOS_REQUEST,
+        });
+    }, []);
 
     const handleLogOut = () => {
         dispatch({
