@@ -4,9 +4,9 @@ import { actionRequestType } from "../../store/actions/actionTypes.js";
 
 axios.defaults.withCredentials = true;
 
-const postRequest = async (url, data) => {
+const patchRequest = async (url) => {
     try {
-        const response = await axios.post(url, data);
+        const response = await axios.patch(url);
         return response.data;
     } catch (err) {
         if (err.response.status === 401) {
@@ -17,4 +17,4 @@ const postRequest = async (url, data) => {
     }
 };
 
-export default postRequest;
+export default patchRequest;

@@ -1,11 +1,17 @@
 import axios from "axios";
-import { postRequest, getRequest, putRequest, deleteRequest } from "./helpers";
+import {
+    postRequest,
+    getRequest,
+    putRequest,
+    deleteRequest,
+    patchRequest,
+} from "./helpers";
 
 axios.defaults.withCredentials = true;
 const url = process.env.REACT_APP_BACKEND_URL;
 
 const createTodo = async (title) => {
-    const response = await postRequest(`${url}todos/create`, {
+    const response = await postRequest(`${url}todos`, {
         title: title,
     });
 
@@ -13,19 +19,19 @@ const createTodo = async (title) => {
 };
 
 const getTodos = async () => {
-    const response = await getRequest(`${url}todos/`);
+    const response = await getRequest(`${url}todos`);
 
     return response;
 };
 
 const clearCompleted = async () => {
-    const response = await getRequest(`${url}todos/clear-completed`);
+    const response = await patchRequest(`${url}todos/clear-completed`);
 
     return response;
 };
 
 const updateTodo = async (todoId, newTitle) => {
-    const response = await putRequest(`${url}todos/update`, {
+    const response = await putRequest(`${url}todos`, {
         id: todoId,
         newTitle: newTitle,
     });
@@ -34,13 +40,13 @@ const updateTodo = async (todoId, newTitle) => {
 };
 
 const deleteTodo = async (todoId) => {
-    const response = await deleteRequest(`${url}todos/delete/${todoId}`);
+    const response = await deleteRequest(`${url}todos/${todoId}`);
 
     return response;
 };
 
 const checkTodo = async (todoId) => {
-    const response = await getRequest(`${url}todos/check/${todoId}`);
+    const response = await patchRequest(`${url}todos/${todoId}/check`);
 
     return response;
 };

@@ -4,7 +4,6 @@ import {
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
 import { validateFields } from "./helpers.js";
-import { setExpirationDate } from "../../utils/index.js";
 
 const login = async (req, res) => {
     console.log(`The /login request was catched at ${req.requestTime}`);
@@ -32,14 +31,14 @@ const login = async (req, res) => {
     const refreshToken = await generateRefreshToken(response);
 
     res.cookie("ACCESS_TOKEN", accessToken, {
-        // httpOnly: true,
+        httpOnly: true,
         secure: true,
         sameSite: "strict",
 
     });
 
     res.cookie("REFRESH_TOKEN", refreshToken, {
-        // httpOnly: true,
+        httpOnly: true,
         secure: true,
         sameSite: "strict",
 

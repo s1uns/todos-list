@@ -1,31 +1,28 @@
 import {
     checkTodo as checkTodoAsync,
-    isUserAuthor,
-    todoExists,
+    getTodo,
 } from "../../models/todos/index.js";
 
 const checkTodo = async (req, res) => {
     console.log(`The /check-todo request was catched at ${req.requestTime}`);
 
+    console.log("Params: ", req.params);
+
     const { id: todoId } = req.params;
+
+    console.log("TodoId = ", todoId);
     const { userId } = req;
 
-    const exists = await todoExists(todoId);
+    console.log("UserId = ", userId);
 
-    if (!exists) {
-        console.log(
-            `The /check-todo response was returned at ${res.getResponseTime()}`,
-        );
+    const todo = await getTodo(todoId);
+
+    if (!todo) {
         return res.notFound("Todo not found.");
     }
 
-    const isAuthor = await isUserAuthor(todoId, userId);
-
-    if (!isAuthor) {
-        console.log(
-            `The /check-todo response was returned at ${res.getResponseTime()}`,
-        );
-        return res.forbidden("Not your todo!");
+    if (todo.userId != userId) {
+        return res.forbidden("It's not your todo");
     }
 
     const checkedTodo = await checkTodoAsync(todoId);

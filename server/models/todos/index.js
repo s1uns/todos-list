@@ -4,8 +4,6 @@ import createTodo from "./createTodo.js";
 import deleteTodo from "./deleteTodo.js";
 import updateTodo from "./updateTodo.js";
 import getTodos from "./getTodos.js";
-import isUserAuthor from "./isUserAuthor.js";
-import todoExists from "./todoExists.js";
 import getTodo from "./getTodo.js";
 
 export {
@@ -15,7 +13,5 @@ export {
     deleteTodo,
     updateTodo,
     getTodos,
-    isUserAuthor,
-    todoExists,
     getTodo,
 };

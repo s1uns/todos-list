@@ -22,7 +22,7 @@ const authMiddleware = (req, res, next) => {
                     });
 
                     res.cookie("ACCESS_TOKEN", accessToken, {
-                        // httpOnly: true,
+                        httpOnly: true,
                         secure: true,
                         sameSite: "strict",
                     });

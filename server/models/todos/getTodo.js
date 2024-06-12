@@ -1,30 +1,27 @@
 import { makeRequest } from "../../db.js";
 
-const mapToObject = async (todoArray) => {
+const mapToObject = async (todo) => {
+    const todoAsArray = Object.values(
+        Object.values(JSON.parse(JSON.stringify(todo))[0]),
+    );
+
     return {
-        id: todoArray[0],
-        title: todoArray[1],
-        isCompleted: todoArray[2],
-        isUpdated: todoArray[3],
-        createdAt: todoArray[4],
-        updatedAt: todoArray[5],
-        userId: todoArray[6],
+        id: todoAsArray[0],
+        title: todoAsArray[1],
+        isCompleted: todoAsArray[2],
+        isUpdated: todoAsArray[3],
+        createdAt: todoAsArray[4],
+        updatedAt: todoAsArray[5],
+        userId: todoAsArray[6],
     };
 };
 
 const getTodo = async (todoId) => {
-
-    const todo = Object.values(
-        Object.values(
-            JSON.parse(
-                JSON.stringify(
-                    await makeRequest(
-                        `SELECT * FROM todos WHERE id = '${todoId}'`,
-                    ),
-                ),
-            )[0],
-        ),
+    const todo = await makeRequest(
+        `SELECT * FROM todos WHERE id = '${todoId}'`,
     );
+
+    if (!todo.length) return null;
 
     return await mapToObject(todo);
 };

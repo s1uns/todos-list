@@ -7,10 +7,10 @@ export default function ToDoInput() {
     const createTodo = (e) => {
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();
-            // if (trimmedString.length === 0) {
-            //     alert("Enter something first!");
-            //     return;
-            // }
+            if (trimmedString.length === 0) {
+                alert("Enter something first!");
+                return;
+            }
 
             e.target.value = "";
             dispatch({

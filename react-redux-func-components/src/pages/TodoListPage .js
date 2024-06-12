@@ -35,6 +35,8 @@ const TodoListPage = () => {
             type: actionRequestType.LOGOUT_USER_REQUEST,
         });
     };
+
+    console.log("Filtered todos: ", filtratedTodos);
     return (
         <>
             <h1>ToDoS</h1>

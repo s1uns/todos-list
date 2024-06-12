@@ -9,7 +9,7 @@ import { validateFields } from "./helpers.js";
 import { setExpirationDate } from "../../utils/index.js";
 
 const register = async (req, res) => {
-    console.log(`The /register request was catched at ${req.requestTime}`);
+    console.log(`The /registration request was catched at ${req.requestTime}`);
 
     const { email, firstName, lastName, username, password } = req.body;
 
@@ -22,7 +22,7 @@ const register = async (req, res) => {
 
     if (!isUserValid) {
         console.log(
-            `The /register response was returned at ${res.getResponseTime()}`,
+            `The /registration response was returned at ${res.getResponseTime()}`,
         );
         return res.badRequest("One or more required fields are empty");
     }
@@ -31,7 +31,7 @@ const register = async (req, res) => {
 
     if (userAlreadyExists) {
         console.log(
-            `The /register response was returned at ${res.getResponseTime()}`,
+            `The /registration response was returned at ${res.getResponseTime()}`,
         );
         return res.unprocessableEntity(
             "The user with such email already exists",
@@ -42,7 +42,7 @@ const register = async (req, res) => {
 
     if (!isEmailValid) {
         console.log(
-            `The /register response was returned at ${res.getResponseTime()}`,
+            `The /registration response was returned at ${res.getResponseTime()}`,
         );
         return res.unprocessableEntity("The email you specified is wrong");
     }
@@ -51,7 +51,7 @@ const register = async (req, res) => {
 
     if (!isPasswordValid) {
         console.log(
-            `The /register response was returned at ${res.getResponseTime()}`,
+            `The /registration response was returned at ${res.getResponseTime()}`,
         );
 
         return res.unprocessableEntity("The password you specified is wrong");
@@ -72,20 +72,16 @@ const register = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        expires: setExpirationDate(5 * 60), //remove
-        maxAge: 5 * 60 * 1000,
     });
 
     res.cookie("REFRESH_TOKEN", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        expires: setExpirationDate(24 * 60 * 60),
-        maxAge: 24 * 60 * 60 * 1000,
     });
 
     console.log(
-        `The /register response was returned at ${res.getResponseTime()}`,
+        `The /registration response was returned at ${res.getResponseTime()}`,
     );
 
     return res.success(response);

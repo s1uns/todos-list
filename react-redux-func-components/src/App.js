@@ -13,7 +13,7 @@ function App() {
     return (
         <Routes>
             <Route path="/login" element={<LoginWithAuth />} />
-            <Route path="/register" element={<RegisterWithAuth />} />
+            <Route path="/registration" element={<RegisterWithAuth />} />
             <Route path="/" element={<TodoListWithAuth />} />
         </Routes>
     );

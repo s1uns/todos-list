@@ -7,7 +7,7 @@ import {
     deleteTodo,
     getTodos,
     updateTodo,
-} from "../../api/todo";
+} from "../../api";
 
 function* workGetTodos() {
     const response = yield call(() => getTodos());
@@ -61,10 +61,12 @@ function* workDeleteTodo({ payload }) {
 function* workCheckTodo({ payload }) {
     const response = yield call(() => checkTodo(payload));
 
+    console.log("Response data: ", response.data);
+
     if (response.success) {
         yield put({
             type: actionSuccessType.CHECK_TODO_SUCCESS,
-            payload: payload,
+            payload: response.data,
         });
     } else {
         yield put({

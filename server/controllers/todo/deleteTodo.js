@@ -1,7 +1,6 @@
 import {
     deleteTodo as deleteTodoAsync,
-    isUserAuthor,
-    todoExists,
+    getTodo,
 } from "../../models/todos/index.js";
 
 const deleteTodo = async (req, res) => {
@@ -10,16 +9,14 @@ const deleteTodo = async (req, res) => {
     const { id: todoId } = req.params;
     const { userId } = req;
 
-    const exists = await todoExists(todoId);
+    const todo = await getTodo(todoId);
 
-    if (!exists) {
+    if (!todo) {
         return res.notFound("Todo not found.");
     }
 
-    const isAuthor = await isUserAuthor(todoId, userId);
-
-    if (!isAuthor) {
-        return res.forbidden("Not your todo!");
+    if (todo.userId != userId) {
+        return res.forbidden("It's not your todo");
     }
 
     await deleteTodoAsync(todoId);

@@ -13,10 +13,10 @@ const todosReducer = handleActions(
 
         [actionSuccessType.CHECK_TODO_SUCCESS]: (oldTodos, { payload }) =>
             oldTodos.map((todo) =>
-                todo.id === payload
+                todo.id === payload.id
                     ? {
                           ...todo,
-                          isCompleted: !payload.isCompleted,
+                          isCompleted: payload.isCompleted,
                           isUpdated: payload.isUpdated,
                           updatedAt: payload.updatedAt,
                       }

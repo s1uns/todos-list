@@ -1,7 +1,6 @@
 import {
     updateTodo as updateTodoAsync,
-    isUserAuthor,
-    todoExists,
+    getTodo,
 } from "../../models/todos/index.js";
 
 const updateTodo = async (req, res) => {
@@ -10,26 +9,17 @@ const updateTodo = async (req, res) => {
     const { id: todoId, newTitle } = req.body;
     const { userId } = req;
 
-    const exists = await todoExists(todoId);
+    const todo = await getTodo(todoId);
 
-    if (!exists) {
-        console.log(
-            `The /update-todo response was returned at ${res.getResponseTime()}`,
-        );
+    if (!todo) {
         return res.notFound("Todo not found.");
     }
 
-    const isAuthor = await isUserAuthor(todoId, userId);
-
-    if (!isAuthor) {
-        console.log(
-            `The /update-todo response was returned at ${res.getResponseTime()}`,
-        );
-        return res.forbidden("Not your todo!");
+    if (todo.userId != userId) {
+        return res.forbidden("It's not your todo");
     }
 
     const updatedTodo = await updateTodoAsync(todoId, newTitle);
-
 
     console.log(
         `The /update-todo response was returned at ${res.getResponseTime()}`,

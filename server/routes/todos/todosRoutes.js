@@ -10,12 +10,16 @@ import {
 import authMiddleware from "../../middleware/authMiddleware.js";
 
 const router = Router();
+router.use(authMiddleware);
 
-router.post("/create", authMiddleware, createTodo);
-router.get("/", authMiddleware, getTodos);
-router.get("/check/:id", authMiddleware, checkTodo);
-router.get("/clear-completed", authMiddleware, clearCompleted);
-router.delete("/delete/:id", authMiddleware, deleteTodo);
-router.put("/update", authMiddleware, updateTodo);
+router.post("/", createTodo);
+router.get("/", getTodos);
+router.put("/", updateTodo);
+router.delete("/:id", deleteTodo);
+
+
+router.patch("/:id/check", checkTodo);
+router.patch("/clear-completed", clearCompleted);
+
 
 export default router;
