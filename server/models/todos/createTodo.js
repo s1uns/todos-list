@@ -1,5 +1,6 @@
 import { makeRequest } from "../../db.js";
 import { v4 as uuid } from "uuid";
+import getTodo from "./getTodo.js";
 
 const createTodo = async (title, userId) => {
     const newTodo = {
@@ -14,7 +15,9 @@ const createTodo = async (title, userId) => {
         `INSERT INTO todos (id, title, isCompleted, isUpdated, userId) VALUES ('${newTodo.id}', '${newTodo.title}', FALSE, FALSE, '${newTodo.userId}'); `,
     );
 
-    return newTodo;
+    const createdTodo = await getTodo(newTodo.id);
+
+    return createdTodo;
 };
 
 export default createTodo;

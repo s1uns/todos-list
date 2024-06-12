@@ -6,6 +6,7 @@ import updateTodo from "./updateTodo.js";
 import getTodos from "./getTodos.js";
 import isUserAuthor from "./isUserAuthor.js";
 import todoExists from "./todoExists.js";
+import getTodo from "./getTodo.js";
 
 export {
     checkTodo,
@@ -16,4 +17,5 @@ export {
     getTodos,
     isUserAuthor,
     todoExists,
+    getTodo,
 };
