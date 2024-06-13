@@ -5,41 +5,34 @@ import { actionRequestType } from "../../store/actions/actionTypes";
 import React from "react";
 import Input from "../../shared/components/Input";
 
-export default function LoginForm() {
-    const dispatch = useDispatch();
+export default function RegistrationForm() {
+    const genderOptions = [
+        { label: "Male", value: "male" },
+        { label: "Female", value: "female" },
+        { label: "Other", value: "other" },
+    ];
 
-    const handleLogin = (values) => {
-        const { email, password } = values;
-        dispatch({
-            type: actionRequestType.LOGIN_USER_REQUEST,
-            payload: {
-                email: email,
-                password: password,
-            },
-        });
-
-        return;
-    };
-
-    const validate = (values) => {
-        const { email, password } = values;
-        const errors = {};
-
-        if (!email) {
-            errors.email = "Required";
-        }
-
-        if (!password) {
-            errors.password = "Required";
-        }
-
-        return errors;
+    const handleRegister = () => {
+        // if (password === confirmPassword) {
+        //     dispatch({
+        //         type: actionRequestType.REGISTER_USER_REQUEST,
+        //         payload: {
+        //             email: email,
+        //             firstName: firstName,
+        //             lastName: lastName,
+        //             username: username,
+        //             password: password,
+        //         },
+        //     });
+        //     return;
+        // }
+        // alert("Passwords mismatch!");
     };
 
     return (
         <Form
-            submitBtnName={"Login"}
-            onSubmit={handleLogin}
+            submitBtnName={"Register"}
+            onSubmit={handleRegister}
             validate={validate}
         >
             <div>
@@ -63,13 +56,13 @@ export default function LoginForm() {
             </div>
             <div>
                 <Field
-                    name="password"
+                    name="username"
                     render={({ input, meta }) => (
                         <div>
                             <Input
                                 {...input}
-                                type="password"
-                                placeholder="Password"
+                                type="text"
+                                placeholder="Username"
                             />
                             {meta.touched &&
                                 meta.error &&
