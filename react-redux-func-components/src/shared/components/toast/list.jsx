@@ -1,7 +1,7 @@
-import "./Toast.css";
+import "./index.css";
 import React from "react";
 import { useSelector } from "react-redux";
-import Toast from "./Toast";
+import Toast from ".";
 
 export default function ToastsList() {
     const toasts = useSelector((state) => state.toasts);

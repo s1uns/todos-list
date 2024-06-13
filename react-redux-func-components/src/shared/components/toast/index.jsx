@@ -1,4 +1,4 @@
-import "./Toast.css";
+import "./index.css";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useTimeout } from "../../utils/hooks";
