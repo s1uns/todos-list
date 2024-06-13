@@ -163,7 +163,7 @@ h2 {
 .login-container h2 {
     margin-bottom: 2rem;
 }
-.login-container input {
+.input {
     width: calc(100% - 2rem);
     padding: 1rem;
     margin: 1rem 0;
@@ -175,7 +175,14 @@ h2 {
     flex-direction: row;
     gap: 1rem;
 }
-.login-container button {
+
+.error {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: red;
+}
+
+.form-button {
     width: calc(100% - 2rem);
     padding: 1rem;
     border: none;
@@ -184,8 +191,9 @@ h2 {
     color: white;
     font-size: 2rem;
     cursor: pointer;
+    margin-top: 1rem;
 }
-.login-container button:hover {
+.form-button:hover {
     background-color: #0056b3;
 }
 
