@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { actionRequestType } from "../store/actions/actionTypes";
+import { actionRequestType } from "../../store/actions/actionTypes";
 
 export default function ToDoInput() {
     const dispatch = useDispatch();

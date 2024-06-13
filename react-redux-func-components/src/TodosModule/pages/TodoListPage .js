@@ -3,7 +3,7 @@ import ToDoInput from "../components/ToDoInput";
 import ToDoItem from "../components/ToDoItem";
 import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
-import { actionRequestType } from "../store/actions/actionTypes";
+import { actionRequestType } from "../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
 
 const TodoListPage = () => {

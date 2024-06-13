@@ -2,7 +2,7 @@ import "./Toast.css";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useTimeout } from "../../utils/hooks";
-import { actionRequestType } from "../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/actionTypes";
 
 export default function Toast({ id, message }) {
     const dispatch = useDispatch();

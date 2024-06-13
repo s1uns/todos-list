@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor, sagaMiddleware } from "./store/store";
 import rootSaga from "./store/sagas/rootSaga";
-import ToastsList from "./components/toast/ToastsList";
+import ToastsList from "./shared/components/toast/ToastsList";
 
 sagaMiddleware.run(rootSaga);
 const root = ReactDOM.createRoot(document.getElementById("root"));

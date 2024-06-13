@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { actionRequestType } from "../store/actions/actionTypes";
+import { actionRequestType } from "../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
 
 export default function ToDoItem({ id, title, isCompleted, isUpdated }) {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { actionRequestType } from "../store/actions/actionTypes";
+import { actionRequestType } from "../../store/actions/actionTypes";
 
-export default function RegisterPage() {
+export default function RegistrationPage() {
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");

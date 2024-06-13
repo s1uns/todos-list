@@ -1,7 +1,6 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
 import { registerUser, loginUser, logoutUser } from "../../api";
-import Cookie from "js-cookie";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));

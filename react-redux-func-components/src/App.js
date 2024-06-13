@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import TodoListPage from "./pages/TodoListPage ";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import withAuth from "./components/withAuth";
+import TodoListPage from "./TodosModule/pages/TodoListPage ";
+import withAuth from "./shared/components/withAuth";
+import LoginPage from "./AuthModule/pages/LoginPage";
+import RegistrationPage from "./AuthModule/pages/RegistrationPage";
 
 function App() {
     const LoginWithAuth = withAuth(LoginPage, false);
-    const RegisterWithAuth = withAuth(RegisterPage, false);
+    const RegisterWithAuth = withAuth(RegistrationPage, false);
     const TodoListWithAuth = withAuth(TodoListPage, true);
 
     return (
