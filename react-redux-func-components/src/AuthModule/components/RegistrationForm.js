@@ -55,22 +55,9 @@ export default function RegistrationForm() {
             <div className="form-row">
                 <Field
                     name="birthday"
-                    render={({ input, meta }) => (
-                        <div>
-                            <label className="form-label">
-                                Your birthday date
-                            </label>
-                            <DatePickerWrapper
-                                {...input}
-                                initialValue={new Date(Date.now())}
-                            />
-                            {meta.touched && meta.error && (
-                                <span className="validation-error">
-                                    {meta.error}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    initialValue={new Date(Date.now())}
+                    labelText="Your birthday date"
+                    component={DatePickerWrapper}
                 />
                 <Field name="gender" component={GenderRadioGroup} />
             </div>
@@ -103,7 +90,7 @@ export default function RegistrationForm() {
                     component={Input}
                 />
             </div>
-            <Field name="heardFrom" component={HeardFromMultiSelect}/>
+            <Field name="heardFrom" component={HeardFromMultiSelect} />
             <Field name="password" inputType="password" component={Input} />
             <Field
                 name="passwordConfirmation"
