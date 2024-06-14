@@ -20,7 +20,10 @@ const userRegistrationSchema = yup.object().shape({
     country: yup.string().required("The country is required."),
     city: yup.string().required("The city is required."),
     gender: yup.string().required("Your gender is required."),
-    heardFrom: yup.array().required("Choose at least one source."),
+    heardFrom: yup
+        .array()
+        .min(1, "Choose at least one source.")
+        .required("Choose at least one source."),
     password: yup
         .string()
         .min(8, "password must contain 8 or more characters")
