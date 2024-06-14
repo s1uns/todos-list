@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "react-final-form";
 
-export default function CheckBox({ name, value, label }) {
+export default function CheckBox({ name, value, label }) { //.js everywhere //separate to folders //index.js for shorter imports
     return (
         <div>
             <Field

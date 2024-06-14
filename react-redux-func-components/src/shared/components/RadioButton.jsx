@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "react-final-form";
 
-const RadioButton = ({ name, value, label }) => (
+const RadioButton = ({ name, value, label }) => ( //NO OWN STATE
     <div className="radio-button">
         <Field
             name={name}

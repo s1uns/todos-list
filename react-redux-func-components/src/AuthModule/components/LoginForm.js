@@ -5,7 +5,7 @@ import { actionRequestType } from "../../store/actions/actionTypes";
 import React from "react";
 import Input from "../../shared/components/Input";
 
-export default function LoginForm() {
+export default function LoginForm() { //MUI TEXT-FIELD - INPUT,
     const dispatch = useDispatch();
 
     const handleLogin = (values) => {
@@ -43,7 +43,7 @@ export default function LoginForm() {
             validate={validate}
         >
             <div>
-                <Field
+                <Field                                            //Field component = {} value={}
                     name="email"
                     render={({ input, meta }) => (
                         <div>

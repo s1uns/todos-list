@@ -10,7 +10,45 @@ import DatePickerWrapper from "../../shared/components/DatePicker";
 import GenderRadioGroup from "./GenderRadioGroup";
 import HeardFromMultiSelect from "./HeardFromMultiSelect";
 
+const mapper = { input: Input, heardFrom: HeardFromMultiSelect };
+const fullRows = [
+    { name: "email", type: "text", placeholder: "Email", component: Input },
+    {
+        name: "username",
+        type: "text",
+        placeholder: "Username",
+        componentType: "input",
+    },
+    {
+        name: "password",
+        type: "password",
+        placeholder: "Password",
+        component: Input,
+    },
+    {
+        name: "passwordConfirmation",
+        type: "password",
+        placeholder: "Confirm password",
+        component: Input,
+    },
+    {
+        name: "heardFrom",
+        type: null,
+        placeholder: null,
+        component: HeardFromMultiSelect,
+    },
+];
+const halfRows = [];
+
 export default function RegistrationForm() {
+    const FormRow = ({ data }) => (
+        <div className="form-row">
+            {Object.keys(data).map((key, index) => (
+                <Field key={index} {...data[key]} />
+            ))}
+        </div>
+    );
+
     const handleRegister = (values) => {
         console.log("Values: ", values);
         // if (password === confirmPassword) {
@@ -37,7 +75,7 @@ export default function RegistrationForm() {
             onSubmit={handleRegister}
             validate={validate}
         >
-            <Field
+            {/* <Field
                 name="email"
                 placeholder="Email"
                 inputType="text"
@@ -49,7 +87,26 @@ export default function RegistrationForm() {
                 placeholder="Username"
                 inputType="text"
                 component={Input}
-            />
+            /> */}
+
+            {fullRows.map((field) => (
+                <Field
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    inputType={field.type}
+                    component={field.component} //mapper
+                />
+            ))}
+
+            {halfRows.map((row, index) => (
+                <FormRow
+                    key={row.name}
+                    name={row.name}
+                    placeholder={row.placeholder}
+                    inputType={row.type}
+                    component={row.component}
+                />
+            ))}
 
             <div className="form-row">
                 <Field
@@ -90,15 +147,15 @@ export default function RegistrationForm() {
                 />
             </div>
 
-            <Field name="heardFrom" component={HeardFromMultiSelect} />
+            {/* <Field name="heardFrom" component={HeardFromMultiSelect} /> */}
 
-            <Field name="password" inputType="password" component={Input} />
+            {/* <Field name="password" inputType="password" component={Input} />
 
             <Field
                 name="passwordConfirmation"
                 inputType="password"
                 component={Input}
-            />
+            /> */}
         </Form>
     );
 }

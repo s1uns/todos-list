@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "react-final-form";
 import CheckBox from "../../shared/components/CheckBox";
 
-export default function HeardFromMultiSelect({ meta }) {
+export default function HeardFromMultiSelect({ meta }) { //HeardFromSelector
     const heardFromOptions = [
         { value: "friend", label: "Friend" },
         { value: "internet", label: "Internet" },
@@ -19,7 +19,7 @@ export default function HeardFromMultiSelect({ meta }) {
                         name="heardFrom"
                         value={option.value}
                         label={option.label}
-                    />
+                    /> //
                 ))}
             </div>
             {meta.error && (
