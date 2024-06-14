@@ -11,7 +11,8 @@ import GenderRadioGroup from "./GenderRadioGroup";
 import HeardFromMultiSelect from "./HeardFromMultiSelect";
 
 export default function RegistrationForm() {
-    const handleRegister = () => {
+    const handleRegister = (values) => {
+        console.log("Values: ", values);
         // if (password === confirmPassword) {
         //     dispatch({
         //         type: actionRequestType.REGISTER_USER_REQUEST,
@@ -36,31 +37,29 @@ export default function RegistrationForm() {
             onSubmit={handleRegister}
             validate={validate}
         >
-            <div>
-                <Field
-                    name="email"
-                    placeholder="Email"
-                    inputType="text"
-                    component={Input}
-                />
-            </div>
-            <div>
-                <Field
-                    name="username"
-                    placeholder="Username"
-                    inputType="text"
-                    component={Input}
-                />
-            </div>
+            <Field
+                name="email"
+                placeholder="Email"
+                inputType="text"
+                component={Input}
+            />
+
+            <Field
+                name="username"
+                placeholder="Username"
+                inputType="text"
+                component={Input}
+            />
+
             <div className="form-row">
                 <Field
                     name="birthday"
-                    initialValue={new Date(Date.now())}
                     labelText="Your birthday date"
                     component={DatePickerWrapper}
                 />
                 <Field name="gender" component={GenderRadioGroup} />
             </div>
+
             <div className="form-row">
                 <Field
                     name="firstName"
@@ -90,8 +89,11 @@ export default function RegistrationForm() {
                     component={Input}
                 />
             </div>
+
             <Field name="heardFrom" component={HeardFromMultiSelect} />
+
             <Field name="password" inputType="password" component={Input} />
+
             <Field
                 name="passwordConfirmation"
                 inputType="password"
