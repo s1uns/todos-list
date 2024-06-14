@@ -1,13 +1,14 @@
 import React from "react";
 
 export default function Input(props) {
-    const {inputType, input} = props
+    const {inputType, placeholder, input, meta} = props
     console.log("Props: ", props);
+    console.log("Input: ", input)
     return (
-        <>
-            <input className="input" type={inputType} {...input} />
-            <br />
-            //input.meta.error
-        </>
+        <div className="input-container">
+            <input className="input" type={inputType} placeholder={placeholder} {...input} />
+            {meta.error ? <span className="validation-error">{meta.error}</span> : ""}
+        </div>
     );
 }
+
