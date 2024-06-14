@@ -8,7 +8,7 @@ export default function RegistrationPage() {
         <>
             <h1>Register</h1>
 
-            <div className="login-container">
+            <div className="registration-container">
                 <RegistrationForm />
             </div>
         </>

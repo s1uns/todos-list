@@ -148,7 +148,8 @@ h2 {
     left: 70%;
 }
 
-.login-container {
+.login-container,
+.registration-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -157,9 +158,18 @@ h2 {
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     width: 30%;
-    height: 50%;
     text-align: center;
 }
+
+.login-container {
+    height: 50%;
+}
+
+.registration-container {
+    height: 70%;
+    margin-top: -3rem;
+}
+
 .login-container h2 {
     margin-bottom: 2rem;
 }
@@ -176,7 +186,7 @@ h2 {
     gap: 1rem;
 }
 
-.error {
+.validation-error {
     margin-top: 0.5rem;
     font-size: 1.2rem;
     color: red;
@@ -212,9 +222,20 @@ h2 {
     background-color: #0056b3;
 }
 
-.user-info {
+.form-row {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 5rem;
+}
+
+.form-label {
+    margin-top: 1rem;
+}
+
+.gender-radio,
+.form-checkbox,
+.form-label {
+    font-size: 1.5rem;
 }
