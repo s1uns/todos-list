@@ -6,16 +6,9 @@ import React from "react";
 import Input from "../../shared/components/Input";
 import validateFormValues from "../../shared/validators/ValidateFormValues";
 import userRegistrationSchema from "../../shared/validators/UserRegistrationSchema";
-import RenderDatePicker from "../../shared/components/DatePicker";
 import DatePickerWrapper from "../../shared/components/DatePicker";
 
 export default function RegistrationForm() {
-    const genderOptions = [
-        { label: "Male", value: "male" },
-        { label: "Female", value: "female" },
-        { label: "Other", value: "other" },
-    ];
-
     const handleRegister = () => {
         // if (password === confirmPassword) {
         //     dispatch({
@@ -44,39 +37,17 @@ export default function RegistrationForm() {
             <div>
                 <Field
                     name="email"
-                    render={({ input, meta }) => (
-                        <div>
-                            <Input
-                                {...input}
-                                type="email"
-                                placeholder="Email"
-                            />
-                            {meta.touched && meta.error && (
-                                <span className="validation-error">
-                                    {meta.error}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    placeholder="Email"
+                    inputType="text"
+                    component={Input}
                 />
             </div>
             <div>
                 <Field
                     name="username"
-                    render={({ input, meta }) => (
-                        <div>
-                            <Input
-                                {...input}
-                                type="text"
-                                placeholder="Username"
-                            />
-                            {meta.touched && meta.error && (
-                                <span className="validation-error">
-                                    {meta.error}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    placeholder="Username"
+                    inputType="text"
+                    component={Input}
                 />
             </div>
             <div className="form-row">
@@ -101,7 +72,7 @@ export default function RegistrationForm() {
                 />
                 <div>
                     <div>
-                        <label className="form-label">Sex</label>
+                        <label className="form-label">Gender</label>
                     </div>
                     <div className="form-row">
                         <div className="gender-radio">
@@ -140,70 +111,30 @@ export default function RegistrationForm() {
             <div className="form-row">
                 <Field
                     name="firstName"
-                    render={({ input, meta }) => (
-                        <div>
-                            <Input
-                                {...input}
-                                type="text"
-                                placeholder="First Name"
-                            />
-                            {meta.touched && meta.error && (
-                                <span className="validation-error">
-                                    {meta.error}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    placeholder="First Name"
+                    inputType="text"
+                    component={Input}
                 />
                 <Field
                     name="lastName"
-                    render={({ input, meta }) => (
-                        <div>
-                            <Input
-                                {...input}
-                                type="text"
-                                placeholder="Last Name"
-                            />
-                            {meta.touched && meta.error && (
-                                <span className="validation-error">
-                                    {meta.error}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    placeholder="Last Name"
+                    inputType="text"
+                    component={Input}
                 />
             </div>
 
             <div className="form-row">
                 <Field
                     name="country"
-                    render={({ input, meta }) => (
-                        <div>
-                            <Input
-                                {...input}
-                                type="text"
-                                placeholder="Country"
-                            />
-                            {meta.touched && meta.error && (
-                                <span className="validation-error">
-                                    {meta.error}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    inputType="text"
+                    placeholder="Country"
+                    component={Input}
                 />
                 <Field
                     name="city"
-                    render={({ input, meta }) => (
-                        <div>
-                            <Input {...input} type="text" placeholder="City" />
-                            {meta.touched && meta.error && (
-                                <span className="validation-error">
-                                    {meta.error}
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    inputType="text"
+                    placeholder="City"
+                    component={Input}
                 />
             </div>
             <div>
@@ -268,39 +199,11 @@ export default function RegistrationForm() {
                     </div>
                 </div>
             </div>
-            <Field
-                name="password"
-                render={({ input, meta }) => (
-                    <div>
-                        <Input
-                            {...input}
-                            type="password"
-                            placeholder="Password"
-                        />
-                        {meta.touched && meta.error && (
-                            <span className="validation-error">
-                                {meta.error}
-                            </span>
-                        )}
-                    </div>
-                )}
-            />
+            <Field name="password" inputType="password" component={Input} />
             <Field
                 name="passwordConfirmation"
-                render={({ input, meta }) => (
-                    <div>
-                        <Input
-                            {...input}
-                            type="password"
-                            placeholder="Confirm your password"
-                        />
-                        {meta.touched && meta.error && (
-                            <span className="validation-error">
-                                {meta.error}
-                            </span>
-                        )}
-                    </div>
-                )}
+                inputType="password"
+                component={Input}
             />
         </Form>
     );
