@@ -181,7 +181,7 @@ h2 {
     border-radius: 0.5rem;
 }
 
-.input-container {
+.input-container, .gender-radio {
     display: flex;
     flex-direction: column;
 }

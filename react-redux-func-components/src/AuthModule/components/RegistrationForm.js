@@ -7,6 +7,8 @@ import Input from "../../shared/components/Input";
 import validateFormValues from "../../shared/validators/ValidateFormValues";
 import userRegistrationSchema from "../../shared/validators/UserRegistrationSchema";
 import DatePickerWrapper from "../../shared/components/DatePicker";
+import GenderRadioGroup from "./GenderRadioGroup";
+import HeardFromMultiSelect from "./HeardFromMultiSelect";
 
 export default function RegistrationForm() {
     const handleRegister = () => {
@@ -70,43 +72,7 @@ export default function RegistrationForm() {
                         </div>
                     )}
                 />
-                <div>
-                    <div>
-                        <label className="form-label">Gender</label>
-                    </div>
-                    <div className="form-row">
-                        <div className="gender-radio">
-                            <Field
-                                name="gender"
-                                component="input"
-                                type="radio"
-                                value="male"
-                                id="male"
-                            />
-                            <label htmlFor="male">Male</label>
-                        </div>
-                        <div className="gender-radio">
-                            <Field
-                                name="gender"
-                                component="input"
-                                type="radio"
-                                value="female"
-                                id="female"
-                            />
-                            <label htmlFor="female">Female</label>
-                        </div>
-                        <div className="gender-radio">
-                            <Field
-                                name="gender"
-                                component="input"
-                                type="radio"
-                                value="other"
-                                id="female"
-                            />
-                            <label htmlFor="other">Other</label>
-                        </div>
-                    </div>
-                </div>
+                <Field name="gender" component={GenderRadioGroup} />
             </div>
             <div className="form-row">
                 <Field
@@ -137,68 +103,7 @@ export default function RegistrationForm() {
                     component={Input}
                 />
             </div>
-            <div>
-                <div>
-                    <label className="form-label">
-                        How did you know about us?
-                    </label>
-                </div>
-                <div className="form-row">
-                    <div>
-                        <Field
-                            name="heardFrom"
-                            component="input"
-                            type="checkbox"
-                            value="friend"
-                            id="friend"
-                        />
-                        <label className="form-checkbox" htmlFor="friend">
-                            Friend
-                        </label>
-                    </div>
-                    <div>
-                        <Field
-                            name="heardFrom"
-                            component="input"
-                            type="checkbox"
-                            value="internet"
-                            id="internet"
-                        />
-                        <label className="form-checkbox" htmlFor="internet">
-                            Internet
-                        </label>
-                    </div>
-                </div>
-                <div className="form-row">
-                    <div>
-                        <Field
-                            name="heardFrom"
-                            component="input"
-                            type="checkbox"
-                            value="advertisement"
-                            id="advertisement"
-                        />
-                        <label
-                            className="form-checkbox"
-                            htmlFor="advertisement"
-                        >
-                            Advertisement
-                        </label>
-                    </div>
-                    <div>
-                        <Field
-                            name="heardFrom"
-                            component="input"
-                            type="checkbox"
-                            value="other"
-                            id="other"
-                        />
-                        <label className="form-checkbox" htmlFor="Other">
-                            Other
-                        </label>
-                    </div>
-                </div>
-            </div>
+            <Field name="heardFrom" component={HeardFromMultiSelect}/>
             <Field name="password" inputType="password" component={Input} />
             <Field
                 name="passwordConfirmation"
