@@ -1,69 +1,29 @@
 import React from "react";
 import { Field } from "react-final-form";
+import CheckBox from "../../shared/components/CheckBox";
 
-export default function HeardFromMultiSelect(props) {
-    const { meta } = props;
+export default function HeardFromMultiSelect({ meta }) {
+    const heardFromOptions = [
+        { value: "friend", label: "Friend" },
+        { value: "internet", label: "Internet" },
+        { value: "advertisement", label: "Advertisement" },
+        { value: "other", label: "Other" },
+    ];
     return (
         <div>
-            <div>
-                <label className="form-label">How did you know about us?</label>
-            </div>
+            <label className="form-label">How did you know about us?</label>
             <div className="form-row">
-                <div>
-                    <Field
+                {heardFromOptions.map((option) => (
+                    <CheckBox
+                        key={option.value}
                         name="heardFrom"
-                        component="input"
-                        type="checkbox"
-                        value="friend"
-                        id="friend"
+                        value={option.value}
+                        label={option.label}
                     />
-                    <label className="form-checkbox" htmlFor="friend">
-                        Friend
-                    </label>
-                </div>
-                <div>
-                    <Field
-                        name="heardFrom"
-                        component="input"
-                        type="checkbox"
-                        value="internet"
-                        id="internet"
-                    />
-                    <label className="form-checkbox" htmlFor="internet">
-                        Internet
-                    </label>
-                </div>
+                ))}
             </div>
-            <div className="form-row">
-                <div>
-                    <Field
-                        name="heardFrom"
-                        component="input"
-                        type="checkbox"
-                        value="advertisement"
-                        id="advertisement"
-                    />
-                    <label className="form-checkbox" htmlFor="advertisement">
-                        Advertisement
-                    </label>
-                </div>
-                <div>
-                    <Field
-                        name="heardFrom"
-                        component="input"
-                        type="checkbox"
-                        value="other"
-                        id="other"
-                    />
-                    <label className="form-checkbox" htmlFor="Other">
-                        Other
-                    </label>
-                </div>
-            </div>
-            {meta.error ? (
+            {meta.error && (
                 <span className="validation-error">{meta.error}</span>
-            ) : (
-                ""
             )}
         </div>
     );

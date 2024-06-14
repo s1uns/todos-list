@@ -1,50 +1,27 @@
 import React from "react";
-import { Field } from "react-final-form";
+import RadioButton from "../../shared/components/RadioButton";
 
-export default function GenderRadioGroup(props) {
-    const { meta } = props;
-
+export default function GenderRadioGroup({ meta }) {
+    const genderOptions = [
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
+        { value: "other", label: "Other" },
+    ];
     return (
         <div className="gender-radio">
-            <div>
-                <label className="form-label">Gender</label>
-            </div>
+            <label className="form-label">Gender</label>
             <div className="form-row">
-                <div className="gender-radio">
-                    <Field
+                {genderOptions.map((option) => (
+                    <RadioButton
+                        key={option.value}
                         name="gender"
-                        component="input"
-                        type="radio"
-                        value="male"
-                        id="male"
+                        value={option.value}
+                        label={option.label}
                     />
-                    <label htmlFor="male">Male</label>
-                </div>
-                <div className="gender-radio">
-                    <Field
-                        name="gender"
-                        component="input"
-                        type="radio"
-                        value="female"
-                        id="female"
-                    />
-                    <label htmlFor="female">Female</label>
-                </div>
-                <div className="gender-radio">
-                    <Field
-                        name="gender"
-                        component="input"
-                        type="radio"
-                        value="other"
-                        id="female"
-                    />
-                    <label htmlFor="other">Other</label>
-                </div>
+                ))}
             </div>
-            {meta.error ? (
+            {meta.error && (
                 <span className="validation-error">{meta.error}</span>
-            ) : (
-                ""
             )}
         </div>
     );
