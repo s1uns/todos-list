@@ -1,5 +1,4 @@
 import Form from "../../shared/components/Form";
-import { Field } from "react-final-form";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../store/actions/actionTypes";
 import React from "react";
@@ -22,6 +21,7 @@ const topFullRows = [
         componentType: "input",
     },
 ];
+
 const halfRows = [
     {
         firstField: {
@@ -87,22 +87,22 @@ const bottomFullRows = [
 ];
 
 export default function RegistrationForm() {
+    const dispatch = useDispatch();
+
     const handleRegister = (values) => {
-        console.log("Values: ", values);
-        // if (password === confirmPassword) {
-        //     dispatch({
-        //         type: actionRequestType.REGISTER_USER_REQUEST,
-        //         payload: {
-        //             email: email,
-        //             firstName: firstName,
-        //             lastName: lastName,
-        //             username: username,
-        //             password: password,
-        //         },
-        //     });
-        //     return;
-        // }
-        // alert("Passwords mismatch!");
+        const { email, firstName, lastName, username, password } = values;
+
+        dispatch({
+            type: actionRequestType.REGISTER_USER_REQUEST,
+            payload: {
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+                username: username,
+                password: password,
+            },
+        });
+        return;
     };
 
     const validate = validateFormValues(userRegistrationSchema);

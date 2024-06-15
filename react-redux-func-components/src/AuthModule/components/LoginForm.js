@@ -1,11 +1,11 @@
-import Form from "../../shared/components/Form";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../store/actions/actionTypes";
 import React from "react";
 import { mapToField } from "../../shared/utils/helpers";
 import authMapper from "../mappers/authMapper";
 import validateFormValues from "../../shared/validators/ValidateFormValues";
-import { userRegistrationSchema } from "../../shared/validators";
+import { userLoginSchema } from "../../shared/validators";
+import Form from "../../shared/components/Form";
 
 const fields = [
     {
@@ -22,11 +22,11 @@ const fields = [
     },
 ];
 export default function LoginForm() {
-    //MUI TEXT-FIELD - INPUT,
     const dispatch = useDispatch();
 
     const handleLogin = (values) => {
         const { email, password } = values;
+
         dispatch({
             type: actionRequestType.LOGIN_USER_REQUEST,
             payload: {
@@ -34,9 +34,11 @@ export default function LoginForm() {
                 password: password,
             },
         });
+
+        return;
     };
 
-    const validate = validateFormValues(userRegistrationSchema);
+    const validate = validateFormValues(userLoginSchema);
 
     return (
         <Form

@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { actionRequestType } from "../../store/actions/actionTypes";
+import React from "react";
 import RegistrationForm from "../components/RegistrationForm";
 
 export default function RegistrationPage() {
