@@ -61,8 +61,6 @@ function* workDeleteTodo({ payload }) {
 function* workCheckTodo({ payload }) {
     const response = yield call(() => checkTodo(payload));
 
-    console.log("Response data: ", response.data);
-
     if (response.success) {
         yield put({
             type: actionSuccessType.CHECK_TODO_SUCCESS,

@@ -20,8 +20,6 @@ function* workRegisterUser({ payload }) {
 }
 
 function* workLoginUser({ payload }) {
-    console.log("Payload: ", payload)
-
     const response = yield call(() => loginUser(payload));
 
     if (response.success) {

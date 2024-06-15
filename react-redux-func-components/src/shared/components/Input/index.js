@@ -3,7 +3,6 @@ import React from "react";
 export default function Input(props) {
     const { inputType, placeholder, input, meta } = props;
 
-    console.log("Props: ", props);
 
     return (
         <div className="input-container">

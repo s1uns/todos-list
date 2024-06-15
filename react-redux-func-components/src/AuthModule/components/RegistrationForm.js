@@ -3,52 +3,90 @@ import { Field } from "react-final-form";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../store/actions/actionTypes";
 import React from "react";
-import Input from "../../shared/components/Input";
 import validateFormValues from "../../shared/validators/ValidateFormValues";
-import userRegistrationSchema from "../../shared/validators/UserRegistrationSchema";
-import DatePickerWrapper from "../../shared/components/DatePicker";
-import GenderRadioGroup from "./GenderRadioGroup";
-import HeardFromMultiSelect from "./HeardFromMultiSelect";
+import { mapToField } from "../../shared/utils/helpers";
+import { userRegistrationSchema } from "../../shared/validators";
+import authMapper from "../mappers/authMapper";
 
-const mapper = { input: Input, heardFrom: HeardFromMultiSelect };
-const fullRows = [
-    { name: "email", type: "text", placeholder: "Email", component: Input },
+const topFullRows = [
+    {
+        name: "email",
+        type: "text",
+        placeholder: "Email",
+        componentType: "input",
+    },
     {
         name: "username",
         type: "text",
         placeholder: "Username",
         componentType: "input",
     },
+];
+const halfRows = [
+    {
+        firstField: {
+            name: "firstName",
+            type: "text",
+            placeholder: "First Name",
+            componentType: "input",
+        },
+        secondField: {
+            name: "lastName",
+            type: "text",
+            placeholder: "Last Name",
+            componentType: "input",
+        },
+    },
+    {
+        firstField: {
+            name: "birthday",
+            placeholder: "Your birthday date",
+            componentType: "datePicker",
+        },
+        secondField: {
+            name: "gender",
+            placeholder: "Your sex",
+            type: "radio",
+            componentType: "gender",
+        },
+    },
+    {
+        firstField: {
+            name: "country",
+            type: "text",
+            placeholder: "Country",
+            componentType: "input",
+        },
+        secondField: {
+            name: "city",
+            type: "text",
+            placeholder: "City",
+            componentType: "input",
+        },
+    },
+];
+
+const bottomFullRows = [
+    {
+        name: "heardFrom",
+        type: "checkbox",
+        componentType: "heardFrom",
+    },
     {
         name: "password",
         type: "password",
         placeholder: "Password",
-        component: Input,
+        componentType: "input",
     },
     {
         name: "passwordConfirmation",
         type: "password",
         placeholder: "Confirm password",
-        component: Input,
-    },
-    {
-        name: "heardFrom",
-        type: null,
-        placeholder: null,
-        component: HeardFromMultiSelect,
+        componentType: "input",
     },
 ];
-const halfRows = [];
 
 export default function RegistrationForm() {
-    const FormRow = ({ data }) => (
-        <div className="form-row">
-            {Object.keys(data).map((key, index) => (
-                <Field key={index} {...data[key]} />
-            ))}
-        </div>
-    );
-
     const handleRegister = (values) => {
         console.log("Values: ", values);
         // if (password === confirmPassword) {
@@ -75,87 +113,18 @@ export default function RegistrationForm() {
             onSubmit={handleRegister}
             validate={validate}
         >
-            {/* <Field
-                name="email"
-                placeholder="Email"
-                inputType="text"
-                component={Input}
-            />
+            {topFullRows.map((field) => mapToField(field, authMapper))}
 
-            <Field
-                name="username"
-                placeholder="Username"
-                inputType="text"
-                component={Input}
-            /> */}
+            {halfRows.map((row) => {
+                return (
+                    <div className="form-row">
+                        {mapToField(row.firstField, authMapper)}
+                        {mapToField(row.secondField, authMapper)}
+                    </div>
+                );
+            })}
 
-            {fullRows.map((field) => (
-                <Field
-                    name={field.name}
-                    placeholder={field.placeholder}
-                    inputType={field.type}
-                    component={field.component} //mapper
-                />
-            ))}
-
-            {halfRows.map((row, index) => (
-                <FormRow
-                    key={row.name}
-                    name={row.name}
-                    placeholder={row.placeholder}
-                    inputType={row.type}
-                    component={row.component}
-                />
-            ))}
-
-            <div className="form-row">
-                <Field
-                    name="birthday"
-                    labelText="Your birthday date"
-                    component={DatePickerWrapper}
-                />
-                <Field name="gender" component={GenderRadioGroup} />
-            </div>
-
-            <div className="form-row">
-                <Field
-                    name="firstName"
-                    placeholder="First Name"
-                    inputType="text"
-                    component={Input}
-                />
-                <Field
-                    name="lastName"
-                    placeholder="Last Name"
-                    inputType="text"
-                    component={Input}
-                />
-            </div>
-
-            <div className="form-row">
-                <Field
-                    name="country"
-                    inputType="text"
-                    placeholder="Country"
-                    component={Input}
-                />
-                <Field
-                    name="city"
-                    inputType="text"
-                    placeholder="City"
-                    component={Input}
-                />
-            </div>
-
-            {/* <Field name="heardFrom" component={HeardFromMultiSelect} /> */}
-
-            {/* <Field name="password" inputType="password" component={Input} />
-
-            <Field
-                name="passwordConfirmation"
-                inputType="password"
-                component={Input}
-            /> */}
+            {bottomFullRows.map((field) => mapToField(field, authMapper))}
         </Form>
     );
 }

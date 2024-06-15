@@ -36,7 +36,6 @@ const TodoListPage = () => {
         });
     };
 
-    console.log("Filtered todos: ", filtratedTodos);
     return (
         <>
             <h1>ToDoS</h1>

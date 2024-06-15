@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function withAuth(WrappedComponent, shouldBeLogged) {
-    //utils
     return (props) => {
         const user = useSelector((state) => state.user);
         const navigate = useNavigate();

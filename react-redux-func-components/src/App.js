@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import TodoListPage from "./TodosModule/pages/TodoListPage ";
-import withAuth from "./shared/components/withAuth";
+import { withAuth } from "./shared/utils/HOCs";
 import LoginPage from "./AuthModule/pages/LoginPage";
 import RegistrationPage from "./AuthModule/pages/RegistrationPage";
 
