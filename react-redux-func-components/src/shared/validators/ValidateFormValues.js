@@ -1,7 +1,6 @@
 import { setIn } from "final-form";
 
 const validateFormValues = (schema) => async (values) => {
-    console.log("Values: ", values);
 
     if (typeof schema === "function") {
         schema = schema();

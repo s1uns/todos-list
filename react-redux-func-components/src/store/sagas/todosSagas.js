@@ -75,7 +75,9 @@ function* workCheckTodo({ payload }) {
 }
 
 function* workEditTodo({ payload }) {
-    const response = yield call(() => updateTodo(payload));
+    const { id, title } = payload;
+    
+    const response = yield call(() => updateTodo(id, title));
 
     if (response.success) {
         yield put({

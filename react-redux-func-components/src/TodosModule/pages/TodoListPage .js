@@ -5,6 +5,8 @@ import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
 import { actionRequestType } from "../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
+import { Container } from "@mui/material";
+import Header from "../../shared/components/Header";
 
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
@@ -38,14 +40,22 @@ const TodoListPage = () => {
 
     return (
         <>
-            <h1>ToDoS</h1>
+            <Header>ToDo</Header>
             {user ? (
-                <div className="user-info">
-                    <h2>Welcome, {user.fullName}</h2>{" "}
+                <Container
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "1rem",
+                        marginTop: "-3rem",
+                    }}
+                >
+                    <h2>Welcome, {user.fullName}</h2>
                     <button className="logout-button" onClick={handleLogOut}>
                         Log Out
                     </button>
-                </div>
+                </Container>
             ) : (
                 <></>
             )}
