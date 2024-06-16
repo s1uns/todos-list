@@ -1,5 +1,6 @@
+import { Radio } from "@mui/material";
 const RadioButton = (props) => {
-    return <input type="radio" {...props} />;
+    return <Radio {...props} />;
 };
 
 export default RadioButton;

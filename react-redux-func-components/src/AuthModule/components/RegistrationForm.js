@@ -1,4 +1,4 @@
-import Form from "../../shared/components/Form";
+import { Form } from "../../shared/components/Form";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../store/actions/actionTypes";
 import React from "react";

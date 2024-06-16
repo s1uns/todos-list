@@ -5,7 +5,7 @@ import { mapToField } from "../../shared/utils/helpers";
 import authMapper from "../mappers/authMapper";
 import validateFormValues from "../../shared/validators/ValidateFormValues";
 import { userLoginSchema } from "../../shared/validators";
-import Form from "../../shared/components/Form";
+import { Form } from "../../shared/components/Form";
 
 const fields = [
     {

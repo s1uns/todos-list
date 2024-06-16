@@ -1,10 +1,12 @@
 import React from "react";
-import RadioButton from "../../shared/components/RadioButton/RadioButton";
+import { FormControl, FormLabel } from "@mui/material";
+import { RadioGroup } from "../../shared/components/RadioGroup";
 import {
     GENDER_FEMALE,
     GENDER_MALE,
     GENDER_OTHER,
 } from "../../shared/constants";
+import { FormHelperText } from "@mui/material";
 
 const genderOptions = [
     { value: GENDER_MALE, label: "Male" },
@@ -17,24 +19,19 @@ export default function GenderSelector(props) {
     const { name, onChange } = props.input;
 
     return (
-        <div className="gender-radio">
-            <label className="form-label">Gender</label>
-            <div className="form-row">
-                {genderOptions.map(({ value, label }) => (
-                    <label>
-                        <RadioButton
-                            key={value}
-                            value={value}
-                            name={name}
-                            onChange={onChange}
-                        />
-                        {label}
-                    </label>
-                ))}
-            </div>
-            {meta.error && (
-                <span className="validation-error">{meta.error}</span>
-            )}
-        </div>
+        <FormControl sx={{ width: "100%" }}>
+            <RadioGroup
+                name={name}
+                onChange={onChange}
+                options={genderOptions}
+                label="Your Gender"
+            />
+            <FormHelperText
+                sx={{ display: "flex", justifyContent: "center" }}
+                error={meta.error}
+            >
+                {meta.error ? meta.error : " "}
+            </FormHelperText>
+        </FormControl>
     );
 }

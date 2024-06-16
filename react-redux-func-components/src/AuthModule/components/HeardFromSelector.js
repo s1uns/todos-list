@@ -1,6 +1,9 @@
 import React from "react";
 import { Field } from "react-final-form";
 import CheckBox from "../../shared/components/CheckBox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { Container, FormHelperText, FormLabel, Grid } from "@mui/material";
+
 import {
     HEARD_FROM_ADVERTISEMENT,
     HEARD_FROM_FRIEND,
@@ -20,27 +23,36 @@ export default function HeardFromSelector(props) {
     const { name, onChange } = props.input;
 
     return (
-        <div>
-            <label className="form-label">How did you know about us?</label>
-            <div className="form-row">
+        <Container sx={{ display: "flex", flexDirection: "column" }}>
+            <FormLabel id="checkbox-buttons-group-label">
+                How did you know about us?
+            </FormLabel>
+            <Grid container spacing={2}>
                 {heardFromOptions.map(({ value, label }) => (
-                    <label>
-                        <Field
-                            key={value}
-                            id={value}
-                            value={value}
-                            name={name}
-                            onChange={onChange}
-                            type="checkbox"
-                            component={CheckBox}
-                        />
-                        {label}
-                    </label>
+                    <Grid item xs={6}>
+                        <FormControlLabel
+                            control={
+                                <Field
+                                    key={value}
+                                    id={value}
+                                    value={value}
+                                    name={name}
+                                    onChange={onChange}
+                                    type="checkbox"
+                                    component={CheckBox}
+                                />
+                            }
+                            label={label}
+                        ></FormControlLabel>
+                    </Grid>
                 ))}
-            </div>
-            {meta.error && (
-                <span className="validation-error">{meta.error}</span>
-            )}
-        </div>
+            </Grid>
+            <FormHelperText
+                sx={{ display: "flex", justifyContent: "center" }}
+                error={meta.error}
+            >
+                {meta.error ? meta.error : " "}
+            </FormHelperText>
+        </Container>
     );
 }

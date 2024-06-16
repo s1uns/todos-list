@@ -1,6 +1,6 @@
 html {
     background-color: antiquewhite;
-    font-size: 62.5%;
+    /* font-size: 62.5%; */
 }
 #root {
     width: 100%;
@@ -166,8 +166,8 @@ h2 {
 }
 
 .registration-container {
-    height: 80%;
-    margin-top: -5rem;
+    height: 90%;
+    margin-top: -6rem;
 }
 
 .login-container h2 {
@@ -197,8 +197,8 @@ h2 {
 .validation-error {
     display: block;
     margin-top: 0.2rem;
-    font-size: 1.2rem;
-    color: red;
+    font-size: 0.7rem;
+    color: #b00020;
 }
 
 .form-button {
@@ -232,11 +232,12 @@ h2 {
 }
 
 .form-row {
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 5rem;
+    gap: 0.7rem;
 }
 
 .form-label {
