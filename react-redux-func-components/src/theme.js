@@ -2,6 +2,15 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
     components: {
+        MuiGrid: {
+            styleOverrides: {
+                item: {
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                },
+            },
+        },
         MuiPaper: {
             styleOverrides: {
                 root: {
@@ -9,7 +18,7 @@ const theme = createTheme({
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    padding: 5,
+                    padding: 15,
                 },
             },
         },

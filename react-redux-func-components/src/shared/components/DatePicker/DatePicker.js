@@ -9,7 +9,7 @@ const DatePickerWrapper = (props) => {
     const { onBlur, onChange, onFocus, value } = input;
 
     return (
-        <Container>
+        <Container sx={{ width: "50%" }}>
             <InputLabel className="form-label">{placeholder}</InputLabel>
 
             <DatePicker

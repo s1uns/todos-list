@@ -10,7 +10,16 @@ const Form = (props) => {
             onSubmit={onSubmit}
             validate={validate}
             render={({ handleSubmit }) => (
-                <form onSubmit={handleSubmit}>
+                <form
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                    
+                    onSubmit={handleSubmit}
+                >
                     {children}
                     <button className="form-button" type="submit">
                         {submitBtnName}
