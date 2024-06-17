@@ -4,7 +4,14 @@ import {
     FormLabel,
     RadioGroup as MuiRadioGroup,
 } from "@mui/material";
-import StyledRadioGroup from "./RadioGroup.styled";
+import { styled } from "@mui/material";
+
+const StyledRadioGroup = styled(MuiRadioGroup)({
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+});
 
 const RadioGroupContainer = (props) => {
     const { name, onChange, label, options } = props;
