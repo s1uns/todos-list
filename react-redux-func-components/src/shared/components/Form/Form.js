@@ -11,7 +11,7 @@ const Form = (props) => {
             <FinalForm
                 onSubmit={onSubmit}
                 validate={validate}
-                render={({ handleSubmit, submitting }) => (
+                render={({ handleSubmit, valid }) => (
                     <form
                         style={{
                             display: "flex",
@@ -23,7 +23,7 @@ const Form = (props) => {
                     >
                         {children}
 
-                        {submitting ? (
+                        {valid ? (
                             <Button type="submit">{submitBtnName}</Button>
                         ) : (
                             <DisabledButton />
