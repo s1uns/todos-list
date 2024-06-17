@@ -9,7 +9,7 @@ const theme = createTheme({
                     style: {
                         color: "goldenrod",
                         fontSize: "5rem",
-                        marginBottom: "-0.001rem",
+                        marginBottom: "1rem",
                     },
                 },
                 {

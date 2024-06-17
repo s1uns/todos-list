@@ -1,17 +1,23 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../../store/actions/actionTypes";
-import { Box, Button, Container } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material";
 
 const FooterButton = styled(Button)({
     height: "3rem",
+    fontSize: "1rem",
     color: "black",
     backgroundColor: "white",
-    border: "none",
     border: "0.1rem solid transparent",
+    width: "100%",
     transition: "all ease-in 0.3s",
-    padding: ".01rem",
+
+    "&:hover": {
+        border: "0.1rem solid black",
+        backgroundColor: "white",
+    },
+
     "&.active": {
         border: "0.1rem solid black",
     },
@@ -38,13 +44,13 @@ const Footer = ({ itemsCount, currentFilter }) => {
                 width: "100%",
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-around",
+                justifyContent: "space-between",
                 alignItems: "flex-end",
             }}
         >
-            <span id="counter" style={{ fontSize: "2rem" }}>
+            <Typography id="counter" style={{ fontSize: "2.5rem" }}>
                 {itemsCount} items left
-            </span>
+            </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <FooterButton
                     id="all-btn"
@@ -67,10 +73,10 @@ const Footer = ({ itemsCount, currentFilter }) => {
                 >
                     Completed
                 </FooterButton>
+                <FooterButton id="clear-btn" onClick={clearCompleted}>
+                    Clear completed
+                </FooterButton>
             </Box>
-            <FooterButton id="clear-btn" onClick={clearCompleted}>
-                Clear completed
-            </FooterButton>
         </Container>
     );
 };

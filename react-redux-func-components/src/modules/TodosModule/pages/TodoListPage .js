@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
@@ -54,9 +54,13 @@ const TodoListPage = () => {
                     <Typography variant="h2">
                         Welcome, {user.fullName}
                     </Typography>
-                    <button className="logout-button" onClick={handleLogOut}>
+                    <Button
+                        sx={{ width: "20%", height: "50%" }}
+                        className="logout-button"
+                        onClick={handleLogOut}
+                    >
                         Log Out
-                    </button>
+                    </Button>
                 </Container>
             ) : (
                 <></>
@@ -67,7 +71,7 @@ const TodoListPage = () => {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    width: "40%",
+                    width: "50%",
                     background: "white",
                     borderRadius: "1rem",
                 }}
