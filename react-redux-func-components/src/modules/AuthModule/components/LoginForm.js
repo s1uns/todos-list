@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
-import { actionRequestType } from "../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/actionTypes";
 import React from "react";
-import { mapToField } from "../../shared/utils/helpers";
+import { mapToField } from "../../../shared/utils/helpers";
 import authMapper from "../mappers/authMapper";
-import validateFormValues from "../../shared/validators/ValidateFormValues";
-import { userLoginSchema } from "../../shared/validators";
-import { Form } from "../../shared/components/Form";
+import validateFormValues from "../../../shared/validators/ValidateFormValues";
+import { userLoginSchema } from "../../../shared/validators";
+import { Form } from "../../../shared/components/Form";
 
 const fields = [
     {

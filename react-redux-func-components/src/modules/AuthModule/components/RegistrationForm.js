@@ -1,10 +1,10 @@
-import { Form } from "../../shared/components/Form";
+import { Form } from "../../../shared/components/Form";
 import { useDispatch } from "react-redux";
-import { actionRequestType } from "../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/actionTypes";
 import React from "react";
-import validateFormValues from "../../shared/validators/ValidateFormValues";
-import { mapToField } from "../../shared/utils/helpers";
-import { userRegistrationSchema } from "../../shared/validators";
+import validateFormValues from "../../../shared/validators/ValidateFormValues";
+import { mapToField } from "../../../shared/utils/helpers";
+import { userRegistrationSchema } from "../../../shared/validators";
 import authMapper from "../mappers/authMapper";
 import { Paper } from "@mui/material";
 

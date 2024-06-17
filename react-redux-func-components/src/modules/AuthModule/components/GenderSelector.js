@@ -1,11 +1,11 @@
 import React from "react";
 import { FormControl, FormLabel } from "@mui/material";
-import { RadioGroup } from "../../shared/components/RadioGroup";
+import { RadioGroup } from "../../../shared/components/RadioGroup";
 import {
     GENDER_FEMALE,
     GENDER_MALE,
     GENDER_OTHER,
-} from "../../shared/constants";
+} from "../../../shared/constants";
 import { FormHelperText } from "@mui/material";
 
 const genderOptions = [

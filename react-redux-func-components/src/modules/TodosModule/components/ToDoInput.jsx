@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { actionRequestType } from "../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/actionTypes";
 import { TextField } from "@mui/material";
 import styled from "@emotion/styled";
-import Input from "../../shared/components/Input";
+import Input from "../../../shared/components/Input";
 
 const StyledInput = styled(TextField)({
     width: "100%",

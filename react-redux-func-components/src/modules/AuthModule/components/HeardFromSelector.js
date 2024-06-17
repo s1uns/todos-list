@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "react-final-form";
-import CheckBox from "../../shared/components/CheckBox";
+import CheckBox from "../../../shared/components/CheckBox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Container, FormHelperText, FormLabel, Grid } from "@mui/material";
 
@@ -9,7 +9,7 @@ import {
     HEARD_FROM_FRIEND,
     HEARD_FROM_INTERNET,
     HEARD_FROM_OTHER,
-} from "../../shared/constants";
+} from "../../../shared/constants";
 
 const heardFromOptions = [
     { value: HEARD_FROM_FRIEND, label: "Friend" },

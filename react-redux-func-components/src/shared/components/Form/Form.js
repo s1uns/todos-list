@@ -1,7 +1,7 @@
 import { Form as FinalForm } from "react-final-form";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material";
-import { Button, DisabledButton } from "../Button";
+import { Button } from "@mui/material";
 
 const Form = (props) => {
     const { submitBtnName, onSubmit, validate, children } = props;
@@ -22,12 +22,9 @@ const Form = (props) => {
                         onSubmit={handleSubmit}
                     >
                         {children}
-
-                        {valid ? (
-                            <Button type="submit">{submitBtnName}</Button>
-                        ) : (
-                            <DisabledButton />
-                        )}
+                        <Button type="submit" disabled={!valid}>
+                            {submitBtnName}
+                        </Button>
                     </form>
                 )}
             />

@@ -1,11 +1,11 @@
 import React from "react";
 import LoginForm from "../components/LoginForm";
-import { MainHeader } from "../../shared/components/Header";
+import { Typography } from "@mui/material";
 
 const LoginPage = () => {
     return (
         <>
-            <MainHeader>Login</MainHeader>
+            <Typography variant="h1">Login</Typography>
             <LoginForm />
         </>
     );

@@ -3,10 +3,9 @@ import ToDoInput from "../components/ToDoInput";
 import ToDoItem from "../components/ToDoItem";
 import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
-import { actionRequestType } from "../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
-import { Container } from "@mui/material";
-import { MainHeader, SecondaryHeader } from "../../shared/components/Header";
+import { Container, Typography } from "@mui/material";
 
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
@@ -40,7 +39,7 @@ const TodoListPage = () => {
 
     return (
         <>
-            <MainHeader>ToDo</MainHeader>
+            <Typography variant="h1">ToDo</Typography>
             {user ? (
                 <Container
                     sx={{
@@ -52,7 +51,9 @@ const TodoListPage = () => {
                         marginTop: "-3rem",
                     }}
                 >
-                    <SecondaryHeader>Welcome, {user.fullName}</SecondaryHeader>
+                    <Typography variant="h2">
+                        Welcome, {user.fullName}
+                    </Typography>
                     <button className="logout-button" onClick={handleLogOut}>
                         Log Out
                     </button>

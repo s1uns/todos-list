@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { actionRequestType } from "../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
 
 const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
