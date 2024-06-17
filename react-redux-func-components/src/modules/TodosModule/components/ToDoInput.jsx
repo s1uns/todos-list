@@ -1,11 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../../store/actions/actionTypes";
-import { TextField } from "@mui/material";
 import styled from "@emotion/styled";
 import Input from "../../../shared/components/Input";
 
-const StyledInput = styled(TextField)({
+const StyledInput = styled(Input)({
     width: "100%",
 
     "& .MuiInputBase-input": {
@@ -21,7 +20,13 @@ const ToDoInput = () => {
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();
             if (trimmedString.length === 0) {
-                alert("Enter something first!");
+                dispatch({
+                    type: actionRequestType.ADD_NOTIFICATION_REQUEST,
+                    payload: {
+                        id: new Date(Date.now()),
+                        message: "Enter something first!",
+                    },
+                });
                 return;
             }
 

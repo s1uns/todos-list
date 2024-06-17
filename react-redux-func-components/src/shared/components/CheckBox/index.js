@@ -1,10 +1,18 @@
 import React from "react";
-import Checkbox from "@mui/material/Checkbox";
+import { Checkbox as MuiCheckbox } from "@mui/material";
+
 
 const CheckBox = (props) => {
     const { input, value, name } = props;
 
-    return <Checkbox value={value} name={name} {...input} />;
+    return (
+        <MuiCheckbox
+            value={value}
+            name={name}
+            {...props}
+            {...input}
+        />
+    );
 };
 
 export default CheckBox;
