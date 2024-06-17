@@ -27,7 +27,7 @@ export default function Input(props) {
             className="input"
             type={inputType}
             placeholder={placeholder}
-            error={meta?.error}
+            error={meta?.error ? true : false}
             helperText={meta?.error ? meta.error : " "}
             {...input}
         />
