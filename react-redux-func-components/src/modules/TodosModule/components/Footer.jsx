@@ -73,7 +73,11 @@ const Footer = ({ itemsCount, currentFilter }) => {
                 >
                     Completed
                 </FooterButton>
-                <FooterButton id="clear-btn" onClick={clearCompleted}>
+                <FooterButton
+                    sx={{ marginLeft: 2 }}
+                    id="clear-btn"
+                    onClick={clearCompleted}
+                >
                     Clear completed
                 </FooterButton>
             </Box>

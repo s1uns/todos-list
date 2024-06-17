@@ -5,7 +5,29 @@ import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
-import { Button, Container, Typography } from "@mui/material";
+import {
+    Button,
+    Container,
+    Typography,
+    Box,
+    styled,
+    List,
+} from "@mui/material";
+
+const TodoBlock = styled(Box)({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+});
+
+const TodosList = styled(List)({
+    marginTop: 5,
+    width: "95%",
+    listStyleType: "none",
+    padding: 0,
+});
 
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
@@ -77,8 +99,8 @@ const TodoListPage = () => {
                 }}
             >
                 <ToDoInput />
-                <div className="todos-block">
-                    <ul className="todos-list" id="todos-list">
+                <TodoBlock>
+                    <TodosList className="todos-list" id="todos-list">
                         {filtratedTodos.map((item) => (
                             <ToDoItem
                                 key={item.id}
@@ -88,8 +110,8 @@ const TodoListPage = () => {
                                 isUpdated={item.isUpdated}
                             />
                         ))}
-                    </ul>
-                </div>
+                    </TodosList>
+                </TodoBlock>
                 <Footer itemsCount={itemsCount} currentFilter={currentFilter} />
             </Container>
         </>

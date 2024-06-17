@@ -9,7 +9,7 @@ import { ClickAwayListener } from "@mui/material";
 
 const UpdateTodoInput = styled(Input)({
     "& .MuiInputBase-input": {
-        paddingleft: "4rem",
+        marginLeft: "4rem",
         fontSize: "5rem",
         width: "100%",
         height: "100%",
@@ -17,6 +17,7 @@ const UpdateTodoInput = styled(Input)({
 });
 
 const TodoItem = styled(ListItem)({
+    padding: 5,
     position: "relative",
     display: "flex",
     flexDirection: "row",
@@ -52,7 +53,7 @@ const StyledCheckBox = styled(CheckBox)({
 });
 
 const TodoTitle = styled(Typography)({
-    paddingLeft: "4rem",
+    paddingLeft: "5rem",
     fontSize: "5rem",
     width: "100%",
 
@@ -76,7 +77,6 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const toggleEditing = () => {
-        alert("HEY");
         if (!isCompleted) {
             setIsEditing((isEditing) => !isEditing);
         }
@@ -118,10 +118,21 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
     };
 
     const checkTodo = () => {
-        dispatch({
-            type: actionRequestType.CHECK_TODO_REQUEST,
-            payload: id,
-        });
+        if (!isEditing) {
+            dispatch({
+                type: actionRequestType.CHECK_TODO_REQUEST,
+                payload: id,
+            });
+        } else {
+            dispatch({
+                type: actionRequestType.ADD_NOTIFICATION_REQUEST,
+                payload: {
+                    id: new Date(Date.now()),
+                    message: "Finish editing the todo first!",
+                },
+            });
+            return;
+        }
     };
 
     return (
@@ -137,7 +148,6 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
                 {isEditing ? (
                     <ClickAwayListener onClickAway={toggleEditing}>
                         <UpdateTodoInput
-                            className="update-todo-input"
                             autoFocus
                             defaultValue={title}
                             onKeyDown={updateTodo}

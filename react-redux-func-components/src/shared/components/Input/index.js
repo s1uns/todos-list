@@ -1,6 +1,5 @@
 import React from "react";
 import { TextField } from "@mui/material";
-import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 
 const Input = (props) => {
     const { inputType, placeholder, input, meta } = props;
@@ -11,7 +10,7 @@ const Input = (props) => {
             type={inputType}
             placeholder={placeholder}
             error={meta?.error ? true : false}
-            helperText={meta?.error ? meta.error : " "}
+            helperText={meta ? (meta.error ? meta.error : " ") : ""}
             {...input}
             {...props}
         />

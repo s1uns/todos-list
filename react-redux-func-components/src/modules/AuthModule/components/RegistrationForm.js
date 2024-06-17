@@ -7,6 +7,7 @@ import { mapToField } from "../../../shared/utils/helpers";
 import { userRegistrationSchema } from "../../../shared/validators";
 import authMapper from "../mappers/authMapper";
 import { Paper } from "@mui/material";
+import { FormRow } from "../../../shared/components/FormRow";
 
 const topFullRows = [
     {
@@ -137,10 +138,10 @@ const RegistrationForm = () => {
 
             {halfRows.map((row) => {
                 return (
-                    <div className="form-row">
+                    <FormRow>
                         {mapToField(row.firstField, authMapper)}
                         {mapToField(row.secondField, authMapper)}
-                    </div>
+                    </FormRow>
                 );
             })}
 
