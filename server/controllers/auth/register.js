@@ -5,7 +5,7 @@ import {
     generateAccessToken,
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
-// import { validateFields } from "./helpers.js";
+import { validateFields } from "./helpers.js";
 import { setExpirationDate } from "../../utils/index.js";
 
 const register = async (req, res) => {
@@ -24,24 +24,24 @@ const register = async (req, res) => {
         password,
     } = req.body;
 
-    // const isUserValid = await validateFields(
-    //     email,
-    //     firstName,
-    //     username,
-    //     birthDate,
-    //     gender,
-    //     country,
-    //     city,
-    //     heardFrom,
-    //     password,
-    // );
+    const isUserValid = await validateFields(
+        email,
+        firstName,
+        username,
+        birthDate,
+        gender,
+        country,
+        city,
+        heardFrom,
+        password,
+    );
 
-    // if (!isUserValid) {
-    //     console.log(
-    //         `The /registration response was returned at ${res.getResponseTime()}`,
-    //     );
-    //     return res.badRequest("One or more required fields are empty");
-    // }
+    if (!isUserValid) {
+        console.log(
+            `The /registration response was returned at ${res.getResponseTime()}`,
+        );
+        return res.badRequest("One or more required fields are empty");
+    }
 
     const userAlreadyExists = await userExists(email);
 

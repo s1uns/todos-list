@@ -11,9 +11,27 @@ export const validatePassword = async (password) => {
     );
 };
 
-// export const validateFields = async (...args) => {
-//     return args.reduce(
-//         (isValid, field) => (field.trim().length === 0 ? false : true),
-//         false,
-//     );
-// };
+export const validateFields = async (...args) => {
+    for (const field of args) {
+        const type = typeof field;
+        switch (type) {
+            case "string":
+                if (field.trim().length === 0) {
+                    return false;
+                }
+                break;
+            case "number":
+                if (!Number.isInteger(field)) {
+                    return false;
+                }
+                break;
+            case "object":
+                break;
+            default:
+                console.warn(`Unexpected field type: ${type}`);
+                break;
+        }
+    }
+
+    return true;
+};
