@@ -19,7 +19,7 @@ const StyledInput = styled(TextField)({
     },
 });
 
-export default function Input(props) {
+const Input = (props) => {
     const { inputType, placeholder, input, meta } = props;
 
     return (
@@ -32,4 +32,6 @@ export default function Input(props) {
             {...input}
         />
     );
-}
+};
+
+export default Input;

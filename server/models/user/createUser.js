@@ -14,13 +14,13 @@ const createUser = async ({
     password,
 }) => {
     await makeRequest(
-        `INSERT INTO users (id, email, username, firstName, lastName, birthDate, gender, country, city, password) VALUES ('${id}', '${email}', '${username}', '${firstName}', '${lastName}', '${birthDate}', '${gender}', '${country}', '${city}' '${password}');`,
+        `INSERT INTO users (id, email, username, firstName, lastName, birthDate, gender, country, city, password) VALUES ('${id}', '${email}', '${username}', '${firstName}', '${lastName}', '${birthDate}', '${gender}', '${country}', '${city}', '${password}');`,
     );
 
     heardFrom.map(
         async (heardFrom) =>
             await makeRequest(
-                `INSERT INTO userheardfrom (id, value) VALUES ('${id}', ${heardFrom});`,
+                `INSERT INTO userheardfrom (userId, value) VALUES ('${id}', ${heardFrom});`,
             ),
     );
 };

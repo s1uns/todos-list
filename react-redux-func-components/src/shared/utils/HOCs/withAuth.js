@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function withAuth(WrappedComponent, shouldBeLogged) {
+const withAuth = (WrappedComponent, shouldBeLogged) => {
     return (props) => {
         const user = useSelector((state) => state.user);
         const navigate = useNavigate();
@@ -19,4 +19,6 @@ export default function withAuth(WrappedComponent, shouldBeLogged) {
 
         return <WrappedComponent {...props} />;
     };
-}
+};
+
+export default withAuth;

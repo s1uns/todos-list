@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useTimeout } from "../../utils/hooks";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 
-export default function Toast({ id, message }) {
+const Toast = ({ id, message }) => {
     const dispatch = useDispatch();
 
     const handleCloseToast = () =>
@@ -23,4 +23,6 @@ export default function Toast({ id, message }) {
             </button>
         </div>
     );
-}
+};
+
+export default Toast;

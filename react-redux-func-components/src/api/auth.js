@@ -1,4 +1,4 @@
-import { postRequest, getRequest } from "./helpers";
+import { postRequest } from "./helpers";
 
 const url = process.env.REACT_APP_BACKEND_URL;
 

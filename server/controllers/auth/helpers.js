@@ -11,9 +11,9 @@ export const validatePassword = async (password) => {
     );
 };
 
-export const validateFields = async (...args) => {
-    return args.reduce(
-        (isValid, field) => (field.trim().length === 0 ? false : true),
-        false,
-    );
-};
+// export const validateFields = async (...args) => {
+//     return args.reduce(
+//         (isValid, field) => (field.trim().length === 0 ? false : true),
+//         false,
+//     );
+// };

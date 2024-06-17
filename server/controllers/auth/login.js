@@ -3,18 +3,18 @@ import {
     generateAccessToken,
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
-import { validateFields } from "./helpers.js";
+// import { validateFields } from "./helpers.js";
 
 const login = async (req, res) => {
     console.log(`The /login request was catched at ${req.requestTime}`);
 
     const { email, password } = req.body;
 
-    const isUserValid = await validateFields(email, password);
+    // const isUserValid = await validateFields(email, password);
 
-    if (!isUserValid) {
-        return res.badRequest("One or more required fields are empty");
-    }
+    // if (!isUserValid) {
+    //     return res.badRequest("One or more required fields are empty");
+    // }
 
     const response = await loginUser(email, password);
 

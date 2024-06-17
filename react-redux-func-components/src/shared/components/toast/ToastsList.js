@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Toast from "./Toast";
 
-export default function ToastsList() {
+const ToastsList = () => {
     const toasts = useSelector((state) => state.toasts);
 
     return (
@@ -19,4 +19,6 @@ export default function ToastsList() {
                 : ""}
         </div>
     );
-}
+};
+
+export default ToastsList;

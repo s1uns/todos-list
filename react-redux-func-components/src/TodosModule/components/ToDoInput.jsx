@@ -15,7 +15,7 @@ const StyledInput = styled(TextField)({
     "& fieldset": { borderTop: "none" },
 });
 
-export default function ToDoInput() {
+const ToDoInput = () => {
     const dispatch = useDispatch();
     const createTodo = (e) => {
         if (e.key === "Enter") {
@@ -41,4 +41,6 @@ export default function ToDoInput() {
             onKeyDown={createTodo}
         />
     );
-}
+};
+
+export default ToDoInput;

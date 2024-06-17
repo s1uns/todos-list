@@ -14,7 +14,7 @@ const genderOptions = [
     { value: GENDER_OTHER, label: "Other" },
 ];
 
-export default function GenderSelector(props) {
+const GenderSelector = (props) => {
     const { meta } = props;
     const { name, onChange } = props.input;
 
@@ -34,4 +34,6 @@ export default function GenderSelector(props) {
             </FormHelperText>
         </FormControl>
     );
-}
+};
+
+export default GenderSelector;

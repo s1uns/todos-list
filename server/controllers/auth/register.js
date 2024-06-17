@@ -5,27 +5,43 @@ import {
     generateAccessToken,
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
-import { validateFields } from "./helpers.js";
+// import { validateFields } from "./helpers.js";
 import { setExpirationDate } from "../../utils/index.js";
 
 const register = async (req, res) => {
     console.log(`The /registration request was catched at ${req.requestTime}`);
 
-    const { email, firstName, lastName, username, password } = req.body;
-
-    const isUserValid = await validateFields(
+    const {
         email,
         firstName,
+        lastName,
         username,
+        birthDate,
+        gender,
+        country,
+        city,
+        heardFrom,
         password,
-    );
+    } = req.body;
 
-    if (!isUserValid) {
-        console.log(
-            `The /registration response was returned at ${res.getResponseTime()}`,
-        );
-        return res.badRequest("One or more required fields are empty");
-    }
+    // const isUserValid = await validateFields(
+    //     email,
+    //     firstName,
+    //     username,
+    //     birthDate,
+    //     gender,
+    //     country,
+    //     city,
+    //     heardFrom,
+    //     password,
+    // );
+
+    // if (!isUserValid) {
+    //     console.log(
+    //         `The /registration response was returned at ${res.getResponseTime()}`,
+    //     );
+    //     return res.badRequest("One or more required fields are empty");
+    // }
 
     const userAlreadyExists = await userExists(email);
 
@@ -62,6 +78,11 @@ const register = async (req, res) => {
         firstName,
         lastName,
         username,
+        birthDate,
+        gender,
+        country,
+        city,
+        heardFrom,
         password,
     });
 

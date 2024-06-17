@@ -18,7 +18,7 @@ const heardFromOptions = [
     { value: HEARD_FROM_OTHER, label: "Other" },
 ];
 
-export default function HeardFromSelector(props) {
+const HeardFromSelector = (props) => {
     const { meta } = props;
     const { name, onChange } = props.input;
 
@@ -55,4 +55,6 @@ export default function HeardFromSelector(props) {
             </FormHelperText>
         </Container>
     );
-}
+};
+
+export default HeardFromSelector;

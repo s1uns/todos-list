@@ -3,7 +3,10 @@ import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
 import { registerUser, loginUser, logoutUser } from "../../api";
 
 function* workRegisterUser({ payload }) {
+    console.log("Payload: ", payload);
+
     const response = yield call(() => registerUser(payload));
+
     if (response.success) {
         const { id, email, fullName, username } = response.data;
 

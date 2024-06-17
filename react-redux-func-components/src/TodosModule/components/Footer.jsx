@@ -17,7 +17,7 @@ const FooterButton = styled(Button)({
     },
 });
 
-export default function Footer({ itemsCount, currentFilter }) {
+const Footer = ({ itemsCount, currentFilter }) => {
     const dispatch = useDispatch();
 
     const setFilter = (filter) => {
@@ -73,4 +73,6 @@ export default function Footer({ itemsCount, currentFilter }) {
             </FooterButton>
         </Container>
     );
-}
+};
+
+export default Footer;

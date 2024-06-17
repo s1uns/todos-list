@@ -87,7 +87,7 @@ const bottomFullRows = [
     },
 ];
 
-export default function RegistrationForm() {
+const RegistrationForm = () => {
     const dispatch = useDispatch();
 
     const handleRegister = (values) => {
@@ -111,7 +111,10 @@ export default function RegistrationForm() {
                 firstName: firstName,
                 lastName: lastName,
                 username: username,
-                birthDate: birthDate,
+                birthDate: birthDate
+                    .toISOString()
+                    .slice(0, 19)
+                    .replace("T", " "),
                 gender: gender,
                 country: country,
                 city: city,
@@ -144,4 +147,6 @@ export default function RegistrationForm() {
             {bottomFullRows.map((field) => mapToField(field, authMapper))}
         </Form>
     );
-}
+};
+
+export default RegistrationForm;

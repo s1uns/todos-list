@@ -21,7 +21,7 @@ const fields = [
         componentType: "input",
     },
 ];
-export default function LoginForm() {
+const LoginForm = () => {
     const dispatch = useDispatch();
 
     const handleLogin = (values) => {
@@ -49,4 +49,6 @@ export default function LoginForm() {
             {fields.map((field) => mapToField(field, authMapper))}
         </Form>
     );
-}
+};
+
+export default LoginForm;
