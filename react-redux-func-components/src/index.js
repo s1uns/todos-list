@@ -8,17 +8,21 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor, sagaMiddleware } from "./store/store";
 import rootSaga from "./store/sagas/rootSaga";
 import { ToastsList } from "./shared/components/Toast";
+import theme from "./theme";
+import { ThemeProvider } from "@emotion/react";
 
 sagaMiddleware.run(rootSaga);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <BrowserRouter>
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <ToastsList />
-                <App />
-            </PersistGate>
-        </Provider>
+        <ThemeProvider theme={theme}>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <ToastsList />
+                    <App />
+                </PersistGate>
+            </Provider>
+        </ThemeProvider>
     </BrowserRouter>,
 );
 

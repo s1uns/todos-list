@@ -12,6 +12,7 @@ const StyledInput = styled(TextField)({
         color: "purple",
     },
     "& .MuiInputBase-input": {
+        width: "100%",
         padding: 8,
     },
 });

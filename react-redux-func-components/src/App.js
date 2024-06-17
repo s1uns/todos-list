@@ -5,10 +5,14 @@ import { withAuth } from "./shared/utils/HOCs";
 import LoginPage from "./AuthModule/pages/LoginPage";
 import RegistrationPage from "./AuthModule/pages/RegistrationPage";
 
+
 function App() {
     const LoginWithAuth = withAuth(LoginPage, false);
     const RegisterWithAuth = withAuth(RegistrationPage, false);
     const TodoListWithAuth = withAuth(TodoListPage, true);
+
+
+    
 
     return (
         <Routes>

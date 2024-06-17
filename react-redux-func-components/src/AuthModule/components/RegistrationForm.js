@@ -6,6 +6,7 @@ import validateFormValues from "../../shared/validators/ValidateFormValues";
 import { mapToField } from "../../shared/utils/helpers";
 import { userRegistrationSchema } from "../../shared/validators";
 import authMapper from "../mappers/authMapper";
+import { Paper } from "@mui/material";
 
 const topFullRows = [
     {
@@ -108,23 +109,25 @@ export default function RegistrationForm() {
     const validate = validateFormValues(userRegistrationSchema);
 
     return (
-        <Form
-            submitBtnName={"Register"}
-            onSubmit={handleRegister}
-            validate={validate}
-        >
-            {topFullRows.map((field) => mapToField(field, authMapper))}
+        <Paper>
+            <Form
+                submitBtnName={"Register"}
+                onSubmit={handleRegister}
+                validate={validate}
+            >
+                {topFullRows.map((field) => mapToField(field, authMapper))}
 
-            {halfRows.map((row) => {
-                return (
-                    <div className="form-row">
-                        {mapToField(row.firstField, authMapper)}
-                        {mapToField(row.secondField, authMapper)}
-                    </div>
-                );
-            })}
+                {halfRows.map((row) => {
+                    return (
+                        <div className="form-row">
+                            {mapToField(row.firstField, authMapper)}
+                            {mapToField(row.secondField, authMapper)}
+                        </div>
+                    );
+                })}
 
-            {bottomFullRows.map((field) => mapToField(field, authMapper))}
-        </Form>
+                {bottomFullRows.map((field) => mapToField(field, authMapper))}
+            </Form>
+        </Paper>
     );
 }

@@ -5,10 +5,7 @@ export default function RegistrationPage() {
     return (
         <>
             <h1>Register</h1>
-
-            <div className="registration-container">
-                <RegistrationForm />
-            </div>
+            <RegistrationForm />
         </>
     );
 }

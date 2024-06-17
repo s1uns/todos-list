@@ -5,7 +5,6 @@ export default function Input(props) {
     const { inputType, placeholder, input, meta } = props;
 
     return (
-        <div className="input-container">
             <StyledInput
                 className="input"
                 type={inputType}
@@ -14,6 +13,5 @@ export default function Input(props) {
                 helperText={meta.error ? meta.error : " "}
                 {...input}
             />
-        </div>
     );
 }
