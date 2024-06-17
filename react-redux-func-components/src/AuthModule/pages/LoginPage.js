@@ -1,13 +1,12 @@
 import React from "react";
 import LoginForm from "../components/LoginForm";
+import { MainHeader } from "../../shared/components/Header";
 
 const LoginPage = () => {
     return (
         <>
-            <h1>Login</h1>
-            <div className="login-container">
-                <LoginForm />
-            </div>
+            <MainHeader>Login</MainHeader>
+            <LoginForm />
         </>
     );
 };

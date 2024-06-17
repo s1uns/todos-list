@@ -109,25 +109,23 @@ export default function RegistrationForm() {
     const validate = validateFormValues(userRegistrationSchema);
 
     return (
-        <Paper>
-            <Form
-                submitBtnName={"Register"}
-                onSubmit={handleRegister}
-                validate={validate}
-            >
-                {topFullRows.map((field) => mapToField(field, authMapper))}
+        <Form
+            submitBtnName={"Register"}
+            onSubmit={handleRegister}
+            validate={validate}
+        >
+            {topFullRows.map((field) => mapToField(field, authMapper))}
 
-                {halfRows.map((row) => {
-                    return (
-                        <div className="form-row">
-                            {mapToField(row.firstField, authMapper)}
-                            {mapToField(row.secondField, authMapper)}
-                        </div>
-                    );
-                })}
+            {halfRows.map((row) => {
+                return (
+                    <div className="form-row">
+                        {mapToField(row.firstField, authMapper)}
+                        {mapToField(row.secondField, authMapper)}
+                    </div>
+                );
+            })}
 
-                {bottomFullRows.map((field) => mapToField(field, authMapper))}
-            </Form>
-        </Paper>
+            {bottomFullRows.map((field) => mapToField(field, authMapper))}
+        </Form>
     );
 }

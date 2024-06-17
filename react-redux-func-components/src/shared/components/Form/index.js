@@ -1,3 +1,2 @@
-import StyledForm from "./Form.styled";
-
+import StyledForm from "./Form";
 export { StyledForm as Form };

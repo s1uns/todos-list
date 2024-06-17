@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { actionRequestType } from "../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
 import { Container } from "@mui/material";
-import Header from "../../shared/components/Header";
+import { MainHeader, SecondaryHeader } from "../../shared/components/Header";
 
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
@@ -40,18 +40,19 @@ const TodoListPage = () => {
 
     return (
         <>
-            <Header>ToDo</Header>
+            <MainHeader>ToDo</MainHeader>
             {user ? (
                 <Container
                     sx={{
                         display: "flex",
+                        flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "center",
                         gap: "1rem",
                         marginTop: "-3rem",
                     }}
                 >
-                    <h2>Welcome, {user.fullName}</h2>
+                    <SecondaryHeader>Welcome, {user.fullName}</SecondaryHeader>
                     <button className="logout-button" onClick={handleLogOut}>
                         Log Out
                     </button>
@@ -59,7 +60,17 @@ const TodoListPage = () => {
             ) : (
                 <></>
             )}
-            <div className="container">
+            <Container
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "40%",
+                    background: "white",
+                    borderRadius: "1rem",
+                }}
+            >
                 <ToDoInput />
                 <div className="todos-block">
                     <ul className="todos-list" id="todos-list">
@@ -75,7 +86,7 @@ const TodoListPage = () => {
                     </ul>
                 </div>
                 <Footer itemsCount={itemsCount} currentFilter={currentFilter} />
-            </div>
+            </Container>
         </>
     );
 };

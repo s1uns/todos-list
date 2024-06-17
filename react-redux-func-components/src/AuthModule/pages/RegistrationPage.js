@@ -1,10 +1,11 @@
 import React from "react";
 import RegistrationForm from "../components/RegistrationForm";
+import { MainHeader } from "../../shared/components/Header";
 
 export default function RegistrationPage() {
     return (
         <>
-            <h1>Register</h1>
+            <MainHeader>Register</MainHeader>
             <RegistrationForm />
         </>
     );

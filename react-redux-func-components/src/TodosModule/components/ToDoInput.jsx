@@ -1,6 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../store/actions/actionTypes";
+import { TextField } from "@mui/material";
+import styled from "@emotion/styled";
+import Input from "../../shared/components/Input";
+
+const StyledInput = styled(TextField)({
+    width: "100%",
+
+    "& .MuiInputBase-input": {
+        width: "100%",
+        fontSize: "2rem",
+    },
+    "& fieldset": { borderTop: "none" },
+});
 
 export default function ToDoInput() {
     const dispatch = useDispatch();
@@ -21,8 +34,7 @@ export default function ToDoInput() {
     };
 
     return (
-        <input
-            className="create-todo-input"
+        <StyledInput
             type="text"
             id="add-todo"
             placeholder="What needs to be done?"

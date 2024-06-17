@@ -14,7 +14,7 @@ const userRegistrationSchema = yup.object().shape({
     lastName: yup.string().required("The last name is required."),
     birthday: yup
         .date()
-        .required("The birthday date is required.")
+        .required("The birthday is required.")
         .min("1900-01-01", "You are too old for this s.")
         .max(new Date(Date.now()), "You are too young for this s. "),
     country: yup.string().required("The country is required."),

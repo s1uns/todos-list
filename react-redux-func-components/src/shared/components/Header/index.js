@@ -1,9 +1,4 @@
-import styled from "@emotion/styled";
+import MainHeader from "./MainHeader";
+import SecondaryHeader from "./SecondaryHeader";
 
-const Header = styled.h1`
-    color: goldenrod;
-    font-size: 10rem;
-    margin-bottom: -3rem;
-`;
-
-export default Header;
+export { MainHeader, SecondaryHeader };
