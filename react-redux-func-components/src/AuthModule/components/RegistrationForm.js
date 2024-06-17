@@ -40,7 +40,7 @@ const halfRows = [
     },
     {
         firstField: {
-            name: "birthday",
+            name: "birthDate",
             placeholder: "Your birthday date",
             componentType: "datePicker",
         },
@@ -91,7 +91,18 @@ export default function RegistrationForm() {
     const dispatch = useDispatch();
 
     const handleRegister = (values) => {
-        const { email, firstName, lastName, username, password } = values;
+        const {
+            email,
+            firstName,
+            lastName,
+            username,
+            password,
+            birthDate,
+            gender,
+            country,
+            city,
+            heardFrom,
+        } = values;
 
         dispatch({
             type: actionRequestType.REGISTER_USER_REQUEST,
@@ -100,6 +111,11 @@ export default function RegistrationForm() {
                 firstName: firstName,
                 lastName: lastName,
                 username: username,
+                birthDate: birthDate,
+                gender: gender,
+                country: country,
+                city: city,
+                heardFrom: heardFrom,
                 password: password,
             },
         });
