@@ -10,6 +10,11 @@ const registerUser = async (credentials) => {
         username: credentials.username,
         firstName: credentials.firstName,
         lastName: credentials.lastName,
+        birthDate: credentials.birthDate,
+        gender: credentials.gender,
+        country: credentials.country,
+        city: credentials.city,
+        heardFrom: credentials.heardFrom,
         password: passwordHash,
     };
 
@@ -20,6 +25,11 @@ const registerUser = async (credentials) => {
         email: user.email,
         username: user.username,
         fullName: `${user.firstName} ${user.lastName}`,
+        birthDate: user.birthDate,
+        gender: user.gender,
+        country: user.country,
+        city: user.city,
+        heardFrom: user.heardFrom,
     };
 
     return userInfo;
