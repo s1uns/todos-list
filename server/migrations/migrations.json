@@ -1,5 +1,6 @@
 {
     "usersIdForeignKey": "ALTER TABLE todos ADD COLUMN userId CHAR(36), ADD CONSTRAINT FK_UserTodos FOREIGN KEY (userId) REFERENCES users(id);",
     "usersFullName": "ALTER TABLE users ADD COLUMN firstName VARCHAR(255), ADD COLUMN lastName VARCHAR(255);",
-    "usersRegistrationFields": "ALTER TABLE users ADD COLUMN birthDate TIMESTAMP, ADD COLUMN gender INT CHECK (gender IN (0, 1, 3)), ADD COLUMN country VARCHAR(255), ADD COLUMN city VARCHAR(255);"
+    "usersRegistrationFields": "ALTER TABLE users ADD COLUMN birthDate TIMESTAMP, ADD COLUMN gender INT CHECK (gender IN (0, 1, 3)), ADD COLUMN country VARCHAR(255), ADD COLUMN city VARCHAR(255);",
+    "userHeardFromTable": "CREATE TABLE userHeardFrom (id CHAR(36) PRIMARY KEY, userId CHAR(36), value INT, CONSTRAINT FK_UserHeardFrom FOREIGN KEY (userId) REFERENCES users(id));"
 }
