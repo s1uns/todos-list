@@ -4,10 +4,10 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "init": "node --env-file=config/.env scripts/initDB.js",
-        "migrate": "node --env-file=config/.env scripts/migrate.js",
+        "init": "npx sequelize-cli db:create",
+        "migrate": "npx sequelize-cli db:migrate --env-file=config/.env",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "npm run migrate && node --env-file=config/.env app.js"
+        "dev": "npx sequelize-cli db:migrate && node --env-file=config/.env app.js"
     },
     "keywords": [],
     "author": "",
@@ -16,6 +16,7 @@
     "dependencies": {
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
         "express": "^4.19.2",
         "js-sha256": "^0.11.0",
         "jsonwebtoken": "^9.0.2",
