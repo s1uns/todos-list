@@ -5,10 +5,7 @@ import styled from "@emotion/styled";
 import { Input } from "../../../shared/components/Input";
 
 const StyledInput = styled(Input)({
-    width: "100%",
-
     "& .MuiInputBase-input": {
-        width: "100%",
         fontSize: "2rem",
     },
     "& fieldset": { borderTop: "none" },

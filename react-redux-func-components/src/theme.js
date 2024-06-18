@@ -5,6 +5,7 @@ const theme = createTheme({
         MuiTextField: {
             styleOverrides: {
                 root: {
+                    width: "100%",
                     margin: 3,
                     "& .MuiInputLabel-root:not(.MuiInputLabel-shrink)": {
                         transform: "translate(14px, 8px) scale(1)",
