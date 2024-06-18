@@ -4,11 +4,9 @@ import { TextField } from "@mui/material";
 const Input = (props) => {
     const { autoFocus, inputType, placeholder, input, meta } = props;
 
-    console.log("Props: ", props);
-
     return (
         <TextField
-            autoFocus={autoFocus ? true : false}
+            autoFocus={!!autoFocus}
             type={inputType}
             placeholder={placeholder}
             error={meta?.error ? true : false}
