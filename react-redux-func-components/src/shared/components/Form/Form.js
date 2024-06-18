@@ -1,6 +1,6 @@
 import { Form as FinalForm } from "react-final-form";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material";
+import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
 const Form = (props) => {

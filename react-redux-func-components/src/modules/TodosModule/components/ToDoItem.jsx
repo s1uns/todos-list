@@ -1,75 +1,10 @@
 import React, { useState } from "react";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
-import { ListItem, Typography } from "@mui/material";
-import { styled } from "@mui/material";
+import { ClickAwayListener, ListItem, Typography } from "@mui/material";
+import styled from "@emotion/styled";
 import CheckBox from "../../../shared/components/CheckBox";
 import { Input } from "../../../shared/components/Input";
-
-const UpdateTodoInput = styled(Input)({
-    "& .MuiInputBase-input": {
-        marginLeft: "4rem",
-        fontSize: "5rem",
-        width: "100%",
-        height: "100%",
-    },
-});
-
-const TodoItem = styled(ListItem)({
-    padding: 5,
-    position: "relative",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: "0.5rem",
-    width: "100%",
-    border: "0.05rem dotted black",
-
-    "&:not(:last-child)": {
-        marginBottom: "0.5rem",
-    },
-});
-
-const DeleteButton = styled(Typography)({
-    position: "absolute",
-    right: "0.5rem",
-    fontSize: "3rem",
-    zIndex: 500,
-
-    "&:hover": { cursor: "pointer", fontSize: "3.1rem" },
-});
-
-const StyledCheckBox = styled(CheckBox)({
-    "& .MuiSvgIcon-root": {
-        width: "4rem",
-        height: "4rem",
-        fontSize: "50rem",
-    },
-    position: "absolute",
-    marginRight: "1.5rem",
-    zIndex: 500,
-    border: "none",
-});
-
-const TodoTitle = styled(Typography)({
-    paddingLeft: "5rem",
-    fontSize: "5rem",
-    width: "100%",
-
-    ".completed &": {
-        backgroundColor: "rgb(236, 235, 235)",
-        opacity: 0.2,
-        textDecoration: "line-through",
-    },
-});
-
-const UpdatedIcon = styled(Typography)({
-    paddingLeft: "4rem",
-    fontSize: "5rem",
-    width: "100%",
-    position: "absolute",
-    left: "70%",
-});
 
 const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
     const dispatch = useDispatch();
@@ -144,12 +79,17 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
                     checked={isCompleted}
                     onChange={checkTodo}
                 />
+
                 {isEditing ? (
-                    <UpdateTodoInput
-                        autoFocus
-                        defaultValue={title}
-                        onKeyDown={updateTodo}
-                    />
+                    <ClickAwayListener onClickAway={toggleEditing}>
+                        <div>
+                            <UpdateTodoInput
+                                autoFocus
+                                defaultValue={title}
+                                onKeyDown={updateTodo}
+                            />
+                        </div>
+                    </ClickAwayListener>
                 ) : (
                     <TodoTitle onDoubleClick={toggleEditing}>{title}</TodoTitle>
                 )}
@@ -161,3 +101,75 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
 };
 
 export default ToDoItem;
+
+const UpdateTodoInput = styled(Input)({
+    "& .MuiInputBase-input": {
+        marginLeft: "4rem",
+        fontSize: "5rem",
+        width: "100%",
+        height: "100%",
+    },
+});
+
+const TodoItem = styled(ListItem)({
+    padding: 5,
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: "0.5rem",
+    width: "100%",
+    border: "0.05rem dotted black",
+
+    "&:not(:last-child)": {
+        marginBottom: "0.5rem",
+    },
+});
+
+const DeleteButton = styled(Typography)({
+    position: "absolute",
+    right: "0.5rem",
+    fontSize: "2rem",
+    zIndex: 500,
+
+    "&:hover": { cursor: "pointer", fontSize: "2.1rem" },
+});
+
+const StyledCheckBox = styled(CheckBox)({
+    "& .MuiSvgIcon-root": {
+        width: "3rem",
+        height: "3rem",
+        fontSize: "50rem",
+    },
+    position: "absolute",
+    marginRight: "1.5rem",
+    zIndex: 500,
+    border: "none",
+
+    "& .Mui-checked": {
+        color: "red",
+    },
+});
+
+const TodoTitle = styled(Typography)({
+    paddingLeft: "4rem",
+    fontSize: "3rem",
+    width: "100%",
+
+    ".completed &": {
+        backgroundColor: "rgb(236, 235, 235)",
+        opacity: 0.2,
+        textDecoration: "line-through",
+    },
+});
+
+const UpdatedIcon = styled(Typography)({
+    paddingLeft: "4rem",
+    fontSize: "3rem",
+    width: "100%",
+    position: "absolute",
+    left: "75%",
+    ".completed &": {
+        opacity: 0.5,
+    },
+});

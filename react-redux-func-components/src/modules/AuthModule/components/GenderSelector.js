@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, FormLabel } from "@mui/material";
+import { FormControl } from "@mui/material";
 import { RadioGroup } from "../../../shared/components/RadioGroup";
 import {
     GENDER_FEMALE,

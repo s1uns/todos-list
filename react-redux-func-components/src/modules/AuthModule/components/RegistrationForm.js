@@ -6,7 +6,6 @@ import validateFormValues from "../../../shared/validators/ValidateFormValues";
 import { mapToField } from "../../../shared/utils/helpers";
 import { userRegistrationSchema } from "../../../shared/validators";
 import authMapper from "../mappers/authMapper";
-import { Paper } from "@mui/material";
 import { FormRow } from "../../../shared/components/FormRow";
 
 const topFullRows = [

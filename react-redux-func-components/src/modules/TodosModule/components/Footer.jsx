@@ -4,25 +4,6 @@ import { actionRequestType } from "../../../store/actions/actionTypes";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material";
 
-const FooterButton = styled(Button)({
-    height: "3rem",
-    fontSize: "1rem",
-    color: "black",
-    backgroundColor: "white",
-    border: "0.1rem solid transparent",
-    width: "100%",
-    transition: "all ease-in 0.3s",
-
-    "&:hover": {
-        border: "0.1rem solid black",
-        backgroundColor: "white",
-    },
-
-    "&.active": {
-        border: "0.1rem solid black",
-    },
-});
-
 const Footer = ({ itemsCount, currentFilter }) => {
     const dispatch = useDispatch();
 
@@ -86,3 +67,22 @@ const Footer = ({ itemsCount, currentFilter }) => {
 };
 
 export default Footer;
+
+const FooterButton = styled(Button)({
+    height: "3rem",
+    fontSize: "1rem",
+    color: "black",
+    backgroundColor: "white",
+    border: "0.1rem solid transparent",
+    width: "100%",
+    transition: "all ease-in 0.3s",
+
+    "&:hover": {
+        border: "0.1rem solid black",
+        backgroundColor: "white",
+    },
+
+    "&.active": {
+        border: "0.1rem solid black",
+    },
+});

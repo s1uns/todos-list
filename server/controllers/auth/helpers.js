@@ -26,6 +26,8 @@ export const validateFields = async (...args) => {
                 }
                 break;
             case "object":
+                // check if keys count != 0
+                // yup validation
                 break;
             default:
                 console.warn(`Unexpected field type: ${type}`);

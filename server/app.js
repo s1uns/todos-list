@@ -6,6 +6,10 @@ import reqTimeMiddleware from "./middleware/reqTimeMiddleware.js";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
 
+// move to Sequelize
+// share unshare
+// user-sheet
+
 const app = express();
 
 const origin = process.env.CORS_ORIGIN;

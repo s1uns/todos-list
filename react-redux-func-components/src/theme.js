@@ -34,7 +34,7 @@ const theme = createTheme({
                     },
                 },
                 {
-                    props: { variant: "2" },
+                    props: { variant: "h2" },
                     style: {
                         color: "grey",
                         fontSize: "2.5rem",

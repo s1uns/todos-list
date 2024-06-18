@@ -4,13 +4,6 @@ import { actionRequestType } from "../../../store/actions/actionTypes";
 import styled from "@emotion/styled";
 import { Input } from "../../../shared/components/Input";
 
-const StyledInput = styled(Input)({
-    "& .MuiInputBase-input": {
-        fontSize: "2rem",
-    },
-    "& fieldset": { borderTop: "none" },
-});
-
 const ToDoInput = () => {
     const dispatch = useDispatch();
     const createTodo = (e) => {
@@ -46,3 +39,10 @@ const ToDoInput = () => {
 };
 
 export default ToDoInput;
+
+const StyledInput = styled(Input)({
+    marginTop: "2rem",
+    "& .MuiInputBase-input": {
+        fontSize: "2rem",
+    },
+});

@@ -3,9 +3,32 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useTimeout } from "../../utils/hooks";
 import { actionRequestType } from "../../../store/actions/actionTypes";
-import { styled } from "@mui/system";
+import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
+
+const Toast = ({ id, message }) => {
+    const dispatch = useDispatch();
+
+    const handleCloseToast = () =>
+        dispatch({
+            type: actionRequestType.DISMISS_NOTIFICATION_REQUEST,
+            payload: id,
+        });
+
+    useTimeout(handleCloseToast, 3000);
+
+    return (
+        <StyledToast>
+            <Typography sx={{ fontSize: "2rem", padding: 2 }}>
+                {message}
+            </Typography>
+            <CloseButton onClick={handleCloseToast}>{"\u274c"}</CloseButton>
+        </StyledToast>
+    );
+};
+
+export default Toast;
 
 const slideIn = keyframes`
   0% {
@@ -49,26 +72,3 @@ const CloseButton = styled("button")`
     background: none;
     cursor: pointer;
 `;
-
-const Toast = ({ id, message }) => {
-    const dispatch = useDispatch();
-
-    const handleCloseToast = () =>
-        dispatch({
-            type: actionRequestType.DISMISS_NOTIFICATION_REQUEST,
-            payload: id,
-        });
-
-    useTimeout(handleCloseToast, 3000);
-
-    return (
-        <StyledToast>
-            <Typography sx={{ fontSize: "2rem", padding: 2 }}>
-                {message}
-            </Typography>
-            <CloseButton onClick={handleCloseToast}>{"\u274c"}</CloseButton>
-        </StyledToast>
-    );
-};
-
-export default Toast;

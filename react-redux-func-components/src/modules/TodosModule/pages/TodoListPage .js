@@ -5,29 +5,8 @@ import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
-import {
-    Button,
-    Container,
-    Typography,
-    Box,
-    styled,
-    List,
-} from "@mui/material";
-
-const TodoBlock = styled(Box)({
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-});
-
-const TodosList = styled(List)({
-    marginTop: 5,
-    width: "95%",
-    listStyleType: "none",
-    padding: 0,
-});
+import { Button, Container, Typography, Box, List } from "@mui/material";
+import styled from "@emotion/styled";
 
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
@@ -119,3 +98,18 @@ const TodoListPage = () => {
 };
 
 export default TodoListPage;
+
+const TodoBlock = styled(Box)({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+});
+
+const TodosList = styled(List)({
+    marginTop: 5,
+    width: "95%",
+    listStyleType: "none",
+    padding: 0,
+});
