@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+import { Sequelize, DataTypes }from "sequelize";
 const sequelize = new Sequelize("sqlite::memory:");
 
 const Todo = sequelize.define(
@@ -30,4 +30,4 @@ const Todo = sequelize.define(
     },
 );
 
-module.exports = Todo;
+export default Todo

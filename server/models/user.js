@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+import { Sequelize, DataTypes }from "sequelize";
 const sequelize = new Sequelize("sqlite::memory:");
 const User = sequelize.define(
     "User",
@@ -100,4 +100,4 @@ const User = sequelize.define(
 
 User.hasMany(sequelize.models.Todo, { foreignKey: "creatorId" });
 
-module.exports(User);
+export default User
