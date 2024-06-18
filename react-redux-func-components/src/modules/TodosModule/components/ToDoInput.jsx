@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 import styled from "@emotion/styled";
-import Input from "../../../shared/components/Input";
+import { Input } from "../../../shared/components/Input";
 
 const StyledInput = styled(Input)({
     width: "100%",

@@ -6,7 +6,6 @@ import {
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
 import { validateFields } from "./helpers.js";
-import { setExpirationDate } from "../../utils/index.js";
 
 const register = async (req, res) => {
     console.log(`The /registration request was catched at ${req.requestTime}`);

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
-import { ListItem, Typography, colors } from "@mui/material";
+import { ListItem, Typography } from "@mui/material";
 import { styled } from "@mui/material";
 import CheckBox from "../../../shared/components/CheckBox";
-import Input from "../../../shared/components/Input";
-import { ClickAwayListener } from "@mui/material";
+import { Input } from "../../../shared/components/Input";
 
 const UpdateTodoInput = styled(Input)({
     "& .MuiInputBase-input": {
@@ -146,13 +145,11 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
                     onChange={checkTodo}
                 />
                 {isEditing ? (
-                    <ClickAwayListener onClickAway={toggleEditing}>
-                        <UpdateTodoInput
-                            autoFocus
-                            defaultValue={title}
-                            onKeyDown={updateTodo}
-                        />
-                    </ClickAwayListener>
+                    <UpdateTodoInput
+                        autoFocus
+                        defaultValue={title}
+                        onKeyDown={updateTodo}
+                    />
                 ) : (
                     <TodoTitle onDoubleClick={toggleEditing}>{title}</TodoTitle>
                 )}
