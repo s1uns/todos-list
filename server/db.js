@@ -1,5 +1,5 @@
 import mysql from "mysql";
-import dbConfig from "./dbConfig.js";
+import dbConfig from "./config/dbConfig.js";
 
 const connection = mysql.createPool(dbConfig);
 const makeRequest = async (query) => {
