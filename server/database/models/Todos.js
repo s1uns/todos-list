@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "./index.js";
-import User from "./Users.js";
+import Users from "./Users.js";
 
 const Todos = sequelize.define(
     "Todos",
@@ -27,7 +27,7 @@ const Todos = sequelize.define(
         creatorId: {
             type: DataTypes.UUID,
             references: {
-                model: User,
+                model: Users,
                 key: "id",
             },
         },

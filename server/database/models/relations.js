@@ -5,8 +5,8 @@ import HeardFrom from "./HeardFrom.js";
 
 Users.hasMany(Todos, { as: "creator", foreignKey: "creatorId" });
 Users.hasMany(HeardFrom, { as: "user", foreignKey: "userId" });
-Users.hasMany(Shared, { as: "owner", foreignKey: "creatorId" });
-Users.hasMany(Shared, { as: "sharedWith", foreignKey: "userId" });
+Users.hasMany(Shared, { as: "owner", foreignKey: "ownerId" });
+Users.hasMany(Shared, { as: "sharedWith", foreignKey: "sharedWithId" });
 
 Todos.belongsTo(Users, { as: "creator", foreignKey: "creatorId" });
 

@@ -1,5 +1,6 @@
 import { router as authRouter } from "./routes/auth/index.js";
 import { router as todosRouter } from "./routes/todos/index.js";
+import { router as sharedRouter } from "./routes/shared/index.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import reqTimeMiddleware from "./middleware/reqTimeMiddleware.js";
@@ -24,14 +25,13 @@ app.use(reqTimeMiddleware, responseMiddleware);
 const port = process.env.SERVER_PORT;
 console.log("Models: ", sequelize.models);
 
-
-
 app.get("/", (req, res) => {
     res.send("Started Working, Express!");
 });
 
 app.use("/auth", authRouter);
 app.use("/todos", todosRouter);
+app.use("/shared", sharedRouter);
 
 app.listen(port, () => {
     console.log(`Server listening at port: ${port}`);
