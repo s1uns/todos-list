@@ -16,8 +16,6 @@ const createTodo = async (req, res) => {
         return res.notFound("Couldn't get the user's id");
     }
 
-    console.log("User id: ", userId);
-
     const newTodo = await Todo.create({
         id: uuid(),
         title: title,

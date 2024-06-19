@@ -1,5 +1,4 @@
 import { sha256 } from "js-sha256";
-import { getUser } from "../../models/user/index.js";
 import User from "../../database/models/user.js";
 
 const loginUser = async (email, password) => {

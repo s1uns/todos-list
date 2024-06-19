@@ -43,11 +43,4 @@ async function initDatabase() {
     }
 }
 
-User.hasMany(Todo, { as: "todos", foreignKey: "creatorId" });
-
-Todo.belongsTo(User, { as: "creator", foreignKey: "creatorId" });
-
-// Shared.belongsTo(User, { foreignKey: "ownerId" });
-// Shared.belongsTo(User, { foreignKey: "sharedWithId" });
-
 initDatabase();
