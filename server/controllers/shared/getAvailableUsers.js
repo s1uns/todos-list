@@ -22,12 +22,19 @@ const getAvailableUsers = async (req, res) => {
 
     console.log("Already chosen: ", alreadyChosenUsersIds);
 
-    const availableUsers = await Users.findAll({
-        where: {
-            id: { [Sequelize.Op.notIn]: [...alreadyChosenUsersIds, userId] },
-        },
-        attributes: ["id", "firstName", "lastName"],
-    });
+    const availableUsers = (
+        await Users.findAll({
+            where: {
+                id: {
+                    [Sequelize.Op.notIn]: [...alreadyChosenUsersIds, userId],
+                },
+            },
+            attributes: ["id", "firstName", "lastName"],
+        })
+    ).map((userInfo) => ({
+        userId: userInfo.id,
+        fullName: `${userInfo.firstName} ${userInfo.lastName}`,
+    }));
 
     console.log(
         `The /available-users response was returned at ${res.getResponseTime()}`,
