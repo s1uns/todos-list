@@ -14,14 +14,14 @@ const getTodos = async (req, res) => {
         include: [{ model: Users, as: "creator" }],
     });
 
-    const sharedUsers = await Shared.findAll({
-        attributes: [],
+    const sharedTodos = await Shared.findAll({
         where: { sharedWithId: userId },
+        attributes: [],
         include: {
             model: Users,
             as: "owner",
-            attributes: ["id", "firstName", "lastName"],
-            include: { model: Todos, as: "creator" },
+            attributes: ["firstName", "lastName"],
+            include: { model: Todos, as: "todos" },
         },
     });
 

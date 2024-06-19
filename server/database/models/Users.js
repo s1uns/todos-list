@@ -20,6 +20,7 @@ const Users = sequelize.define(
                     msg: "Must be a valid email address",
                 },
             },
+            unique: true,
         },
         username: {
             allowNull: false,
@@ -29,6 +30,7 @@ const Users = sequelize.define(
                     msg: "The username is required.",
                 },
             },
+            unique: true,
         },
         firstName: {
             allowNull: false,
@@ -96,6 +98,18 @@ const Users = sequelize.define(
                 },
                 notEmpty: {
                     msg: "The city should not be empty",
+                },
+            },
+        },
+        password: {
+            allowNull: false,
+            type: DataTypes.STRING,
+            validate: {
+                notNull: {
+                    msg: "The password is required.",
+                },
+                notEmpty: {
+                    msg: "The password should not be empty",
                 },
             },
         },

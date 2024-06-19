@@ -3,7 +3,7 @@ import Todos from "./Todos.js";
 import Shared from "./Shared.js";
 import HeardFrom from "./HeardFrom.js";
 
-Users.hasMany(Todos, { as: "creator", foreignKey: "creatorId" });
+Users.hasMany(Todos, { as: "todos", foreignKey: "creatorId" });
 Users.hasMany(HeardFrom, { as: "user", foreignKey: "userId" });
 Users.hasMany(Shared, { as: "owner", foreignKey: "ownerId" });
 Users.hasMany(Shared, { as: "sharedWith", foreignKey: "sharedWithId" });

@@ -6,8 +6,6 @@ import HeardFrom from "../../database/models/HeardFrom.js";
 const registerUser = async (credentials) => {
     const passwordHash = sha256(credentials.password);
 
-    console.log("Credentials: ", credentials);
-
     const user = {
         id: uuid(),
         email: credentials.email,
