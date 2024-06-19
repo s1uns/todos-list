@@ -1,12 +1,19 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { Sequelize } from "sequelize";
 import sequelize from "./models/index.js";
 import Shared from "./models/Shared.js";
 import Todo from "./models/todo.js";
 import User from "./models/user.js";
 
+User.hasMany(Todo, { as: "todos", foreignKey: "creatorId" });
+
+Todo.belongsTo(User, { as: "creator", foreignKey: "creatorId" });
+
+Shared.belongsTo(User, { foreignKey: "ownerId" });
+Shared.belongsTo(User, { foreignKey: "sharedWithId" });
+
 const sequelizeToInitDb = new Sequelize(
     "",
-    "root",
+    process.env.DATABASE_USERNAME,
     process.env.DATABASE_PASSWORD,
     {
         host: process.env.DATABASE_HOST,

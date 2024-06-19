@@ -26,7 +26,6 @@ app.use(reqTimeMiddleware, responseMiddleware);
 
 const port = process.env.SERVER_PORT;
 
-
 try {
     User.hasMany(Todo, { as: "todos", foreignKey: "creatorId" });
 
@@ -36,7 +35,6 @@ try {
     Shared.belongsTo(User, { foreignKey: "sharedWithId" });
 
     await sequelize.sync();
-    console.log(sequelize.models.User.associations);
     console.log("Connection has been established successfully.");
 } catch (error) {
     console.error("Unable to connect to the database:", error);

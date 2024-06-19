@@ -23,14 +23,6 @@ const Todo = sequelize.define(
         },
         isCompleted: { type: DataTypes.BOOLEAN, defaultValue: false },
         isUpdated: { type: DataTypes.BOOLEAN, defaultValue: false },
-        creatorId: {   //Todo.js
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: "users",
-                key: "id",
-            },
-        },
     },
     {
         tableName: "todos",
