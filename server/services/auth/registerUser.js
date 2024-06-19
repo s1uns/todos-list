@@ -1,8 +1,13 @@
 import { sha256 } from "js-sha256";
 import { v4 as uuid } from "uuid";
-import User from "../../database/models/user.js";
+import Users from "../../database/models/Users.js";
+import HeardFrom from "../../database/models/HeardFrom.js";
+
 const registerUser = async (credentials) => {
     const passwordHash = sha256(credentials.password);
+
+    console.log("Credentials: ", credentials);
+
     const user = {
         id: uuid(),
         email: credentials.email,
@@ -17,7 +22,7 @@ const registerUser = async (credentials) => {
         password: passwordHash,
     };
 
-    const createdUser = await User.create({
+    const createdUser = await Users.create({
         id: user.id,
         email: user.email,
         firstName: user.firstName,
@@ -30,6 +35,15 @@ const registerUser = async (credentials) => {
         password: user.password,
     });
 
+    user.heardFrom.map(
+        async (heardFrom) =>
+            await HeardFrom.create({
+                id: uuid(),
+                userId: user.id,
+                value: heardFrom,
+            }),
+    );
+
     const userInfo = {
         userId: createdUser.id,
         email: createdUser.email,
@@ -39,7 +53,6 @@ const registerUser = async (credentials) => {
         gender: createdUser.gender,
         country: createdUser.country,
         city: createdUser.city,
-        // heardFrom: createdUser.heardFrom,
     };
 
     return userInfo;

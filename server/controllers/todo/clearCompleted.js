@@ -1,4 +1,4 @@
-import Todo from "../../database/models/todo.js";
+import Todo from "../../database/models/Todos.js";
 
 const clearCompleted = async (req, res) => {
     console.log(

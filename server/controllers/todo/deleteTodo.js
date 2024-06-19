@@ -1,4 +1,4 @@
-import Todo from "../../database/models/todo.js";
+import Todo from "../../database/models/Todos.js";
 
 const deleteTodo = async (req, res) => {
     console.log(`The /delete-todo request was catched at ${req.requestTime}`);

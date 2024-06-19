@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize";
 import sequelize from "./index.js";
+import User from "./Users.js";
 
-const Todo = sequelize.define(
-    "Todo",
+const Todos = sequelize.define(
+    "Todos",
     {
         id: {
             allowNull: false,
@@ -23,11 +24,19 @@ const Todo = sequelize.define(
         },
         isCompleted: { type: DataTypes.BOOLEAN, defaultValue: false },
         isUpdated: { type: DataTypes.BOOLEAN, defaultValue: false },
+        creatorId: {
+            type: DataTypes.UUID,
+            references: {
+                model: User,
+                key: "id",
+            },
+        },
     },
     {
+        sequelize,
         tableName: "todos",
-        modelName: "Todo",
+        modelName: "Todos",
     },
 );
 
-export default Todo;
+export default Todos;

@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "./index.js";
 
-const User = sequelize.define(
-    "User",
+const Users = sequelize.define(
+    "Users",
     {
         id: {
             allowNull: false,
@@ -18,6 +18,15 @@ const User = sequelize.define(
                 },
                 isEmail: {
                     msg: "Must be a valid email address",
+                },
+            },
+        },
+        username: {
+            allowNull: false,
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: "The username is required.",
                 },
             },
         },
@@ -93,9 +102,9 @@ const User = sequelize.define(
     },
     {
         sequelize,
-        modelName: "User",
         tableName: "users",
+        modelName: "Users",
     },
 );
 
-export default User;
+export default Users;

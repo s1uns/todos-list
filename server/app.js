@@ -6,9 +6,6 @@ import reqTimeMiddleware from "./middleware/reqTimeMiddleware.js";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
 import sequelize from "./database/models/index.js";
-import User from "./database/models/user.js";
-import Shared from "./database/models/Shared.js";
-import Todo from "./database/models/todo.js";
 
 // share unshare
 // yup validation
@@ -25,20 +22,9 @@ app.use(cookieParser());
 app.use(reqTimeMiddleware, responseMiddleware);
 
 const port = process.env.SERVER_PORT;
+console.log("Models: ", sequelize.models);
 
-try {
-    User.hasMany(Todo, { as: "todos", foreignKey: "creatorId" });
 
-    Todo.belongsTo(User, { as: "creator", foreignKey: "creatorId" });
-
-    Shared.belongsTo(User, { foreignKey: "ownerId" });
-    Shared.belongsTo(User, { foreignKey: "sharedWithId" });
-
-    await sequelize.sync();
-    console.log("Connection has been established successfully.");
-} catch (error) {
-    console.error("Unable to connect to the database:", error);
-}
 
 app.get("/", (req, res) => {
     res.send("Started Working, Express!");

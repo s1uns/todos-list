@@ -1,15 +1,6 @@
-import { Sequelize } from "sequelize";
 import sequelize from "./models/index.js";
-import Shared from "./models/Shared.js";
-import Todo from "./models/todo.js";
-import User from "./models/user.js";
-
-User.hasMany(Todo, { as: "todos", foreignKey: "creatorId" });
-
-Todo.belongsTo(User, { as: "creator", foreignKey: "creatorId" });
-
-Shared.belongsTo(User, { foreignKey: "ownerId" });
-Shared.belongsTo(User, { foreignKey: "sharedWithId" });
+import { Sequelize } from "sequelize";
+import { Users, Todos, Shared, HeardFrom } from "./models/relations.js";
 
 const sequelizeToInitDb = new Sequelize(
     "",
@@ -42,6 +33,8 @@ async function initDatabase() {
         console.log(
             "All migrations applied successfully, connection has established.",
         );
+
+        console.log("Database tables: ", sequelize.models);
 
         process.exit(0);
     } catch (error) {

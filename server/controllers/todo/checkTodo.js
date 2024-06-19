@@ -1,4 +1,4 @@
-import Todo from "../../database/models/todo.js";
+import Todo from "../../database/models/Todos.js";
 const checkTodo = async (req, res) => {
     console.log(`The /check-todo request was catched at ${req.requestTime}`);
     const { id: todoId } = req.params;

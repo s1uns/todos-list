@@ -1,5 +1,5 @@
-import Todo from "../../database/models/todo.js";
-import User from "../../database/models/user.js";
+import Todos from "../../database/models/Todos.js";
+import { Users } from "../../database/models/relations.js";
 
 const getTodos = async (req, res) => {
     console.log(`The /get-todos request was catched at ${req.requestTime}`);
@@ -10,9 +10,9 @@ const getTodos = async (req, res) => {
         return res.notFound("Couldn't get the user's id");
     }
 
-    const todos = await Todo.findAll({
+    const todos = await Todos.findAll({
         where: { creatorId: userId },
-        include: [{ model: User, as: "creator" }],
+        include: [{ model: Users, as: "creator" }],
     });
 
     console.log(

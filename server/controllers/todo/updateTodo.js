@@ -1,4 +1,4 @@
-import Todo from "../../database/models/todo.js";
+import Todo from "../../database/models/Todos.js";
 
 const updateTodo = async (req, res) => {
     console.log(`The /update-todo request was catched at ${req.requestTime}`);
@@ -18,7 +18,6 @@ const updateTodo = async (req, res) => {
 
     todo.title = newTitle;
     todo.isUpdated = true;
-    // const updatedTodo = await updateTodoAsync(todoId, newTitle);
 
     todo.save();
     console.log(

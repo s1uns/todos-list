@@ -5,7 +5,7 @@ import {
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
 import { validateFields } from "./helpers.js";
-import User from "../../database/models/user.js";
+import User from "../../database/models/Users.js";
 
 const register = async (req, res) => {
     console.log(`The /registration request was catched at ${req.requestTime}`);

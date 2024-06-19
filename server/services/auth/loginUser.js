@@ -1,10 +1,10 @@
 import { sha256 } from "js-sha256";
-import User from "../../database/models/user.js";
+import Users from "../../database/models/Users.js";
 
 const loginUser = async (email, password) => {
     const passwordHash = sha256(password);
 
-    const user = await User.findOne({ email: email, password: passwordHash });
+    const user = await Users.findOne({ email: email, password: passwordHash });
 
     if (!user) {
         return null;

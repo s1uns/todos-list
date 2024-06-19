@@ -1,4 +1,4 @@
-import Todo from "../../database/models/todo.js";
+import Todo from "../../database/models/Todos.js";
 import { v4 as uuid } from "uuid";
 
 const createTodo = async (req, res) => {
