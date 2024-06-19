@@ -1,5 +1,6 @@
-import { Sequelize, DataTypes }from "sequelize";
-const sequelize = new Sequelize("sqlite::memory:");
+import { DataTypes } from "sequelize";
+import sequelize from "./index.js";
+
 const Shared = sequelize.define(
     "Shared",
     {
@@ -20,7 +21,4 @@ const Shared = sequelize.define(
     },
 );
 
-Shared.belongsTo(sequelize.models.User, { as: "ownerId" });
-Shared.belongsTo(sequelize.models.User, { as: "sharedWithId" });
-
-module.exports(Shared);
+export default Shared;

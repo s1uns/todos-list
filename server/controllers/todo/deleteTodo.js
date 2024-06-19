@@ -1,7 +1,4 @@
-import {
-    deleteTodo as deleteTodoAsync,
-    getTodo,
-} from "../../models/todos/index.js";
+import Todo from "../../database/models/todo.js";
 
 const deleteTodo = async (req, res) => {
     console.log(`The /delete-todo request was catched at ${req.requestTime}`);
@@ -9,17 +6,21 @@ const deleteTodo = async (req, res) => {
     const { id: todoId } = req.params;
     const { userId } = req;
 
-    const todo = await getTodo(todoId);
+    const todo = await Todo.findByPk(todoId);
 
     if (!todo) {
         return res.notFound("Todo not found.");
     }
 
-    if (todo.userId != userId) {
+    if (todo.creatorId != userId) {
         return res.forbidden("It's not your todo");
     }
 
-    await deleteTodoAsync(todoId);
+    await todo.destroy({
+        where: {
+            id: todoId,
+        },
+    });
 
     console.log(
         `The /delete-todo response was returned at ${res.getResponseTime()}`,

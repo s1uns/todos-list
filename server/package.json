@@ -4,10 +4,9 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "init": "npx sequelize-cli db:create",
-        "migrate": "npx sequelize-cli db:migrate --env-file=config/.env",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "npx sequelize-cli db:migrate && node --env-file=config/.env app.js"
+        "dev": "node --env-file=config/.env app.js",
+        "initial-db-setup": "node --env-file=config/.env database/initial.js"
     },
     "keywords": [],
     "author": "",

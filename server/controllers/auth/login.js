@@ -34,14 +34,12 @@ const login = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-
     });
 
     res.cookie("REFRESH_TOKEN", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-
     });
     console.log(`The /login response was returned at ${res.getResponseTime()}`);
     return res.success(response);

@@ -1,8 +1,8 @@
-import { Sequelize, DataTypes }from "sequelize";
-const sequelize = new Sequelize("sqlite::memory:");
+import { DataTypes } from "sequelize";
+import sequelize from "./index.js";
 
 const Todo = sequelize.define(
-    "Todos",
+    "Todo",
     {
         id: {
             allowNull: false,
@@ -21,8 +21,16 @@ const Todo = sequelize.define(
                 },
             },
         },
-        isCompleted: DataTypes.BOOLEAN,
-        isUpdated: DataTypes.BOOLEAN,
+        isCompleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+        isUpdated: { type: DataTypes.BOOLEAN, defaultValue: false },
+        creatorId: {   //Todo.js
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: "users",
+                key: "id",
+            },
+        },
     },
     {
         tableName: "todos",
@@ -30,4 +38,4 @@ const Todo = sequelize.define(
     },
 );
 
-export default Todo
+export default Todo;

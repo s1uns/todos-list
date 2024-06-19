@@ -1,5 +1,6 @@
-import { Sequelize, DataTypes }from "sequelize";
-const sequelize = new Sequelize("sqlite::memory:");
+import { DataTypes } from "sequelize";
+import sequelize from "./index.js";
+
 const User = sequelize.define(
     "User",
     {
@@ -57,7 +58,6 @@ const User = sequelize.define(
             allowNull: false,
             type: DataTypes.INTEGER,
             validate: {
-                min: { args: 0, msg: "The gender can only be positive." },
                 notNull: {
                     msg: "The gender is required.",
                 },
@@ -68,7 +68,7 @@ const User = sequelize.define(
         },
         country: {
             allowNull: false,
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             validate: {
                 notNull: {
                     msg: "The country is required.",
@@ -80,7 +80,7 @@ const User = sequelize.define(
         },
         city: {
             allowNull: false,
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             validate: {
                 notNull: {
                     msg: "The city is required.",
@@ -98,6 +98,4 @@ const User = sequelize.define(
     },
 );
 
-User.hasMany(sequelize.models.Todo, { foreignKey: "creatorId" });
-
-export default User
+export default User;

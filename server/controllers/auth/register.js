@@ -1,11 +1,11 @@
 import { validateEmail, validatePassword } from "./helpers.js";
 import { registerUser } from "../../services/auth/index.js";
-import { userExists } from "../../models/user/index.js";
 import {
     generateAccessToken,
     generateRefreshToken,
 } from "../../services/auth/helpers.js";
 import { validateFields } from "./helpers.js";
+import User from "../../database/models/user.js";
 
 const register = async (req, res) => {
     console.log(`The /registration request was catched at ${req.requestTime}`);
@@ -42,7 +42,7 @@ const register = async (req, res) => {
         return res.badRequest("One or more required fields are empty");
     }
 
-    const userAlreadyExists = await userExists(email);
+    const userAlreadyExists = await User.findOne({ where: { email } });
 
     if (userAlreadyExists) {
         console.log(

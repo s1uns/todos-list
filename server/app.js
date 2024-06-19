@@ -5,8 +5,7 @@ import cookieParser from "cookie-parser";
 import reqTimeMiddleware from "./middleware/reqTimeMiddleware.js";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
-import sequelize from "./config/dbConfig.js";
-console.log("Sequelize: ", sequelize)
+import sequelize from "./database/models/index.js";
 
 
 // move to Sequelize
@@ -25,9 +24,9 @@ app.use(cookieParser());
 app.use(reqTimeMiddleware, responseMiddleware);
 
 const port = process.env.SERVER_PORT;
+
 try {
     await sequelize.authenticate();
-    await sequelize.sync();
     console.log("Connection has been established successfully.");
 } catch (error) {
     console.error("Unable to connect to the database:", error);

@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 const sequelize = new Sequelize(
-    "todolist",
+    "todolist", //ENV
     "root",
     process.env.DATABASE_PASSWORD,
     {
