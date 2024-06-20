@@ -1,6 +1,5 @@
 import Todo from "../../database/models/Todos.js";
 const checkTodo = async (req, res) => {
-    console.log(`The /check-todo request was catched at ${req.requestTime}`);
     const { id: todoId } = req.params;
     const { userId } = req;
 
@@ -16,10 +15,6 @@ const checkTodo = async (req, res) => {
 
     todo.isCompleted = !todo.isCompleted;
     todo.save();
-
-    console.log(
-        `The /check-todo response was returned at ${res.getResponseTime()}`,
-    );
 
     return res.success(todo);
 };

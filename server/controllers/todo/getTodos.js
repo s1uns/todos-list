@@ -3,7 +3,6 @@ import { Users, Todos, Shared } from "../../database/models/relations.js";
 import { mapOwnTodos, mapSharedTodos } from "../../services/todos/index.js";
 
 const getTodos = async (req, res) => {                //merge to one query, add pagination
-    console.log(`The /get-todos request was catched at ${req.requestTime}`);
 
     const userId = req.userId;
 
@@ -41,10 +40,6 @@ const getTodos = async (req, res) => {                //merge to one query, add 
     });
 
     const sharedTodos = await mapSharedTodos(unmappedSharedTodos);
-
-    console.log(
-        `The /get-todos response was returned at ${res.getResponseTime()}`,
-    );
 
     return res.success([...ownTodos, ...sharedTodos]);
 };

@@ -8,7 +8,6 @@ import { validateFields } from "./helpers.js";
 import User from "../../database/models/Users.js";
 
 const register = async (req, res) => {
-    console.log(`The /registration request was catched at ${req.requestTime}`);
 
     const {
         email,
@@ -36,18 +35,13 @@ const register = async (req, res) => {
     );
 
     if (!isUserValid) {
-        console.log(
-            `The /registration response was returned at ${res.getResponseTime()}`,
-        );
+
         return res.badRequest("One or more required fields are empty");
     }
 
     const userAlreadyExists = await User.findOne({ where: { email } });
 
     if (userAlreadyExists) {
-        console.log(
-            `The /registration response was returned at ${res.getResponseTime()}`,
-        );
         return res.unprocessableEntity(
             "The user with such email already exists",
         );
@@ -56,18 +50,13 @@ const register = async (req, res) => {
     const isEmailValid = await validateEmail(email);
 
     if (!isEmailValid) {
-        console.log(
-            `The /registration response was returned at ${res.getResponseTime()}`,
-        );
+
         return res.unprocessableEntity("The email you specified is wrong");
     }
 
     const isPasswordValid = await validatePassword(password);
 
     if (!isPasswordValid) {
-        console.log(
-            `The /registration response was returned at ${res.getResponseTime()}`,
-        );
 
         return res.unprocessableEntity("The password you specified is wrong");
     }
@@ -99,10 +88,6 @@ const register = async (req, res) => {
         secure: true,
         sameSite: "strict",
     });
-
-    console.log(
-        `The /registration response was returned at ${res.getResponseTime()}`,
-    );
 
     return res.success(response);
 };

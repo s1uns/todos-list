@@ -1,0 +1,24 @@
+2024-06-20T20:29:58.927Z error: uncaughtException: logger.warn is not a function
+TypeError: logger.warn is not a function
+    at file:///C:/Users/User/Desktop/todos-list/server/middleware/authMiddleware.js:15:28
+    at module.exports [as verify] (C:\Users\User\Desktop\todos-list\server\node_modules\jsonwebtoken\verify.js:60:12)
+    at file:///C:/Users/User/Desktop/todos-list/server/middleware/authMiddleware.js:13:17
+    at module.exports [as verify] (C:\Users\User\Desktop\todos-list\server\node_modules\jsonwebtoken\verify.js:60:12)
+    at authMiddleware (file:///C:/Users/User/Desktop/todos-list/server/middleware/authMiddleware.js:11:9)
+    at Layer.handle [as handle_request] (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:328:13)
+    at C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:280:10)
+2024-06-20T20:31:25.470Z error: uncaughtException: logger.warn is not a function
+TypeError: logger.warn is not a function
+    at file:///C:/Users/User/Desktop/todos-list/server/middleware/authMiddleware.js:15:28
+    at module.exports [as verify] (C:\Users\User\Desktop\todos-list\server\node_modules\jsonwebtoken\verify.js:60:12)
+    at file:///C:/Users/User/Desktop/todos-list/server/middleware/authMiddleware.js:13:17
+    at module.exports [as verify] (C:\Users\User\Desktop\todos-list\server\node_modules\jsonwebtoken\verify.js:60:12)
+    at authMiddleware (file:///C:/Users/User/Desktop/todos-list/server/middleware/authMiddleware.js:11:9)
+    at Layer.handle [as handle_request] (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:328:13)
+    at C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Users\User\Desktop\todos-list\server\node_modules\express\lib\router\index.js:280:10)

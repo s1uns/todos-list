@@ -2,9 +2,6 @@ import { Shared } from "../../database/models/relations.js";
 import { getAvailableUsers as getAvailableUsersAsync } from "../../services/user/index.js";
 
 const getAvailableUsers = async (req, res) => {
-    console.log(
-        `The /available-users request was catched at ${req.requestTime}`,
-    );
 
     const userId = req.userId;
     const { page, limit } = req.query;
@@ -25,10 +22,6 @@ const getAvailableUsers = async (req, res) => {
         limit: +limit ? +limit : 3,
         alreadyChosenUsersIds: [...alreadyChosenUsersIds, userId],
     });
-
-    console.log(
-        `The /available-users response was returned at ${res.getResponseTime()}`,
-    );
 
     return res.success(result);
 };

@@ -12,7 +12,6 @@ const getRequest = async (url) => {
         if (err.response.status === 401) {
             store.dispatch(logoutUserRequest());
         }
-        console.log(err.message);
         return err.response.data;
     }
 };

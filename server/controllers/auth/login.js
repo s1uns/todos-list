@@ -6,8 +6,6 @@ import {
 import { validateFields } from "./helpers.js";
 
 const login = async (req, res) => {
-    console.log(`The /login request was catched at ${req.requestTime}`);
-
     const { email, password } = req.body;
 
     const isUserValid = await validateFields(email, password);
@@ -19,9 +17,6 @@ const login = async (req, res) => {
     const response = await loginUser(email, password);
 
     if (!response) {
-        console.log(
-            `The /login response was returned at ${res.getResponseTime()}`,
-        );
         return res.badRequest(
             "The email or password you've specified is wrong.",
         );
@@ -41,7 +36,7 @@ const login = async (req, res) => {
         secure: true,
         sameSite: "strict",
     });
-    console.log(`The /login response was returned at ${res.getResponseTime()}`);
+    
     return res.success(response);
 };
 

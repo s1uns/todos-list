@@ -1,9 +1,6 @@
 import Todo from "../../database/models/Todos.js";
 
 const clearCompleted = async (req, res) => {
-    console.log(
-        `The /clear-completed request was catched at ${req.requestTime}`,
-    );
 
     const { userId } = req;
 
@@ -14,10 +11,6 @@ const clearCompleted = async (req, res) => {
     const todos = await Todo.findAll({
         where: { creatorId: userId },
     });
-
-    console.log(
-        `The /clear-completed response was returned at ${res.getResponseTime()}`,
-    );
 
     return res.success(todos);
 };

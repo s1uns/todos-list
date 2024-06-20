@@ -1,7 +1,6 @@
 import Todo from "../../database/models/Todos.js";
 
 const deleteTodo = async (req, res) => {
-    console.log(`The /delete-todo request was catched at ${req.requestTime}`);
 
     const { id: todoId } = req.params;
     const { userId } = req;
@@ -21,10 +20,6 @@ const deleteTodo = async (req, res) => {
             id: todoId,
         },
     });
-
-    console.log(
-        `The /delete-todo response was returned at ${res.getResponseTime()}`,
-    );
 
     return res.success();
 };

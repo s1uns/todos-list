@@ -53,7 +53,6 @@ const ShareTodosModal = ({ open, onClose }) => {
                 })
             );
 
-            //try catch in axios
         }
     };
 
