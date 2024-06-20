@@ -1,5 +1,5 @@
-import { Shared, Users } from "../../database/models/relations.js";
-import { Sequelize } from "sequelize";
+import { Shared } from "../../database/models/relations.js";
+import { getAvailableUsers as getAvailableUsersAsync } from "../../services/user/index.js";
 
 const getAvailableUsers = async (req, res) => {
     console.log(
@@ -7,6 +7,10 @@ const getAvailableUsers = async (req, res) => {
     );
 
     const userId = req.userId;
+    const { page, limit } = req.query;
+
+    console.log("page: ", page);
+    console.log("limit: ", limit);
 
     if (!userId) {
         return res.notFound("Couldn't get the user's id");
@@ -19,27 +23,17 @@ const getAvailableUsers = async (req, res) => {
         })
     ).map((sharedWith) => sharedWith.sharedWithId);
 
-    console.log("Already chosen: ", alreadyChosenUsersIds);
-
-    const availableUsers = (
-        await Users.findAll({
-            where: {
-                id: {
-                    [Sequelize.Op.notIn]: [...alreadyChosenUsersIds, userId],
-                },
-            },
-            attributes: ["id", "firstName", "lastName"],
-        })
-    ).map((userInfo) => ({
-        userId: userInfo.id,
-        fullName: `${userInfo.firstName} ${userInfo.lastName}`,
-    }));
+    const result = await getAvailableUsersAsync({
+        page: +page ? +page : 1,
+        limit: +limit ? +limit : 3,
+        alreadyChosenUsersIds: [...alreadyChosenUsersIds, userId],
+    });
 
     console.log(
         `The /available-users response was returned at ${res.getResponseTime()}`,
     );
 
-    return res.success(availableUsers);
+    return res.success(result);
 };
 
 export default getAvailableUsers;
