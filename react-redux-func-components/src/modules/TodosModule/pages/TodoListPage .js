@@ -8,6 +8,19 @@ import { useDispatch } from "react-redux";
 import { Button, Container, Typography, Box, List } from "@mui/material";
 import styled from "@emotion/styled";
 
+const AbsoluteContainer = styled(Container)((props) => ({
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: "1rem",
+    margin: 0,
+    padding: 0,
+    marginTop: "-3rem",
+    position: "absolute",
+    top: "3rem",
+    right: props.right,
+}));
+
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
     const currentFilter = useSelector((state) => state.currentFilter);
@@ -40,18 +53,19 @@ const TodoListPage = () => {
 
     return (
         <>
+            <AbsoluteContainer right={"84%"}>
+                <Button
+                    sx={{ width: "20%", height: "50%" }}
+                    className="logout-button"
+                    onClick={handleLogOut}
+                >
+                    Share
+                </Button>
+            </AbsoluteContainer>
+
             <Typography variant="h1">ToDo</Typography>
             {user ? (
-                <Container
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "1rem",
-                        marginTop: "-3rem",
-                    }}
-                >
+                <AbsoluteContainer right={0}>
                     <Typography variant="h2">
                         Welcome, {user.fullName}
                     </Typography>
@@ -62,10 +76,11 @@ const TodoListPage = () => {
                     >
                         Log Out
                     </Button>
-                </Container>
+                </AbsoluteContainer>
             ) : (
                 <></>
             )}
+
             <Container
                 sx={{
                     display: "flex",

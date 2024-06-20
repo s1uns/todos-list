@@ -1,14 +1,13 @@
 import { router as authRouter } from "./routes/auth/index.js";
 import { router as todosRouter } from "./routes/todos/index.js";
 import { router as sharedRouter } from "./routes/shared/index.js";
+import { router as userRouter } from "./routes/user/index.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import reqTimeMiddleware from "./middleware/reqTimeMiddleware.js";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
-import sequelize from "./database/models/index.js";
 
-// share unshare
 // yup validation
 // user-sheet
 
@@ -23,7 +22,6 @@ app.use(cookieParser());
 app.use(reqTimeMiddleware, responseMiddleware);
 
 const port = process.env.SERVER_PORT;
-console.log("Models: ", sequelize.models);
 
 app.get("/", (req, res) => {
     res.send("Started Working, Express!");
@@ -32,6 +30,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/todos", todosRouter);
 app.use("/shared", sharedRouter);
+app.use("/user", userRouter);
 
 app.listen(port, () => {
     console.log(`Server listening at port: ${port}`);

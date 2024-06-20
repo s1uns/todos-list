@@ -1,4 +1,3 @@
-import sequelize from "../../database/models/index.js";
 import { Shared, Users } from "../../database/models/relations.js";
 import { Sequelize } from "sequelize";
 
@@ -15,7 +14,7 @@ const getAvailableUsers = async (req, res) => {
 
     const alreadyChosenUsersIds = (
         await Shared.findAll({
-            where: { ownerId: userId },
+            where: { ownerId: userId, status: "active" },
             attributes: ["sharedWithId"],
         })
     ).map((sharedWith) => sharedWith.sharedWithId);
