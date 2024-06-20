@@ -7,6 +7,8 @@ import {
     getTodos,
     updateTodo,
 } from "./todo";
+import { getAvailableUsers } from "./user";
+import { shareTodos } from "./shared";
 
 export {
     loginUser,
@@ -18,4 +20,6 @@ export {
     deleteTodo,
     getTodos,
     updateTodo,
+    getAvailableUsers,
+    shareTodos,
 };

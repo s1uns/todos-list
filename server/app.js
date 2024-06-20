@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/todos", todosRouter);
 app.use("/shared", sharedRouter);
-app.use("/user", userRouter);
+app.use("/users", userRouter);
 
 app.listen(port, () => {
     console.log(`Server listening at port: ${port}`);
