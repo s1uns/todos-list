@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ToDoInput from "../components/ToDoInput";
 import ToDoItem from "../components/ToDoItem";
 import Footer from "../components/Footer";
@@ -7,6 +7,7 @@ import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
 import { Modal, Button, Container, Typography, Box, List } from "@mui/material";
 import styled from "@emotion/styled";
+import ShareTodosModal from "../components/ShareTodosModal";
 
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
@@ -14,7 +15,7 @@ const TodoListPage = () => {
     const user = useSelector((state) => state.user);
     const itemsCount = todos.filter((todo) => !todo.isCompleted).length;
     const dispatch = useDispatch();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const filtratedTodos = todos.filter((todo) => {
@@ -95,30 +96,7 @@ const TodoListPage = () => {
                 </TodoBlock>
                 <Footer itemsCount={itemsCount} currentFilter={currentFilter} />
             </Container>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <ShareWithUserModal>
-                    <Typography
-                        id="modal-modal-title"
-                        variant="h3"
-                        component="h2"
-                    >
-                        Share your todos
-                    </Typography>
-                    <Typography
-                        id="modal-modal-description"
-                        variant="h5"
-                        sx={{ mt: 2 }}
-                    >
-                        Select the user to share your todos with from the list
-                        below
-                    </Typography>
-                </ShareWithUserModal>
-            </Modal>
+            <ShareTodosModal open={open} onClose={handleClose} />
         </>
     );
 };
@@ -152,22 +130,5 @@ const HeaderBlock = styled(Container)((props) => ({
     top: "3rem",
     right: props.right,
 }));
-
-const ShareWithUserModal = styled(Box)({
-    position: "absolute",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "40rem",
-    height: "50rem",
-    backgroundColor: "white",
-    border: "2px solid #000",
-    borderRadius: "2rem",
-    boxShadow: 24,
-    padding: "2rem",
-});
 
 const HeaderButton = styled(Button)({ width: "20%", height: "50%" });

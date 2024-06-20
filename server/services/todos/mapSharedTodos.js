@@ -1,9 +1,12 @@
 const mapSharedTodos = async (todos) =>
-    todos.map((ownerObj) => {
+    todos.flatMap((ownerObj) => {
         const { owner } = ownerObj;
         const fullName = `${owner.firstName[0]} ${owner.lastName[0]}`;
 
-        return { ...owner.todo, author: fullName, isAuthor: false };
+        if (owner.todo.id) {
+            return { ...owner.todo, author: fullName, isAuthor: false };
+        }
+        return [];
     });
 
 export default mapSharedTodos;

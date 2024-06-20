@@ -13,19 +13,20 @@ const getAvailableUsers = async ({ page, limit, alreadyChosenUsersIds }) => {
                 [Sequelize.Op.notIn]: alreadyChosenUsersIds,
             },
         },
-        attributes: ["id", "firstName", "lastName"],
+        attributes: ["id", "username", "firstName", "lastName"],
         raw: true,
         ...queries,
     });
 
-    const data = availableUsers.rows.map((userInfo) => ({
-        userId: userInfo.id,
+    const users = availableUsers.rows.map((userInfo) => ({
+        id: userInfo.id,
+        username: userInfo.username,
         fullName: `${userInfo.firstName} ${userInfo.lastName}`,
     }));
 
     const totalPages = Math.ceil(availableUsers?.count / limit);
 
-    return { data: data, totalPages: totalPages };
+    return { users: users, totalPages: totalPages };
 };
 
 export default getAvailableUsers;

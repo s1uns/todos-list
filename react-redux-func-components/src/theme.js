@@ -54,6 +54,8 @@ const theme = createTheme({
                     fontSize: "2rem",
                     cursor: "pointer",
                     marginTop: "1rem",
+                    zIndex: 1000,
+
 
                     "&:hover": {
                         backgroundColor: "#009bf3",

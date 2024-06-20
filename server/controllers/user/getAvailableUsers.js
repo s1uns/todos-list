@@ -9,9 +9,6 @@ const getAvailableUsers = async (req, res) => {
     const userId = req.userId;
     const { page, limit } = req.query;
 
-    console.log("page: ", page);
-    console.log("limit: ", limit);
-
     if (!userId) {
         return res.notFound("Couldn't get the user's id");
     }
