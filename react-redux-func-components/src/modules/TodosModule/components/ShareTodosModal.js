@@ -1,32 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { getAvailableUsers, shareTodos } from "../../../api";
+import { getAvailableUsers as getAvailableUsersAsync, shareTodos } from "../../../api";
 import { useDispatch } from "react-redux";
 import {
     Pagination,
     Modal,
     Box,
     Typography,
-    Container,
     List,
     ListItem,
 } from "@mui/material";
-import { actionSuccessType } from "../../../store/actions/actionTypes";
+import { actionSuccessType } from "../../../store/actions/constants";
 import styled from "@emotion/styled";
 
-const ShareTodosModal = (props) => {
-    const { open, onClose } = props;
+const ShareTodosModal = ({ open, onClose }) => {
     const [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (open) {
+            getAvailableUsers(currentPage, 3);
+        }
+    }, [open, currentPage]);
+
+    const handleChangePage = (event, newPage) => {
+        setCurrentPage(newPage);
+    };
 
     const handleClose = () => {
         setCurrentPage(0);
         onClose();
     };
 
-    const setAvailableUsers = async (page, limit) => {
-        const response = await getAvailableUsers(page, limit);
+    const getAvailableUsers = async (page, limit) => {
+        const response = await getAvailableUsersAsync(page, limit);
 
         if (response.success) {
             const { users, totalPages } = response.data;
@@ -41,6 +49,8 @@ const ShareTodosModal = (props) => {
                     message: response.message,
                 },
             });
+
+            //try catch in axios
         }
     };
 
@@ -63,18 +73,12 @@ const ShareTodosModal = (props) => {
                     type: actionSuccessType.ADD_NOTIFICATION_SUCCESS,
                     payload: {
                         id: new Date(Date.now()),
-                        message: response.data,
+                        message: response.message,
                     },
                 });
             }
         }
     };
-
-    useEffect(() => {
-        if (open) {
-            setAvailableUsers(currentPage, 3);
-        }
-    }, [open, currentPage]);
 
     return (
         <Modal
@@ -104,8 +108,15 @@ const ShareTodosModal = (props) => {
                         </UserInfo>
                     ))}
                 </UsersList>
+                <UsersPagination
+                    size="large"
+                    count={totalPages}
+                    defaultPage={1}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handleChangePage}
+                />
             </ShareWithUserModal>
-            {/* <Pagination count={totalPages} variant="outlined" shape="rounded" /> */}
         </Modal>
     );
 };
@@ -130,6 +141,7 @@ const ShareWithUserModal = styled(Box)({
 });
 
 const UsersList = styled(List)({
+    marginTop: "2rem",
     width: "100%",
     fontSize: "2rem",
 });
@@ -147,4 +159,12 @@ const UserInfo = styled(ListItem)({
         cursor: "pointer",
         transform: "translateY(-.1rem)",
     },
+});
+
+const UsersPagination = styled(Pagination)({
+    position: "absolute",
+    bottom: "2rem",
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
 });

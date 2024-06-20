@@ -18,6 +18,7 @@ const getAvailableUsers = async ({ page, limit, alreadyChosenUsersIds }) => {
         ...queries,
     });
 
+    //rename to list
     const users = availableUsers.rows.map((userInfo) => ({
         id: userInfo.id,
         username: userInfo.username,

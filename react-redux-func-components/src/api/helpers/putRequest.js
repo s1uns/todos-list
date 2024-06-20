@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../../store/store";
-import { actionRequestType } from "../../store/actions/actionTypes.js";
+import { actionRequestType } from "../../store/actions/constants.js";
 
 axios.defaults.withCredentials = true;
 

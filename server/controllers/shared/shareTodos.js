@@ -1,7 +1,7 @@
 import { Shared } from "../../database/models/relations.js";
 import { v4 as uuid } from "uuid";
 
-const shareTodos = async (req, res) => {
+const shareTodos = async (req, res) => {   
     console.log(`The /share-todos request was catched at ${req.requestTime}`);
 
     const userId = req.userId;

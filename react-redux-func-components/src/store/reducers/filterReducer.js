@@ -1,5 +1,5 @@
 import { handleActions } from "redux-actions";
-import { actionSuccessType } from "../actions/actionTypes";
+import { actionSuccessType } from "../actions/constants";
 
 const filterReducer = handleActions(
     {

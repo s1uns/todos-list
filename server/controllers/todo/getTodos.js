@@ -2,7 +2,7 @@ import { raw } from "mysql";
 import { Users, Todos, Shared } from "../../database/models/relations.js";
 import { mapOwnTodos, mapSharedTodos } from "../../services/todos/index.js";
 
-const getTodos = async (req, res) => {
+const getTodos = async (req, res) => {                //merge to one query, add pagination
     console.log(`The /get-todos request was catched at ${req.requestTime}`);
 
     const userId = req.userId;
