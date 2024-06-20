@@ -1,37 +1,37 @@
 import { v4 as uuid } from "uuid";
 import eventEmitter from "./EventEmitter";
-import { actionRequestType, actionSuccessType } from "./ActionTypes";
+import { actionRequestType, actionSuccessType } from "./constants";
 
 class Sagas {
     constructor() {
         eventEmitter.subscribe(
             actionRequestType.ADD_TODO_REQUEST,
-            this.createTodo,
+            this.createTodo
         );
 
         eventEmitter.subscribe(
             actionRequestType.DELETE_TODO_REQUEST,
-            this.deleteTodo,
+            this.deleteTodo
         );
 
         eventEmitter.subscribe(
             actionRequestType.EDIT_TODO_REQUEST,
-            this.editTodo,
+            this.editTodo
         );
 
         eventEmitter.subscribe(
             actionRequestType.CHECK_TODO_REQUEST,
-            this.checkTodo,
+            this.checkTodo
         );
 
         eventEmitter.subscribe(
             actionRequestType.SET_FILTER_REQUEST,
-            this.setFilter,
+            this.setFilter
         );
 
         eventEmitter.subscribe(
             actionRequestType.CLEAR_COMPLETED_REQUEST,
-            this.clearCompleted,
+            this.clearCompleted
         );
     }
 

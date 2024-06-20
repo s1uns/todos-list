@@ -1,11 +1,12 @@
 import { useDispatch } from "react-redux";
-import { actionRequestType } from "../../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/constants";
 import React from "react";
 import { mapToField } from "../../../shared/utils/helpers";
 import authMapper from "../mappers/authMapper";
 import validateFormValues from "../../../shared/validators/ValidateFormValues";
 import { userLoginSchema } from "../../../shared/validators";
 import { Form } from "../../../shared/components/Form";
+import { loginUserRequest } from "../../../store/actions/authActions";
 
 const fields = [
     {
@@ -27,13 +28,12 @@ const LoginForm = () => {
     const handleLogin = (values) => {
         const { email, password } = values;
 
-        dispatch({
-            type: actionRequestType.LOGIN_USER_REQUEST,
-            payload: {
+        dispatch(
+            loginUserRequest({
                 email: email,
                 password: password,
-            },
-        });
+            })
+        );
 
         return;
     };

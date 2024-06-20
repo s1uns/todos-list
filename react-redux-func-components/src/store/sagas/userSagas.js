@@ -1,6 +1,14 @@
 import { takeEvery, put, call } from "redux-saga/effects";
-import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
+import { actionRequestType } from "../actions/constants";
 import { registerUser, loginUser, logoutUser } from "../../api";
+import {
+    loginUserSuccess,
+    registerUserSuccess,
+    logoutUserSuccess,
+} from "../actions/authActions";
+import { addNotificationRequest } from "../actions/notificationsActions";
+import { clearTodosSuccess } from "../actions/todosActions";
+import { setFilterSuccess } from "../actions/filterActions";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));
@@ -8,15 +16,14 @@ function* workRegisterUser({ payload }) {
     if (response.success) {
         const { id, email, fullName, username } = response.data;
 
-        yield put({
-            type: actionSuccessType.REGISTER_USER_SUCCESS,
-            payload: { id, email, fullName, username },
-        });
+        yield put(registerUserSuccess({ id, email, fullName, username }));
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
@@ -26,33 +33,25 @@ function* workLoginUser({ payload }) {
     if (response.success) {
         const { id, email, fullName, username } = response.data;
 
-        yield put({
-            type: actionSuccessType.LOGIN_USER_SUCCESS,
-            payload: { id, email, fullName, username },
-        });
+        yield put(loginUserSuccess({ id, email, fullName, username }));
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
 function* workLogoutUser() {
     yield call(() => logoutUser());
 
-    yield put({
-        type: actionSuccessType.CLEAR_TODOS_SUCCESS,
-    });
+    yield put(clearTodosSuccess());
 
-    yield put({
-        type: actionSuccessType.SET_FILTER_SUCCESS,
-        payload: "all"
-    });
+    yield put(setFilterSuccess("all"));
 
-    yield put({
-        type: actionSuccessType.LOGOUT_USER_SUCCESS,
-    });
+    yield put(logoutUserSuccess());
 }
 
 function* userSagas() {

@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import ToDoItem from "./components/ToDoItem";
 import store from "./store/Store";
 import eventEmitter from "./store/EventEmitter";
-import { stateActionType } from "./store/ActionTypes";
+import { stateActionType } from "./store/constants";
 
 class App extends Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class App extends Component {
 
         eventEmitter.subscribe(
             stateActionType.STATE_UPDATED,
-            this.stateUpdated,
+            this.stateUpdated
         );
     }
 

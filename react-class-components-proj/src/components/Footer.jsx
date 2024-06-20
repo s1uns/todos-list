@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import eventEmitter from "../store/EventEmitter";
-import { actionRequestType } from "../store/ActionTypes";
+import { actionRequestType } from "../store/constants";
 
 class Footer extends Component {
     setFilter = (filter) => {

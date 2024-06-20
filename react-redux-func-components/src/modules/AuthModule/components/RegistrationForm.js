@@ -1,12 +1,13 @@
 import { Form } from "../../../shared/components/Form";
 import { useDispatch } from "react-redux";
-import { actionRequestType } from "../../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/constants";
 import React from "react";
 import validateFormValues from "../../../shared/validators/ValidateFormValues";
 import { mapToField } from "../../../shared/utils/helpers";
 import { userRegistrationSchema } from "../../../shared/validators";
 import authMapper from "../mappers/authMapper";
 import { FormRow } from "../../../shared/components/FormRow";
+import { registerUserRequest } from "../../../store/actions/authActions";
 
 const topFullRows = [
     {
@@ -104,9 +105,8 @@ const RegistrationForm = () => {
             heardFrom,
         } = values;
 
-        dispatch({
-            type: actionRequestType.REGISTER_USER_REQUEST,
-            payload: {
+        dispatch(
+            registerUserRequest({
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
@@ -120,8 +120,8 @@ const RegistrationForm = () => {
                 city: city,
                 heardFrom: heardFrom,
                 password: password,
-            },
-        });
+            })
+        );
         return;
     };
 

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getAvailableUsers as getAvailableUsersAsync, shareTodos } from "../../../api";
+import {
+    getAvailableUsers as getAvailableUsersAsync,
+    shareTodos,
+} from "../../../api";
 import { useDispatch } from "react-redux";
 import {
     Pagination,
@@ -11,6 +14,7 @@ import {
 } from "@mui/material";
 import { actionSuccessType } from "../../../store/actions/constants";
 import styled from "@emotion/styled";
+import { addNotificationSuccess } from "../../../store/actions/notificationsActions";
 
 const ShareTodosModal = ({ open, onClose }) => {
     const [users, setUsers] = useState([]);
@@ -42,13 +46,12 @@ const ShareTodosModal = ({ open, onClose }) => {
             setUsers((prevUsers) => users);
             setTotalPages((prevTotalPages) => totalPages);
         } else {
-            dispatch({
-                type: actionSuccessType.ADD_NOTIFICATION_SUCCESS,
-                payload: {
+            dispatch(
+                addNotificationSuccess({
                     id: new Date(Date.now()),
                     message: response.message,
-                },
-            });
+                })
+            );
 
             //try catch in axios
         }
@@ -58,25 +61,21 @@ const ShareTodosModal = ({ open, onClose }) => {
         const response = await shareTodos(userId);
 
         if (response.success) {
-            dispatch({
-                type: actionSuccessType.ADD_NOTIFICATION_SUCCESS,
-                payload: {
+            dispatch(
+                addNotificationSuccess({
                     id: new Date(Date.now()),
                     message: response.data,
-                },
-            });
+                })
+            );
 
             onClose();
         } else {
-            if (response.success) {
-                dispatch({
-                    type: actionSuccessType.ADD_NOTIFICATION_SUCCESS,
-                    payload: {
-                        id: new Date(Date.now()),
-                        message: response.message,
-                    },
-                });
-            }
+            dispatch(
+                addNotificationSuccess({
+                    id: new Date(Date.now()),
+                    message: response.message,
+                })
+            );
         }
     };
 

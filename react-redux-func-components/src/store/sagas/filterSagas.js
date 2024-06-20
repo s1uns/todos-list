@@ -1,8 +1,9 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
+import { actionRequestType, actionSuccessType } from "../actions/constants";
+import { setFilterSuccess } from "../actions/filterActions";
 
 function* workSetFilter({ payload }) {
-    yield put({ type: actionSuccessType.SET_FILTER_SUCCESS, payload: payload });
+    yield put(setFilterSuccess(payload));
 }
 
 function* filtersSagas() {

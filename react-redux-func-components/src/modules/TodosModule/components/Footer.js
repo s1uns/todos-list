@@ -3,19 +3,18 @@ import { useDispatch } from "react-redux";
 import { actionRequestType } from "../../../store/actions/constants";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material";
+import { setFilterRequest } from "../../../store/actions/filterActions";
+import { clearCompletedRequest } from "../../../store/actions/todosActions";
 
 const Footer = ({ itemsCount, currentFilter }) => {
     const dispatch = useDispatch();
 
     const setFilter = (filter) => {
-        dispatch({
-            type: actionRequestType.SET_FILTER_REQUEST,
-            payload: filter,
-        });
+        dispatch(setFilterRequest(filter));
     };
 
     const clearCompleted = () => {
-        dispatch({ type: actionRequestType.CLEAR_COMPLETED_REQUEST });
+        dispatch(clearCompletedRequest());
     };
     return (
         <Container

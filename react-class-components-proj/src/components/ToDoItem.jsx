@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import eventEmitter from "../store/EventEmitter";
-import { actionRequestType } from "../store/ActionTypes";
+import { actionRequestType } from "../store/constants";
 
 export default class ToDoItem extends Component {
     constructor(props) {
@@ -74,7 +74,7 @@ export default class ToDoItem extends Component {
 
     toggleEditing = () => {
         const { isCompleted } = this.props;
-        
+
         const { isEditing } = this.state;
         if (!isCompleted) {
             this.setState({
@@ -84,9 +84,7 @@ export default class ToDoItem extends Component {
     };
 
     render() {
-
         const { id, title, isCompleted, isUpdated } = this.props;
-
 
         return (
             <>

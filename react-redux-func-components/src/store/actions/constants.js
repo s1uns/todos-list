@@ -13,8 +13,6 @@ export const actionRequestType = {
     DISMISS_NOTIFICATION_REQUEST: "DISMISS_NOTIFICATION_REQUEST",
 };
 
-//add createAction
-
 export const actionSuccessType = {
     ADD_TODO_SUCCESS: "ADD_TODO_SUCCESS",
     CHECK_TODO_SUCCESS: "CHECK_TODO_SUCCESS",

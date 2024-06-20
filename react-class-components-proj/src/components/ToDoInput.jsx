@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import eventEmitter from "../store/EventEmitter";
-import { actionRequestType } from "../store/ActionTypes";
+import { actionRequestType } from "../store/constants";
 
 class ToDoInput extends Component {
     createTodo = (e) => {
@@ -11,12 +11,10 @@ class ToDoInput extends Component {
                 return;
             }
 
-            eventEmitter.emit(
-                {
-                    type: actionRequestType.ADD_TODO_REQUEST,
-                    payload: trimmedString
-                }
-            );
+            eventEmitter.emit({
+                type: actionRequestType.ADD_TODO_REQUEST,
+                payload: trimmedString,
+            });
 
             e.target.value = "";
         }

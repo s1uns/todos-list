@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../../store/store";
-import { actionRequestType } from "../../store/actions/constants.js";
+import { logoutUserRequest } from "../../store/actions/authActions.js";
 
 axios.defaults.withCredentials = true;
 
@@ -10,7 +10,7 @@ const deleteRequest = async (url) => {
         return response.data;
     } catch (err) {
         if (err.response.status === 401) {
-            store.dispatch({ type: actionRequestType.LOGOUT_USER_REQUEST });
+            store.dispatch(logoutUserRequest());
         }
         console.log(err.message);
         return err.response.data;

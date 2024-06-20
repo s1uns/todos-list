@@ -2,19 +2,16 @@ import "./index.css";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useTimeout } from "../../utils/hooks";
-import { actionRequestType } from "../../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/constants";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
+import { dismissNotificationRequest } from "../../../store/actions/notificationsActions";
 
 const Toast = ({ id, message }) => {
     const dispatch = useDispatch();
 
-    const handleCloseToast = () =>
-        dispatch({
-            type: actionRequestType.DISMISS_NOTIFICATION_REQUEST,
-            payload: id,
-        });
+    const handleCloseToast = () => dispatch(dismissNotificationRequest(id));
 
     useTimeout(handleCloseToast, 3000);
 

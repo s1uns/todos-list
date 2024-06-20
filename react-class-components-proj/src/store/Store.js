@@ -1,4 +1,4 @@
-import { actionSuccessType, stateActionType } from "./ActionTypes";
+import { actionSuccessType, stateActionType } from "./constants";
 import eventEmitter from "./EventEmitter";
 
 class Store {
@@ -14,32 +14,32 @@ class Store {
 
         eventEmitter.subscribe(
             actionSuccessType.ADD_TODO_SUCCESS,
-            this.createTodo,
+            this.createTodo
         );
 
         eventEmitter.subscribe(
             actionSuccessType.DELETE_TODO_SUCCESS,
-            this.deleteTodo,
+            this.deleteTodo
         );
 
         eventEmitter.subscribe(
             actionSuccessType.CHECK_TODO_SUCCESS,
-            this.checkTodo,
+            this.checkTodo
         );
 
         eventEmitter.subscribe(
             actionSuccessType.EDIT_TODO_SUCCESS,
-            this.editTodo,
+            this.editTodo
         );
 
         eventEmitter.subscribe(
             actionSuccessType.SET_FILTER_SUCCESS,
-            this.setFilter,
+            this.setFilter
         );
 
         eventEmitter.subscribe(
             actionSuccessType.CLEAR_COMPLETED_SUCCESS,
-            this.clearCompleted,
+            this.clearCompleted
         );
     }
 

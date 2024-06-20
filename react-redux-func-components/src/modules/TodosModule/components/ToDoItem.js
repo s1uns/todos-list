@@ -5,6 +5,12 @@ import { Avatar, ClickAwayListener, ListItem, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CheckBox from "../../../shared/components/CheckBox";
 import { Input } from "../../../shared/components/Input";
+import {
+    checkTodoRequest,
+    deleteTodoRequest,
+    editTodoRequest,
+} from "../../../store/actions/todosActions";
+import { addNotificationRequest } from "../../../store/actions/notificationsActions";
 
 const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
     const dispatch = useDispatch();
@@ -16,11 +22,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
         }
     };
 
-    const deleteTodo = () =>
-        dispatch({
-            type: actionRequestType.DELETE_TODO_REQUEST,
-            payload: id,
-        });
+    const deleteTodo = () => dispatch(deleteTodoRequest(id));
 
     const getTodoAuthor = (authorFullname) => {
         const fullName = authorFullname.split(" ");
@@ -31,13 +33,12 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();
             if (trimmedString.length === 0) {
-                dispatch({
-                    type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-                    payload: {
+                dispatch(
+                    addNotificationRequest({
                         id: new Date(Date.now()),
                         message: "Enter something first!",
-                    },
-                });
+                    })
+                );
                 return;
             }
 
@@ -47,10 +48,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
             };
 
             if (title !== trimmedString) {
-                dispatch({
-                    type: actionRequestType.EDIT_TODO_REQUEST,
-                    payload: newTodo,
-                });
+                dispatch(editTodoRequest(newTodo));
             }
             toggleEditing();
         }
@@ -58,18 +56,14 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
 
     const checkTodo = () => {
         if (!isEditing) {
-            dispatch({
-                type: actionRequestType.CHECK_TODO_REQUEST,
-                payload: id,
-            });
+            dispatch(checkTodoRequest(id));
         } else {
-            dispatch({
-                type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-                payload: {
+            dispatch(
+                addNotificationRequest({
                     id: new Date(Date.now()),
                     message: "Finish editing the todo first!",
-                },
-            });
+                })
+            );
             return;
         }
     };
@@ -121,7 +115,7 @@ export default ToDoItem;
 const UpdateTodoInput = styled(Input)({
     "& .MuiInputBase-input": {
         marginLeft: "4rem",
-        fontSize: "5rem",
+        fontSize: "3rem",
         width: "100%",
         height: "100%",
     },

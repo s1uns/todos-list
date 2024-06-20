@@ -1,5 +1,5 @@
 import { takeEvery, put, call } from "redux-saga/effects";
-import { actionRequestType, actionSuccessType } from "../actions/actionTypes";
+import { actionRequestType, actionSuccessType } from "../actions/constants";
 import {
     checkTodo,
     clearCompleted,
@@ -8,20 +8,26 @@ import {
     getTodos,
     updateTodo,
 } from "../../api";
+import {
+    checkTodoSuccess,
+    createTodoSuccess,
+    editTodoSuccess,
+    setTodosSuccess,
+} from "../actions/todosActions";
+import { addNotificationRequest } from "../actions/notificationsActions";
 
 function* workGetTodos() {
     const response = yield call(() => getTodos());
 
     if (response.success) {
-        yield put({
-            type: actionSuccessType.SET_TODOS_SUCCESS,
-            payload: response.data,
-        });
+        yield put(setTodosSuccess(response.data));
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
@@ -30,15 +36,14 @@ function* workAddTodo({ payload }) {
     const newTodo = response.data;
 
     if (response.success) {
-        yield put({
-            type: actionSuccessType.ADD_TODO_SUCCESS,
-            payload: { ...newTodo, isAuthor: true },
-        });
+        yield put(createTodoSuccess({ ...newTodo, isAuthor: true }));
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
@@ -51,10 +56,12 @@ function* workDeleteTodo({ payload }) {
             payload: payload,
         });
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
@@ -62,15 +69,14 @@ function* workCheckTodo({ payload }) {
     const response = yield call(() => checkTodo(payload));
 
     if (response.success) {
-        yield put({
-            type: actionSuccessType.CHECK_TODO_SUCCESS,
-            payload: response.data,
-        });
+        yield put(checkTodoSuccess(response.data));
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
@@ -80,31 +86,28 @@ function* workEditTodo({ payload }) {
     const response = yield call(() => updateTodo(id, title));
 
     if (response.success) {
-        yield put({
-            type: actionSuccessType.EDIT_TODO_SUCCESS,
-            payload: response.data,
-        });
+        yield put(editTodoSuccess(response.data));
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
 function* workClearCompleted() {
-    const response = yield call(() => clearCompleted());
-
+    const response = yield call(() => clearCompleted()); //needs to be fixed
     if (response.success) {
-        yield put({
-            type: actionSuccessType.SET_TODOS_SUCCESS,
-            payload: response.data,
-        });
+        yield put(setTodosSuccess(response.data));
     } else {
-        yield put({
-            type: actionRequestType.ADD_NOTIFICATION_REQUEST,
-            payload: { id: new Date(Date.now()), message: response.message },
-        });
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
     }
 }
 
@@ -116,7 +119,7 @@ function* todosSagas() {
     yield takeEvery(actionRequestType.EDIT_TODO_REQUEST, workEditTodo);
     yield takeEvery(
         actionRequestType.CLEAR_COMPLETED_REQUEST,
-        workClearCompleted,
+        workClearCompleted
     );
 }
 
