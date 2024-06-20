@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { actionRequestType } from "../../../store/actions/actionTypes";
+import { actionRequestType } from "../../../store/actions/constants";
 import { useDispatch } from "react-redux";
 import { Avatar, ClickAwayListener, ListItem, Typography } from "@mui/material";
 import styled from "@emotion/styled";
@@ -21,6 +21,11 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
             type: actionRequestType.DELETE_TODO_REQUEST,
             payload: id,
         });
+
+    const getTodoAuthor = (authorFullname) => {
+        const fullName = authorFullname.split(" ");
+        return `${fullName[0][0]} ${fullName[1][0]}`;
+    };
 
     const updateTodo = (e) => {
         if (e.key === "Enter") {
@@ -99,7 +104,13 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
                 )}
                 <DeleteButton onClick={deleteTodo}>✖️</DeleteButton>
                 {isUpdated ? <UpdatedIcon>🖊</UpdatedIcon> : ""}
-                {isAuthor ? "" : <AuthorAvatar>{author}</AuthorAvatar>}
+                {isAuthor ? (
+                    ""
+                ) : (
+                    <AuthorAvatar title={author}>
+                        {getTodoAuthor(author)}
+                    </AuthorAvatar>
+                )}
             </TodoItem>
         </>
     );
