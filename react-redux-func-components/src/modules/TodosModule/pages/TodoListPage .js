@@ -8,38 +8,6 @@ import { useDispatch } from "react-redux";
 import { Modal, Button, Container, Typography, Box, List } from "@mui/material";
 import styled from "@emotion/styled";
 
-const HeaderBlock = styled(Container)((props) => ({
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: "1rem",
-    margin: 0,
-    padding: 0,
-    marginTop: "-3rem",
-    position: "absolute",
-    top: "3rem",
-    right: props.right,
-}));
-
-const ShareWithUserModal = styled(Box)({
-    position: "absolute",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "40rem",
-    height: "50rem",
-    backgroundColor: "white",
-    border: "2px solid #000",
-    borderRadius: "2rem",
-    boxShadow: 24,
-    padding: "2rem",
-});
-
-const HeaderButton = styled(Button)({ width: "20%", height: "50%" });
-
 const TodoListPage = () => {
     const todos = useSelector((state) => state.todos);
     const currentFilter = useSelector((state) => state.currentFilter);
@@ -119,6 +87,8 @@ const TodoListPage = () => {
                                 title={item.title}
                                 isCompleted={item.isCompleted}
                                 isUpdated={item.isUpdated}
+                                isAuthor={item.isAuthor}
+                                author={item.author}
                             />
                         ))}
                     </TodosList>
@@ -169,3 +139,35 @@ const TodosList = styled(List)({
     listStyleType: "none",
     padding: 0,
 });
+
+const HeaderBlock = styled(Container)((props) => ({
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: "1rem",
+    margin: 0,
+    padding: 0,
+    marginTop: "-3rem",
+    position: "absolute",
+    top: "3rem",
+    right: props.right,
+}));
+
+const ShareWithUserModal = styled(Box)({
+    position: "absolute",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "40rem",
+    height: "50rem",
+    backgroundColor: "white",
+    border: "2px solid #000",
+    borderRadius: "2rem",
+    boxShadow: 24,
+    padding: "2rem",
+});
+
+const HeaderButton = styled(Button)({ width: "20%", height: "50%" });

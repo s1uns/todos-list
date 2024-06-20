@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { actionRequestType } from "../../../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
-import { ClickAwayListener, ListItem, Typography } from "@mui/material";
+import { Avatar, ClickAwayListener, ListItem, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CheckBox from "../../../shared/components/CheckBox";
 import { Input } from "../../../shared/components/Input";
 
-const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
+const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
     const dispatch = useDispatch();
     const [isEditing, setIsEditing] = useState(false);
 
@@ -71,7 +71,11 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
 
     return (
         <>
-            <TodoItem id={id} className={isCompleted ? "completed" : ""}>
+            <TodoItem
+                id={id}
+                isAuthor={isAuthor}
+                className={isCompleted ? "completed" : ""}
+            >
                 <StyledCheckBox
                     name={id}
                     type="checkbox"
@@ -95,6 +99,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated }) => {
                 )}
                 <DeleteButton onClick={deleteTodo}>✖️</DeleteButton>
                 {isUpdated ? <UpdatedIcon>🖊</UpdatedIcon> : ""}
+                {isAuthor ? "" : <AuthorAvatar>{author}</AuthorAvatar>}
             </TodoItem>
         </>
     );
@@ -111,7 +116,16 @@ const UpdateTodoInput = styled(Input)({
     },
 });
 
-const TodoItem = styled(ListItem)({
+const AuthorAvatar = styled(Avatar)({
+    position: "absolute",
+    top: ".5rem",
+    right: ".5rem",
+    fontSize: ".5rem",
+    width: "1.5rem",
+    height: "1.5rem",
+});
+
+const TodoItem = styled(ListItem)((props) => ({
     padding: 5,
     position: "relative",
     display: "flex",
@@ -120,11 +134,13 @@ const TodoItem = styled(ListItem)({
     borderRadius: "0.5rem",
     width: "100%",
     border: "0.05rem dotted black",
+    backgroundColor: `${props.isAuthor ? "white" : "#F5F5F5"}`,
+    height: `${props.isAuthor ? "5rem" : "7rem"}`,
 
     "&:not(:last-child)": {
         marginBottom: "0.5rem",
     },
-});
+}));
 
 const DeleteButton = styled(Typography)({
     position: "absolute",

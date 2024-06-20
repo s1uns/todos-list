@@ -44,6 +44,12 @@ function* workLogoutUser() {
     yield put({
         type: actionSuccessType.CLEAR_TODOS_SUCCESS,
     });
+
+    yield put({
+        type: actionSuccessType.SET_FILTER_SUCCESS,
+        payload: "all"
+    });
+
     yield put({
         type: actionSuccessType.LOGOUT_USER_SUCCESS,
     });

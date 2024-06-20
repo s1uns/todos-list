@@ -32,7 +32,7 @@ function* workAddTodo({ payload }) {
     if (response.success) {
         yield put({
             type: actionSuccessType.ADD_TODO_SUCCESS,
-            payload: newTodo,
+            payload: { ...newTodo, isAuthor: true },
         });
     } else {
         yield put({
@@ -76,7 +76,7 @@ function* workCheckTodo({ payload }) {
 
 function* workEditTodo({ payload }) {
     const { id, title } = payload;
-    
+
     const response = yield call(() => updateTodo(id, title));
 
     if (response.success) {
