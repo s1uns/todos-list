@@ -18,7 +18,7 @@ app.use(cors({ credentials: true, origin: origin }));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(logger);
+app.use(logger); //move logging to controllers
 app.use(responseMiddleware);
 
 const port = process.env.SERVER_PORT;

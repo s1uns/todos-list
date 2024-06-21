@@ -6,7 +6,7 @@ YupPassword(yup);
 const userRegistrationSchema = yup.object().shape({
     email: yup
         .string()
-        .email("The email should be in corresponding format")
+        .email("The email should be in corresponding format.")
         .required("The email is required."),
 
     username: yup.string().required("The username is required."),
@@ -26,10 +26,16 @@ const userRegistrationSchema = yup.object().shape({
         .required("Choose at least one source."),
     password: yup
         .string()
-        .min(8, "password must contain 8 or more characters")
-        .minLowercase(1, "password must contain at least 1 lower case letter")
-        .minUppercase(1, "password must contain at least 1 upper case letter")
-        .minNumbers(1, "password must contain at least 1 number")
+        .min(8, "The password must contain 8 or more characters.")
+        .minLowercase(
+            1,
+            "The password must contain at least 1 lower case letter.",
+        )
+        .minUppercase(
+            1,
+            "The password must contain at least 1 upper case letter.",
+        )
+        .minNumbers(1, "The password must contain at least 1 number.")
         .required("The password is required"),
 });
 

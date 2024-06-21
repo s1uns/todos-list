@@ -1,9 +1,8 @@
-import { raw } from "mysql";
-import { Users, Todos, Shared } from "../../database/models/relations.js";
-import { mapOwnTodos, mapSharedTodos } from "../../services/todos/index.js";
+import { getTodos as getTodosAsync } from "../../services/todos/index.js";
 
 const getTodos = async (req, res) => {
     //merge to one query, add pagination
+    const { page, limit } = req.query;
 
     const userId = req.userId;
 
@@ -11,38 +10,13 @@ const getTodos = async (req, res) => {
         return res.notFound("Couldn't get the user's id");
     }
 
-    const unmappedOwnTodos = await Todos.findAll({
-        where: { creatorId: userId },
-        include: [
-            {
-                model: Users,
-                as: "creator",
-                attributes: ["id", "fullName"],
-            },
-        ],
-        raw: true,
-        nest: true,
+    const todos = await getTodosAsync({
+        page: +page ? +page : 1,
+        limit: +limit ? +limit : 10,
+        userId: userId,
     });
 
-    const ownTodos = await mapOwnTodos(unmappedOwnTodos);
-
-    const unmappedSharedTodos = await Shared.findAll({
-        where: { sharedWithId: userId },
-        attributes: [],
-
-        include: {
-            model: Users,
-            as: "owner",
-            attributes: ["id", "fullName"],
-            include: { model: Todos, as: "todo" },
-        },
-        raw: true,
-        nest: true,
-    });
-
-    const sharedTodos = await mapSharedTodos(unmappedSharedTodos);
-
-    return res.success([...ownTodos, ...sharedTodos]);
+    return res.success(todos);
 };
 
 export default getTodos;

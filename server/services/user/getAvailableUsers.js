@@ -1,5 +1,6 @@
-import { Sequelize } from "sequelize";
+import { Op } from "sequelize";
 import { Shared, Users } from "../../database/models/relations.js";
+import { SHARE_ACTIVE } from "../../utils/constraints/sharedStatus.js";
 
 const getAvailableUsers = async ({ page, limit, userId }) => {
     const queries = {
@@ -10,11 +11,11 @@ const getAvailableUsers = async ({ page, limit, userId }) => {
     const availableUsers = await Users.findAndCountAll({
         where: {
             id: {
-                [Sequelize.Op.not]: userId,
+                [Op.not]: userId,
             },
         },
         attributes: ["id", "username", "firstName", "lastName", "fullName"],
-        include: { model: Shared, as: "sharedWith", attributes: ["status"] },
+        include: { model: Shared, as: "sharedWith", attributes: ["status"] }, 
         ...queries,
     });
 
@@ -23,7 +24,7 @@ const getAvailableUsers = async ({ page, limit, userId }) => {
         username: userInfo.username,
         fullName: userInfo.fullName,
         isShared:
-            !!userInfo.sharedWith[0] && userInfo.sharedWith[0].status === "active"
+            !!userInfo.sharedWith[0] && userInfo.sharedWith[0].status === SHARE_ACTIVE
                 ? true
                 : false,
     }));

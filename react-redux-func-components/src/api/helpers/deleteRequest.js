@@ -5,12 +5,16 @@ import { logoutUserRequest } from "../../store/actions/authActions.js";
 axios.defaults.withCredentials = true;
 
 const deleteRequest = async (url) => {
+    //move to one method
     try {
         const response = await axios.delete(url);
         return response.data;
     } catch (err) {
-        if (err.response?.status === 401) {
-            store.dispatch(logoutUserRequest());
+        if (err.response) {
+            if (err.response.status === 401) {
+                store.dispatch(logoutUserRequest());
+            }
+
             return err.response.data;
         } else {
             return {

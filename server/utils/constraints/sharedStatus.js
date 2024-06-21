@@ -1,0 +1,4 @@
+const SHARE_INACTIVE = 0;
+const SHARE_ACTIVE = 1;
+
+export { SHARE_ACTIVE, SHARE_INACTIVE };

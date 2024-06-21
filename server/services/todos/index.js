@@ -1,4 +1,3 @@
-import mapSharedTodos from "./mapSharedTodos.js";
-import mapOwnTodos from "./mapOwnTodos.js";
+import getTodos from "./getTodos.js";
 
-export { mapSharedTodos, mapOwnTodos };
+export { getTodos };

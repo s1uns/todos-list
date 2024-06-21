@@ -11,7 +11,7 @@ const Shared = sequelize.define(
         },
         status: {
             allowNull: false,
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
         },
     },
     {

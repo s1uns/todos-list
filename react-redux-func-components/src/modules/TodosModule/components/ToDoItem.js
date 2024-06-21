@@ -37,7 +37,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
                     addNotificationRequest({
                         id: new Date(Date.now()),
                         message: "Enter something first!",
-                    })
+                    }),
                 );
                 return;
             }
@@ -62,7 +62,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
                 addNotificationRequest({
                     id: new Date(Date.now()),
                     message: "Finish editing the todo first!",
-                })
+                }),
             );
             return;
         }

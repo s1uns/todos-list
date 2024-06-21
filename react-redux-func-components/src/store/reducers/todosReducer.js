@@ -3,16 +3,20 @@ import { actionSuccessType } from "../actions/constants";
 
 const todosReducer = handleActions(
     {
-        [actionSuccessType.ADD_TODO_SUCCESS]: (oldTodos = [], { payload }) => [
-            ...oldTodos,
-            payload,
-        ],
+        [actionSuccessType.ADD_TODO_SUCCESS]: (state, { payload }) => ({
+            list: [...state.list, payload],
+            totalPages: state.totalPages,
+            count: ++state.count,
+        }),
 
-        [actionSuccessType.DELETE_TODO_SUCCESS]: (oldTodos = [], { payload }) =>
-            oldTodos.filter((todo) => todo.id !== payload),
+        [actionSuccessType.DELETE_TODO_SUCCESS]: (state, { payload }) => ({
+            list: state.list.filter((todo) => todo.id !== payload),
+            totalPages: state.totalPages,
+            count: --state.count,
+        }),
 
-        [actionSuccessType.CHECK_TODO_SUCCESS]: (oldTodos, { payload }) =>
-            oldTodos.map((todo) =>
+        [actionSuccessType.CHECK_TODO_SUCCESS]: (state, { payload }) => ({
+            list: state.list.map((todo) =>
                 todo.id === payload.id
                     ? {
                           ...todo,
@@ -22,9 +26,12 @@ const todosReducer = handleActions(
                       }
                     : todo,
             ),
+            totalPages: state.totalPages,
+            count: payload.isCompleted ? --state.count : ++state.count,
+        }),
 
-        [actionSuccessType.EDIT_TODO_SUCCESS]: (oldTodos, { payload }) =>
-            oldTodos.map((todo) =>
+        [actionSuccessType.EDIT_TODO_SUCCESS]: (state, { payload }) => ({
+            list: state.list.map((todo) =>
                 todo.id === payload.id
                     ? {
                           ...todo,
@@ -34,12 +41,21 @@ const todosReducer = handleActions(
                       }
                     : todo,
             ),
+            totalPages: state.totalPages,
+            count: state.count,
+        }),
 
-        [actionSuccessType.SET_TODOS_SUCCESS]: (state, { payload }) => [
-            ...payload,
-        ],
+        [actionSuccessType.SET_TODOS_SUCCESS]: (state, { payload }) => ({
+            list: payload.list,
+            totalPages: payload.totalPages,
+            count: payload.count,
+        }),
 
-        [actionSuccessType.CLEAR_TODOS_SUCCESS]: (state) => [],
+        [actionSuccessType.CLEAR_TODOS_SUCCESS]: (state) => ({
+            list: [],
+            totalPages: 0,
+            count: 0,
+        }),
     },
     [],
 );

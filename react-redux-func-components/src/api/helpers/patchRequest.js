@@ -9,8 +9,11 @@ const patchRequest = async (url) => {
         const response = await axios.patch(url);
         return response.data;
     } catch (err) {
-        if (err.response?.status === 401) {
-            store.dispatch(logoutUserRequest());
+        if (err.response) {
+            if (err.response.status === 401) {
+                store.dispatch(logoutUserRequest());
+            }
+
             return err.response.data;
         } else {
             return {

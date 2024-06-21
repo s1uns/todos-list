@@ -10,10 +10,9 @@ import styled from "@emotion/styled";
 import ShareTodosModal from "../components/ShareTodosModal";
 
 const TodoListPage = () => {
-    const todos = useSelector((state) => state.todos);
+    const { list: todos, totalPages, count } = useSelector((state) => state.todos);
     const currentFilter = useSelector((state) => state.currentFilter);
     const user = useSelector((state) => state.user);
-    const itemsCount = todos.filter((todo) => !todo.isCompleted).length;
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -94,7 +93,7 @@ const TodoListPage = () => {
                         ))}
                     </TodosList>
                 </TodoBlock>
-                <Footer itemsCount={itemsCount} currentFilter={currentFilter} />
+                <Footer itemsCount={count} currentFilter={currentFilter} />
             </Container>
             <ShareTodosModal open={open} onClose={handleClose} />
         </>

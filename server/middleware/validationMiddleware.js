@@ -1,8 +1,6 @@
 const validateBody =  (schema) => async (req, res, next) => {
     const { body } = req;
 
-    console.log("body: ", body)
-
     if (typeof schema === "function") {
         schema = schema();
     }

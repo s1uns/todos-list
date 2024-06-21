@@ -1,5 +1,9 @@
 import { Shared } from "../../database/models/relations.js";
 import { v4 as uuid } from "uuid";
+import {
+    SHARE_ACTIVE,
+    SHARE_INACTIVE,
+} from "../../utils/constraints/sharedStatus.js";
 
 const manageShared = async (req, res) => {
     const userId = req.userId;
@@ -29,17 +33,20 @@ const manageShared = async (req, res) => {
             id: uuid(),
             ownerId: userId,
             sharedWithId: sharedWithId,
-            status: "active",
+            status: SHARE_ACTIVE,
         });
 
         return res.success("Successfully shared the todos!");
     } else {
-        const newStatus = relation.status === "active" ? "inactive" : "active";
+        const newStatus =
+            relation.status === SHARE_ACTIVE ? SHARE_INACTIVE : SHARE_ACTIVE;
 
         relation.status = newStatus;
         relation.save();
         return res.success(
-            `Successfully changed the shared status to ${newStatus}!`,
+            `Successfully changed the shared status to ${
+                newStatus ? "active" : "inactive"
+            }!`,
         );
     }
 };
