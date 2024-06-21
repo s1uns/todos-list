@@ -33,6 +33,8 @@ const ShareTodosModal = ({ open, onClose }) => {
 
     const handleClose = () => {
         setCurrentPage(0);
+        setTotalPages(0);
+        setUsers([]);
         onClose();
     };
 
@@ -174,5 +176,5 @@ const SharedIcon = styled(Typography)({
     top: ".5rem",
     right: ".7rem",
     fontSize: "1rem",
-    opacity: "0.6"
+    opacity: "0.6",
 });
