@@ -12,7 +12,6 @@ import {
     List,
     ListItem,
 } from "@mui/material";
-import { actionSuccessType } from "../../../store/actions/constants";
 import styled from "@emotion/styled";
 import { addNotificationSuccess } from "../../../store/actions/notificationsActions";
 
@@ -24,7 +23,7 @@ const ShareTodosModal = ({ open, onClose }) => {
 
     useEffect(() => {
         if (open) {
-            getAvailableUsers(currentPage, 3);
+            getAvailableUsers(currentPage, 4);
         }
     }, [open, currentPage]);
 
@@ -41,9 +40,9 @@ const ShareTodosModal = ({ open, onClose }) => {
         const response = await getAvailableUsersAsync(page, limit);
 
         if (response.success) {
-            const { users, totalPages } = response.data;
+            const { list, totalPages } = response.data;
 
-            setUsers((prevUsers) => users);
+            setUsers((prevUsers) => list);
             setTotalPages((prevTotalPages) => totalPages);
         } else {
             dispatch(
@@ -102,6 +101,11 @@ const ShareTodosModal = ({ open, onClose }) => {
                             onClick={() => manageSharedWithUser(user.id)}
                         >
                             {user.username} ({user.fullName})
+                            {user.isShared ? (
+                                <SharedIcon>shared</SharedIcon>
+                            ) : (
+                                ""
+                            )}
                         </UserInfo>
                     ))}
                 </UsersList>
@@ -148,7 +152,6 @@ const UserInfo = styled(ListItem)({
     display: "flex",
     justifyContent: "center",
     border: ".03rem solid black",
-    borderRadius: "1rem",
     marginBottom: ".3rem",
 
     "&:hover": {
@@ -164,4 +167,12 @@ const UsersPagination = styled(Pagination)({
     display: "flex",
     justifyContent: "center",
     width: "100%",
+});
+
+const SharedIcon = styled(Typography)({
+    position: "absolute",
+    top: ".5rem",
+    right: ".7rem",
+    fontSize: "1rem",
+    opacity: "0.6"
 });
