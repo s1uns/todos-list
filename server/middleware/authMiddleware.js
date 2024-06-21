@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { setExpirationDate } from "../utils/index.js";
+
 
 const authMiddleware = (req, res, next) => {
     const accessToken = req.cookies.ACCESS_TOKEN;

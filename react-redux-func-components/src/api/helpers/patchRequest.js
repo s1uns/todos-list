@@ -9,11 +9,15 @@ const patchRequest = async (url) => {
         const response = await axios.patch(url);
         return response.data;
     } catch (err) {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
             store.dispatch(logoutUserRequest());
+            return err.response.data;
+        } else {
+            return {
+                success: false,
+                message: "Couldn't send your request, retry later",
+            };
         }
-        console.log(err.message);
-        return err.response.data;
     }
 };
 

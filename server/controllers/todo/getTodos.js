@@ -24,8 +24,6 @@ const getTodos = async (req, res) => {
         nest: true,
     });
 
-    console.log("Unmapped: ", unmappedOwnTodos);
-
     const ownTodos = await mapOwnTodos(unmappedOwnTodos);
 
     const unmappedSharedTodos = await Shared.findAll({

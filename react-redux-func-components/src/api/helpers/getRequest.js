@@ -9,10 +9,15 @@ const getRequest = async (url) => {
         const response = await axios.get(url);
         return response.data;
     } catch (err) {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
             store.dispatch(logoutUserRequest());
+            return err.response.data;
+        } else {
+            return {
+                success: false,
+                message: "Couldn't send your request, retry later",
+            };
         }
-        return err.response.data;
     }
 };
 

@@ -45,13 +45,22 @@ function* workLoginUser({ payload }) {
 }
 
 function* workLogoutUser() {
-    yield call(() => logoutUser());
+    const response = yield call(() => logoutUser());
 
-    yield put(clearTodosSuccess());
+    if (response.success) {
+        yield put(clearTodosSuccess());
 
-    yield put(setFilterSuccess("all"));
+        yield put(setFilterSuccess("all"));
 
-    yield put(logoutUserSuccess());
+        yield put(logoutUserSuccess());
+    } else {
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            })
+        );
+    }
 }
 
 function* userSagas() {
