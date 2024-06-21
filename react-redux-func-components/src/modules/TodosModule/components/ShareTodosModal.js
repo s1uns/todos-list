@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
     getAvailableUsers as getAvailableUsersAsync,
-    shareTodos,
+    manageShared,
 } from "../../../api";
 import { useDispatch } from "react-redux";
 import {
@@ -50,21 +50,20 @@ const ShareTodosModal = ({ open, onClose }) => {
                 addNotificationSuccess({
                     id: new Date(Date.now()),
                     message: response.message,
-                })
+                }),
             );
-
         }
     };
 
-    const shareTodosWithUser = async (userId) => {
-        const response = await shareTodos(userId);
+    const manageSharedWithUser = async (userId) => {
+        const response = await manageShared(userId);
 
         if (response.success) {
             dispatch(
                 addNotificationSuccess({
                     id: new Date(Date.now()),
                     message: response.data,
-                })
+                }),
             );
 
             onClose();
@@ -73,7 +72,7 @@ const ShareTodosModal = ({ open, onClose }) => {
                 addNotificationSuccess({
                     id: new Date(Date.now()),
                     message: response.message,
-                })
+                }),
             );
         }
     };
@@ -100,7 +99,7 @@ const ShareTodosModal = ({ open, onClose }) => {
                     {users.map((user) => (
                         <UserInfo
                             key={user.id}
-                            onClick={() => shareTodosWithUser(user.id)}
+                            onClick={() => manageSharedWithUser(user.id)}
                         >
                             {user.username} ({user.fullName})
                         </UserInfo>

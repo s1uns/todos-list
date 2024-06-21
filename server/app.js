@@ -4,10 +4,8 @@ import { router as sharedRouter } from "./routes/shared/index.js";
 import { router as userRouter } from "./routes/user/index.js";
 import express from "express";
 import cookieParser from "cookie-parser";
-import reqTimeMiddleware from "./middleware/reqTimeMiddleware.js";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
-import expressWinston from "express-winston";
 import { logger, errorLogger } from "./middleware/winstonLoggingMiddleware.js";
 
 // yup validation
@@ -21,7 +19,7 @@ app.use(cors({ credentials: true, origin: origin }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(logger);
-app.use(reqTimeMiddleware, responseMiddleware);
+app.use(responseMiddleware);
 
 const port = process.env.SERVER_PORT;
 

@@ -23,6 +23,7 @@ const getAvailableUsers = async ({ page, limit, alreadyChosenUsersIds }) => {
         id: userInfo.id,
         username: userInfo.username,
         fullName: `${userInfo.firstName} ${userInfo.lastName}`,
+        isShared: false,
     }));
 
     const totalPages = Math.ceil(availableUsers?.count / limit);

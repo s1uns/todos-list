@@ -1,3 +1,3 @@
-import shareTodos from "./shareTodos.js";
+import manageShared from "./manageShared.js";
 
-export { shareTodos };
+export { manageShared };
