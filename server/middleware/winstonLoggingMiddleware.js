@@ -2,7 +2,11 @@ import { createLogger, format, transports } from "winston";
 import expressWinston, { requestWhitelist } from "express-winston";
 
 const logsFormat = format.printf(({ level, meta, timestamp }) => {
-    return `${timestamp} ${level}: ${meta.req.method} ${meta.req.originalUrl} returned ${meta.res.statusCode} in ${meta.responseTime} ms with message "${meta.res.body.message}"`;
+    return `${timestamp} ${level}: ${meta.req.method} ${
+        meta.req.originalUrl
+    } returned ${meta.res.statusCode} in ${meta.responseTime} ms ${
+        meta.res.body?.message ? `with message ${meta.res.body.message}` : ""
+    }`;
 });
 
 const loggerOptions = {

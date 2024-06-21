@@ -53,6 +53,14 @@ const Users = sequelize.define(
                 },
             },
         },
+        fullName: {
+            type: DataTypes.VIRTUAL,
+            get: function () {
+                return `${this.getDataValue("firstName")} ${this.getDataValue(
+                    "lastName",
+                )}`;
+            },
+        },
         birthDate: {
             allowNull: false,
             type: DataTypes.DATE,

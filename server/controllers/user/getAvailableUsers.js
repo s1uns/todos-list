@@ -20,7 +20,7 @@ const getAvailableUsers = async (req, res) => {
     const result = await getAvailableUsersAsync({
         page: +page ? +page : 1,
         limit: +limit ? +limit : 3,
-        alreadyChosenUsersIds: [...alreadyChosenUsersIds, userId],
+        userId: userId,
     });
 
     return res.success(result);

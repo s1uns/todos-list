@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
-import { Users } from "../../database/models/relations.js";
+import { Shared, Users } from "../../database/models/relations.js";
 
-const getAvailableUsers = async ({ page, limit, alreadyChosenUsersIds }) => {
+const getAvailableUsers = async ({ page, limit, userId }) => {
     const queries = {
         offset: (page - 1) * limit,
         limit: limit,
@@ -10,25 +10,27 @@ const getAvailableUsers = async ({ page, limit, alreadyChosenUsersIds }) => {
     const availableUsers = await Users.findAndCountAll({
         where: {
             id: {
-                [Sequelize.Op.notIn]: alreadyChosenUsersIds,
+                [Sequelize.Op.not]: userId,
             },
         },
-        attributes: ["id", "username", "firstName", "lastName"],
-        raw: true,
+        attributes: ["id", "username", "firstName", "lastName", "fullName"],
+        include: { model: Shared, as: "sharedWith", attributes: ["status"] },
         ...queries,
     });
 
-    //rename to list
-    const users = availableUsers.rows.map((userInfo) => ({
+    const list = availableUsers.rows.map((userInfo) => ({
         id: userInfo.id,
         username: userInfo.username,
-        fullName: `${userInfo.firstName} ${userInfo.lastName}`,
-        isShared: false,
+        fullName: userInfo.fullName,
+        isShared:
+            !!userInfo.sharedWith[0] && userInfo.sharedWith[0].status === "active"
+                ? true
+                : false,
     }));
 
     const totalPages = Math.ceil(availableUsers?.count / limit);
 
-    return { users: users, totalPages: totalPages };
+    return { list: list, totalPages: totalPages };
 };
 
 export default getAvailableUsers;
