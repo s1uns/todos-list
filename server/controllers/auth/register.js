@@ -8,7 +8,6 @@ import { validateFields } from "./helpers.js";
 import User from "../../database/models/Users.js";
 
 const register = async (req, res) => {
-
     const {
         email,
         firstName,
@@ -31,33 +30,36 @@ const register = async (req, res) => {
         country,
         city,
         heardFrom,
-        password,
+        password
     );
 
     if (!isUserValid) {
-
         return res.badRequest("One or more required fields are empty");
     }
 
-    const userAlreadyExists = await User.findOne({ where: { email } });
+    const emailIsTaken = await User.findOne({ where: { email } });
 
-    if (userAlreadyExists) {
+    if (emailIsTaken) {
         return res.unprocessableEntity(
-            "The user with such email already exists",
+            "The user with such email already exists"
         );
+    }
+
+    const usernameIsTaken = await User.findOne({ where: { username } });
+
+    if (usernameIsTaken) {
+        return res.unprocessableEntity("This username is taken.");
     }
 
     const isEmailValid = await validateEmail(email);
 
     if (!isEmailValid) {
-
         return res.unprocessableEntity("The email you specified is wrong");
     }
 
     const isPasswordValid = await validatePassword(password);
 
     if (!isPasswordValid) {
-
         return res.unprocessableEntity("The password you specified is wrong");
     }
 
