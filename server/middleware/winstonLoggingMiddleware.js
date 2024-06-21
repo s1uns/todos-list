@@ -10,15 +10,15 @@ const loggerOptions = {
         new transports.Console(),
         new transports.File({
             level: "warn",
-            filename: "logsWarnings.log",
+            filename: "logs/logsWarnings.log",
         }),
         new transports.File({
             level: "error",
-            filename: "logsErrors.log",
+            filename: "logs/logsErrors.log",
         }),
         new transports.File({
             level: "info",
-            filename: "logsInfo.log",
+            filename: "logs/logsInfo.log",
         }),
     ],
     format: format.combine(format.timestamp(), format.json(), logsFormat),
@@ -27,7 +27,7 @@ const loggerOptions = {
 const errorLoggerOptions = {
     transports: [
         new transports.File({
-            filename: "logsInternalErrors.log",
+            filename: "logs/logsInternalErrors.log",
         }),
     ],
     format: format.combine(format.json(), format.timestamp(), logsFormat),
