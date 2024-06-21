@@ -18,8 +18,10 @@ const createTodo = async (title) => {
     return response;
 };
 
-const getTodos = async () => {
-    const response = await getRequest(`${url}todos`);
+const getTodos = async (currentPage, limit) => {
+    const response = await getRequest(
+        `${url}todos?page=${currentPage}&limit=${limit}`,
+    );
 
     return response;
 };

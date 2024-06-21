@@ -1,13 +1,13 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { actionRequestType } from "../../../store/actions/constants";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material";
 import { setFilterRequest } from "../../../store/actions/filterActions";
 import { clearCompletedRequest } from "../../../store/actions/todosActions";
 
-const Footer = ({ itemsCount, currentFilter }) => {
+const Footer = ({ currentFilter, onClearCompleted }) => {
     const dispatch = useDispatch();
+    const { count } = useSelector((state) => state.todos);
 
     const setFilter = (filter) => {
         dispatch(setFilterRequest(filter));
@@ -15,6 +15,7 @@ const Footer = ({ itemsCount, currentFilter }) => {
 
     const clearCompleted = () => {
         dispatch(clearCompletedRequest());
+        onClearCompleted();
     };
     return (
         <Container
@@ -29,7 +30,7 @@ const Footer = ({ itemsCount, currentFilter }) => {
             }}
         >
             <Typography id="counter" style={{ fontSize: "2.5rem" }}>
-                {itemsCount} items left
+                {count} items left
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <FooterButton

@@ -10,9 +10,9 @@ const todosReducer = handleActions(
         }),
 
         [actionSuccessType.DELETE_TODO_SUCCESS]: (state, { payload }) => ({
-            list: state.list.filter((todo) => todo.id !== payload),
+            list: state.list.filter((todo) => todo.id !== payload.id),
             totalPages: state.totalPages,
-            count: --state.count,
+            count: !payload.isCompleted ? --state.count : state.count,
         }),
 
         [actionSuccessType.CHECK_TODO_SUCCESS]: (state, { payload }) => ({
@@ -47,13 +47,13 @@ const todosReducer = handleActions(
 
         [actionSuccessType.SET_TODOS_SUCCESS]: (state, { payload }) => ({
             list: payload.list,
-            totalPages: payload.totalPages,
+            totalPages: payload.totalPages ? payload.totalPages : 1,
             count: payload.count,
         }),
 
         [actionSuccessType.CLEAR_TODOS_SUCCESS]: (state) => ({
             list: [],
-            totalPages: 0,
+            totalPages: 1,
             count: 0,
         }),
     },

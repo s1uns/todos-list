@@ -11,13 +11,15 @@ import {
 import {
     checkTodoSuccess,
     createTodoSuccess,
+    deleteTodoSuccess,
     editTodoSuccess,
     setTodosSuccess,
 } from "../actions/todosActions";
 import { addNotificationRequest } from "../actions/notificationsActions";
 
-function* workGetTodos() {
-    const response = yield call(() => getTodos());
+function* workGetTodos({ payload }) {
+    const { currentPage, limit } = payload;
+    const response = yield call(() => getTodos(currentPage, limit));
 
     if (response.success) {
         yield put(setTodosSuccess(response.data));
@@ -26,7 +28,7 @@ function* workGetTodos() {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -42,25 +44,22 @@ function* workAddTodo({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
 
 function* workDeleteTodo({ payload }) {
-    const response = yield call(() => deleteTodo(payload));
+    const response = yield call(() => deleteTodo(payload.id));
 
     if (response.success) {
-        yield put({
-            type: actionSuccessType.DELETE_TODO_SUCCESS,
-            payload: payload,
-        });
+        yield put(deleteTodoSuccess(payload));
     } else {
         yield put(
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -75,7 +74,7 @@ function* workCheckTodo({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -92,7 +91,7 @@ function* workEditTodo({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -106,7 +105,7 @@ function* workClearCompleted() {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -119,7 +118,7 @@ function* todosSagas() {
     yield takeEvery(actionRequestType.EDIT_TODO_REQUEST, workEditTodo);
     yield takeEvery(
         actionRequestType.CLEAR_COMPLETED_REQUEST,
-        workClearCompleted
+        workClearCompleted,
     );
 }
 

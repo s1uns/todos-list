@@ -2,7 +2,6 @@ import { createLogger, format, transports } from "winston";
 import expressWinston, { requestWhitelist } from "express-winston";
 
 const logsFormat = format.printf(({ level, meta, timestamp }) => {
-    // console.log("Meta: ", meta);
     return `${timestamp} ${level}: ${meta.req.method} ${
         meta.req.originalUrl
     } returned ${meta.res.statusCode} in ${meta.responseTime} ms ${

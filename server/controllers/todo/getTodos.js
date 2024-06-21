@@ -12,7 +12,7 @@ const getTodos = async (req, res) => {
 
     const todos = await getTodosAsync({
         page: +page ? +page : 1,
-        limit: +limit ? +limit : 10,
+        limit: +limit ? +limit : 4,
         userId: userId,
     });
 

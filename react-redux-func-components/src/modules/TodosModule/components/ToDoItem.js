@@ -22,7 +22,8 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
         }
     };
 
-    const deleteTodo = () => dispatch(deleteTodoRequest(id));
+    const deleteTodo = () =>
+        dispatch(deleteTodoRequest({ id: id, isCompleted: isCompleted }));
 
     const getTodoAuthor = (authorFullname) => {
         const fullName = authorFullname.split(" ");
