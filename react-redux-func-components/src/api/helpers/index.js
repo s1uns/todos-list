@@ -1,7 +1,3 @@
-import deleteRequest from "./deleteRequest";
-import patchRequest from "./patchRequest";
-import postRequest from "./postRequest";
-import getRequest from "./getRequest";
-import putRequest from "./putRequest";
+import customRequest from "./customRequest";
 
-export { deleteRequest, postRequest, getRequest, putRequest, patchRequest };
+export { customRequest };

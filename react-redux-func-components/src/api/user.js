@@ -1,11 +1,13 @@
 import axios from "axios";
-import { getRequest } from "./helpers";
+import { customRequest } from "./helpers";
+import { GET_REQUEST } from "../shared/constants";
 
 axios.defaults.withCredentials = true;
 const url = process.env.REACT_APP_BACKEND_URL;
 
 const getAvailableUsers = async (page, limit) => {
-    const response = await getRequest(
+    const response = await customRequest(
+        GET_REQUEST,
         `${url}users/available-users?page=${page}&limit=${limit}`,
     );
 

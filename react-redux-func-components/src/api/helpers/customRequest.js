@@ -1,14 +1,21 @@
 import axios from "axios";
 import { store } from "../../store/store";
-import { logoutUserRequest } from "../../store/actions/authActions";
+import { logoutUserRequest } from "../../store/actions/authActions.js";
 
 axios.defaults.withCredentials = true;
 
-const patchRequest = async (url) => {
+const customRequest = async (method, url, data = null) => {
     try {
-        const response = await axios.patch(url);
+        const config = {
+            method,
+            url,
+            data,
+        };
+
+        const response = await axios(config);
         return response.data;
     } catch (err) {
+        console.log("err: ", err);
         if (err.response) {
             if (err.response.status === 401) {
                 store.dispatch(logoutUserRequest());
@@ -24,4 +31,4 @@ const patchRequest = async (url) => {
     }
 };
 
-export default patchRequest;
+export default customRequest;

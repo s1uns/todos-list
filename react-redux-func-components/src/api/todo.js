@@ -1,17 +1,18 @@
 import axios from "axios";
+import { customRequest } from "./helpers";
 import {
-    postRequest,
-    getRequest,
-    putRequest,
-    deleteRequest,
-    patchRequest,
-} from "./helpers";
+    GET_REQUEST,
+    PATCH_REQUEST,
+    POST_REQUEST,
+    PUT_REQUEST,
+    DELETE_REQUEST,
+} from "../shared/constants";
 
 axios.defaults.withCredentials = true;
 const url = process.env.REACT_APP_BACKEND_URL;
 
 const createTodo = async (title) => {
-    const response = await postRequest(`${url}todos`, {
+    const response = await customRequest(POST_REQUEST, `${url}todos`, {
         title: title,
     });
 
@@ -19,7 +20,8 @@ const createTodo = async (title) => {
 };
 
 const getTodos = async (currentPage, limit) => {
-    const response = await getRequest(
+    const response = await customRequest(
+        GET_REQUEST,
         `${url}todos?page=${currentPage}&limit=${limit}`,
     );
 
@@ -27,13 +29,16 @@ const getTodos = async (currentPage, limit) => {
 };
 
 const clearCompleted = async () => {
-    const response = await patchRequest(`${url}todos/clear-completed`);
+    const response = await customRequest(
+        PATCH_REQUEST,
+        `${url}todos/clear-completed`,
+    );
 
     return response;
 };
 
 const updateTodo = async (todoId, newTitle) => {
-    const response = await putRequest(`${url}todos`, {
+    const response = await customRequest(PUT_REQUEST, `${url}todos`, {
         id: todoId,
         newTitle: newTitle,
     });
@@ -42,13 +47,19 @@ const updateTodo = async (todoId, newTitle) => {
 };
 
 const deleteTodo = async (todoId) => {
-    const response = await deleteRequest(`${url}todos/${todoId}`);
+    const response = await customRequest(
+        DELETE_REQUEST,
+        `${url}todos/${todoId}`,
+    );
 
     return response;
 };
 
 const checkTodo = async (todoId) => {
-    const response = await patchRequest(`${url}todos/${todoId}/check`);
+    const response = await customRequest(
+        PATCH_REQUEST,
+        `${url}todos/${todoId}/check`,
+    );
 
     return response;
 };
