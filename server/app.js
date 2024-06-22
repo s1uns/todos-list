@@ -8,8 +8,6 @@ import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
 import { logger, errorLogger } from "./middleware/winstonLoggingMiddleware.js";
 
-// yup validation
-// user-sheet
 
 const app = express();
 

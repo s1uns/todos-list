@@ -1,7 +1,6 @@
 import { getTodos as getTodosAsync } from "../../services/todos/index.js";
 
 const getTodos = async (req, res) => {
-    //merge to one query, add pagination
     const { page, limit } = req.query;
 
     const userId = req.userId;

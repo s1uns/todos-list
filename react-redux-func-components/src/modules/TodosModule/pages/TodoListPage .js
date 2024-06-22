@@ -108,7 +108,7 @@ const TodoListPage = () => {
                 <StyledPagination
                     size="large"
                     count={totalPages}
-                    defaultPage={1}
+                    page={currentPage}
                     variant="outlined"
                     shape="rounded"
                     onChange={handleChangePage}
