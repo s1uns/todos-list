@@ -1,13 +1,10 @@
 import { getTodos as getTodosAsync } from "../../services/todos/index.js";
+import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 
 const getTodos = async (req, res) => {
     const { page, limit } = req.query;
 
     const userId = req.userId;
-
-    if (!userId) {
-        return res.notFound("Couldn't get the user's id");
-    }
 
     const todos = await getTodosAsync({
         page: +page ? +page : 1,
@@ -15,6 +12,9 @@ const getTodos = async (req, res) => {
         userId: userId,
     });
 
+    logger.info(
+        `User ${userId} returned a list of his todos. Page: ${page}. Limit: ${limit}.`,
+    );
     return res.success(todos);
 };
 

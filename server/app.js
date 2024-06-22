@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
 import { logger, errorLogger } from "./middleware/winstonLoggingMiddleware.js";
-
+import expressWinston from "express-winston";
 
 const app = express();
 
@@ -16,7 +16,15 @@ app.use(cors({ credentials: true, origin: origin }));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(logger); //move logging to controllers
+app.use(
+    expressWinston.logger({
+        winstonInstance: logger,
+        statusLevels: true,
+        colorize: true,
+        requestWhitelist: [...expressWinston.requestWhitelist, "body"],
+        responseWhitelist: [...expressWinston.responseWhitelist, "body"],
+    }),
+);
 app.use(responseMiddleware);
 
 const port = process.env.SERVER_PORT;
@@ -32,6 +40,8 @@ app.use("/users", userRouter);
 
 app.use(errorLogger);
 
+
+
 app.listen(port, () => {
-    console.log(`Server listening at port: ${port}`);
+    logger.info(`Server listening at port: ${port}`);
 });

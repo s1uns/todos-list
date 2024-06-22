@@ -4,23 +4,24 @@ import {
     SHARE_ACTIVE,
     SHARE_INACTIVE,
 } from "../../utils/constraints/sharedStatus.js";
+import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 
 const manageShared = async (req, res) => {
     const userId = req.userId;
 
-    if (!userId) {
-        return res.notFound("Couldn't get the user's id");
-    }
-
     const { id: sharedWithId } = req.params;
 
     if (!sharedWithId) {
+        logger.warn(
+            `User ${userId} tried to share his todos with undefined user.`,
+        );
         return res.badRequest(
             "Specify the id of user you want to share todos with",
         );
     }
 
     if (userId === sharedWithId) {
+        logger.warn(`User ${userId} tried to share his todos with himself.`);
         return res.badRequest("You cannot share the todos with yourself");
     }
 
@@ -36,6 +37,9 @@ const manageShared = async (req, res) => {
             status: SHARE_ACTIVE,
         });
 
+        logger.info(
+            `User ${userId} shared his todos with user ${sharedWithId}.`,
+        );
         return res.success("Successfully shared the todos!");
     } else {
         const newStatus =
@@ -43,10 +47,13 @@ const manageShared = async (req, res) => {
 
         relation.status = newStatus;
         relation.save();
+
+        const stringStatus = newStatus ? "active" : "inactive";
+        logger.info(
+            `User ${userId} changed his sharing status with user ${sharedWithId} to ${stringStatus}.`,
+        );
         return res.success(
-            `Successfully changed the shared status to ${
-                newStatus ? "active" : "inactive"
-            }!`,
+            `Successfully changed the shared status to ${stringStatus}!`,
         );
     }
 };

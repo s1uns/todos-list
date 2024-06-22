@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-
+import { logger } from "./winstonLoggingMiddleware.js";
 
 const authMiddleware = (req, res, next) => {
     const accessToken = req.cookies.ACCESS_TOKEN;
@@ -14,8 +14,14 @@ const authMiddleware = (req, res, next) => {
                     return res.unauthorized("Failed to authenticate token.");
                 } else {
                     const { user } = decoded;
+                    const { userId } = user;
 
-                    req.userId = user.userId;
+                    if (!userId) {
+                        logger.error(`Couldn't get the user's id.`);
+                        return res.notFound("Couldn't get the user's id.");
+                    }
+
+                    req.userId = userId;
 
                     const accessToken = jwt.sign({ user }, secretKey, {
                         expiresIn: accessExpiresIn,
@@ -31,7 +37,15 @@ const authMiddleware = (req, res, next) => {
                 }
             });
         } else {
-            req.userId = decoded.user.userId;
+            const { user } = decoded;
+            const { userId } = user;
+
+            if (!userId) {
+                logger.error(`Couldn't get the user's id.`);
+                return res.notFound("Couldn't get the user's id.");
+            }
+
+            req.userId = userId;
             next();
         }
     });

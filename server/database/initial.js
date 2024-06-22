@@ -1,6 +1,7 @@
 import sequelize from "./models/index.js";
 import { Sequelize } from "sequelize";
 import { Users, Todos, Shared, HeardFrom } from "./models/relations.js";
+import { logger } from "../middleware/winstonLoggingMiddleware.js";
 
 const sequelizeToInitDb = new Sequelize(
     "",
@@ -20,7 +21,7 @@ async function createDatabase(dbName) {
             .getQueryInterface()
             .createDatabase(dbName);
     } catch (e) {
-        console.log(e);
+        logger.error(e);
     }
     return res;
 }
@@ -28,17 +29,14 @@ async function createDatabase(dbName) {
 async function initDatabase() {
     try {
         await createDatabase("todolist");
-        console.log("Initiated the db");
+        logger.info("Initiated the db");
         await sequelize.sync({ force: true });
-        console.log(
+        logger.info(
             "All migrations applied successfully, connection has established.",
-        );
-
-        console.log("Database tables: ", sequelize.models);
-
-        process.exit(0);
+        ),
+            process.exit(0);
     } catch (error) {
-        console.log("Couldn't initiate the database: ", error);
+        logger.error("Couldn't initiate the database: ", error);
         process.exit(1);
     }
 }

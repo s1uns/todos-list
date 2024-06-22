@@ -60,7 +60,7 @@ const register = async (req, res) => {
         secure: true,
         sameSite: "strict",
     });
-
+    
     return res.success(response);
 };
 

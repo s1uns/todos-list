@@ -1,27 +1,32 @@
+import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 import Todo from "../../database/models/Todos.js";
 
 const updateTodo = async (req, res) => {
-    console.log(`The /update-todo request was catched at ${req.requestTime}`);
-
     const { id: todoId, newTitle } = req.body;
     const { userId } = req;
 
     const todo = await Todo.findByPk(todoId);
 
     if (!todo) {
+        logger.warn(
+            `User ${userId} tried to update todo ${todoId} (NOT FOUND) with new title "${newTitle}".`,
+        );
         return res.notFound("Todo not found.");
     }
 
     if (todo.creatorId != userId) {
-        return res.forbidden("It's not your todo");
+        logger.warn(
+            `User ${userId} tried to update not his todo ${todoId} with new title "${newTitle}".`,
+        );
+        return res.forbidden("It's not your todo.");
     }
 
     todo.title = newTitle;
     todo.isUpdated = true;
 
     todo.save();
-    console.log(
-        `The /update-todo response was returned at ${res.getResponseTime()}`,
+    logger.info(
+        `User ${userId} updated todo ${todoId} with new title "${newTitle}".`,
     );
 
     return res.success(todo);

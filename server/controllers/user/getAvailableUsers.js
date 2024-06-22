@@ -1,14 +1,9 @@
-import { Shared } from "../../database/models/relations.js";
+import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 import { getAvailableUsers as getAvailableUsersAsync } from "../../services/user/index.js";
 
 const getAvailableUsers = async (req, res) => {
-
     const userId = req.userId;
     const { page, limit } = req.query;
-
-    if (!userId) {
-        return res.notFound("Couldn't get the user's id");
-    }
 
     const result = await getAvailableUsersAsync({
         page: +page ? +page : 1,
@@ -16,6 +11,9 @@ const getAvailableUsers = async (req, res) => {
         userId: userId,
     });
 
+    logger.info(
+        `User ${userId} returned a list of available users. Page: ${page}. Limit: ${limit}.`,
+    );
     return res.success(result);
 };
 

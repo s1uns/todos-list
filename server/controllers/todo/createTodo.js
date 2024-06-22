@@ -1,18 +1,11 @@
 import Todo from "../../database/models/Todos.js";
 import { v4 as uuid } from "uuid";
+import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 
 const createTodo = async (req, res) => {
     const { title } = req.body;
 
-    if (title.trim().length == 0) {
-        return res.badRequest("The title is empty");
-    }
-
     const userId = req.userId;
-
-    if (!userId) {
-        return res.notFound("Couldn't get the user's id");
-    }
 
     const newTodo = await Todo.create({
         id: uuid(),
@@ -20,7 +13,7 @@ const createTodo = async (req, res) => {
         creatorId: userId,
     });
 
-
+    logger.info(`User ${userId} created a new todo "${title}".`);
     return res.success(newTodo);
 };
 
