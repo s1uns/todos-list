@@ -2,7 +2,7 @@ import { getTodos as getTodosAsync } from "../../services/todos/index.js";
 import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 
 const getTodos = async (req, res) => {
-    const { page, limit } = req.query;
+    const { page, limit, filter } = req.query;
 
     const userId = req.userId;
 
@@ -10,6 +10,7 @@ const getTodos = async (req, res) => {
         page: +page ? +page : 1,
         limit: +limit ? +limit : 4,
         userId: userId,
+        filter: +filter ? +filter : 0,
     });
 
     logger.info(

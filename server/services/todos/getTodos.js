@@ -17,12 +17,20 @@ const getTodos = async ({ page, limit, userId, filter }) => {
         })
     ).map((owner) => owner.ownerId);
 
-    const todos = await Todos.findAndCountAll({
-        where: {
-            creatorId: {
-                [Op.in]: [...sharedTodosOwners, userId],
-            },
+    const whereStatement = {
+        creatorId: {
+            [Op.in]: [...sharedTodosOwners, userId],
         },
+    };
+
+    if (filter === 1) {
+        whereStatement.isCompleted = false;
+    } else if (filter === 2) {
+        whereStatement.isCompleted = true;
+    }
+
+    const todos = await Todos.findAndCountAll({
+        where: whereStatement,
         include: {
             model: Users,
             as: "creator",
