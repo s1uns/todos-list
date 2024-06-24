@@ -3,11 +3,14 @@ import { router as todosRouter } from "./routes/todos/index.js";
 import { router as sharedRouter } from "./routes/shared/index.js";
 import { router as userRouter } from "./routes/user/index.js";
 import express from "express";
+import { WebSocketServer } from "ws";
 import cookieParser from "cookie-parser";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
 import { logger, errorLogger } from "./middleware/winstonLoggingMiddleware.js";
 import expressWinston from "express-winston";
+import url from "url";
+import { v4 as uuid } from "uuid";
 
 const app = express();
 
@@ -27,8 +30,14 @@ app.use(
 );
 app.use(responseMiddleware);
 
+const wsServer = new WebSocketServer({ server: app });
 const port = process.env.SERVER_PORT;
 
+wsServer.on("connection", (connection, request) => {
+    const { username } = url.parse(request.url, true).query;
+
+    const connectionId = uuid();
+});
 app.get("/", (req, res) => {
     res.send("Started Working, Express!");
 });
@@ -39,8 +48,6 @@ app.use("/shared", sharedRouter);
 app.use("/users", userRouter);
 
 app.use(errorLogger);
-
-
 
 app.listen(port, () => {
     logger.info(`Server listening at port: ${port}`);
