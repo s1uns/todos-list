@@ -57,7 +57,7 @@ const todosReducer = handleActions(
             count: 0,
         }),
     },
-    [],
+    { list: [], totalPages: 1, count: 0 },
 );
 
 export default todosReducer;
