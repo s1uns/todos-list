@@ -5,13 +5,13 @@ const todosReducer = handleActions(
     {
         [actionSuccessType.ADD_TODO_SUCCESS]: (state, { payload }) => ({
             list: [...state.list, payload],
-            totalPages: state.totalPages, //move to front-end
+            currentPage: state.currentPage, //move to front-end
             count: ++state.count,
         }),
 
         [actionSuccessType.DELETE_TODO_SUCCESS]: (state, { payload }) => ({
             list: state.list.filter((todo) => todo.id !== payload.id),
-            totalPages: state.totalPages,
+            currentPage: state.currentPage,
             count: !payload.isCompleted ? --state.count : state.count,
         }),
 
@@ -26,7 +26,7 @@ const todosReducer = handleActions(
                       }
                     : todo,
             ),
-            totalPages: state.totalPages,
+            currentPage: state.currentPage,
             count: payload.isCompleted ? --state.count : ++state.count,
         }),
 
@@ -41,23 +41,23 @@ const todosReducer = handleActions(
                       }
                     : todo,
             ),
-            totalPages: state.totalPages,
+            currentPage: state.currentPage,
             count: state.count,
         }),
 
         [actionSuccessType.SET_TODOS_SUCCESS]: (state, { payload }) => ({
             list: payload.list,
-            totalPages: payload.totalPages ? payload.totalPages : 1,
+            currentPage: payload.currentPage ? payload.currentPage : 1,
             count: payload.count,
         }),
 
         [actionSuccessType.CLEAR_TODOS_SUCCESS]: (state) => ({
             list: [],
-            totalPages: 1,
+            currentPage: 1,
             count: 0,
         }),
     },
-    { list: [], totalPages: 1, count: 0 },
+    { list: [], currentPage: 1, count: 0 },
 );
 
 export default todosReducer;
