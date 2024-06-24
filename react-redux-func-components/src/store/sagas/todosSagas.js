@@ -18,8 +18,8 @@ import {
 import { addNotificationRequest } from "../actions/notificationsActions";
 
 function* workGetTodos({ payload }) {
-    const { currentPage, limit } = payload;
-    const response = yield call(() => getTodos(currentPage, limit));
+    const { currentPage } = payload;
+    const response = yield call(() => getTodos(currentPage));
 
     if (response.success) {
         yield put(setTodosSuccess(response.data));
@@ -97,7 +97,7 @@ function* workEditTodo({ payload }) {
 }
 
 function* workClearCompleted() {
-    const response = yield call(() => clearCompleted()); //needs to be fixed
+    const response = yield call(() => clearCompleted());
     if (response.success) {
         yield put(setTodosSuccess(response.data));
     } else {

@@ -5,7 +5,7 @@ const todosReducer = handleActions(
     {
         [actionSuccessType.ADD_TODO_SUCCESS]: (state, { payload }) => ({
             list: [...state.list, payload],
-            totalPages: state.totalPages,
+            totalPages: state.totalPages, //move to front-end
             count: ++state.count,
         }),
 

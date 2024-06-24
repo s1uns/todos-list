@@ -14,6 +14,7 @@ import { addNotificationRequest } from "../../../store/actions/notificationsActi
 
 const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
     const dispatch = useDispatch();
+    
     const [isEditing, setIsEditing] = useState(false);
 
     const toggleEditing = () => {

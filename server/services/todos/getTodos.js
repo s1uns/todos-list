@@ -2,7 +2,8 @@ import { Users, Todos, Shared } from "../../database/models/relations.js";
 import { Op } from "sequelize";
 import { SHARE_ACTIVE } from "../../utils/constraints/sharedStatus.js";
 
-const getTodos = async ({ page, limit, userId }) => {
+const getTodos = async ({ page, limit, userId, filter }) => {
+    //add filter by status
     const queries = {
         offset: (page - 1) * limit,
         limit: limit,
@@ -32,15 +33,6 @@ const getTodos = async ({ page, limit, userId }) => {
         ...queries,
     });
 
-    const activeTodos = await Todos.count({
-        where: {
-            creatorId: {
-                [Op.in]: [...sharedTodosOwners, userId],
-            },
-            isCompleted: false,
-        },
-    });
-
     const list = todos.rows.map((todo) => {
         const { creator, ...rest } = todo;
 
@@ -53,7 +45,7 @@ const getTodos = async ({ page, limit, userId }) => {
 
     const totalPages = Math.ceil(todos?.count / limit);
 
-    return { list: list, totalPages: totalPages, count: activeTodos };
+    return { list: list, totalPages: totalPages, count: todos?.count };
 };
 
 export default getTodos;

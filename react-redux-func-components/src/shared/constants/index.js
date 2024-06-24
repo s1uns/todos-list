@@ -1,17 +1,29 @@
+// gender
 const GENDER_MALE = 0;
 const GENDER_FEMALE = 1;
 const GENDER_OTHER = 2;
 
+// heard from
 const HEARD_FROM_FRIEND = 0;
 const HEARD_FROM_INTERNET = 1;
 const HEARD_FROM_ADVERTISEMENT = 2;
 const HEARD_FROM_OTHER = 3;
 
+// requests
 const POST_REQUEST = "POST";
 const PUT_REQUEST = "PUT";
 const GET_REQUEST = "GET";
 const PATCH_REQUEST = "PATCH";
 const DELETE_REQUEST = "DELETE";
+
+// limits
+const TODOS_LIMIT = 4;
+const USERS_LIMIT = 3;
+
+// filters
+const FILTER_ALL = 0;
+const FILTER_ACTIVE = 1;
+const FILTER_COMPLETED = 2;
 
 export {
     GENDER_MALE,
@@ -26,4 +38,9 @@ export {
     GET_REQUEST,
     PATCH_REQUEST,
     DELETE_REQUEST,
+    TODOS_LIMIT,
+    USERS_LIMIT,
+    FILTER_ALL,
+    FILTER_ACTIVE,
+    FILTER_COMPLETED,
 };

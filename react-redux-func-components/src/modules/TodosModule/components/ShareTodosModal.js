@@ -16,14 +16,15 @@ import styled from "@emotion/styled";
 import { addNotificationSuccess } from "../../../store/actions/notificationsActions";
 
 const ShareTodosModal = ({ open, onClose }) => {
+    const dispatch = useDispatch();
+
     const [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (open) {
-            getAvailableUsers(currentPage, 4);
+            getAvailableUsers(currentPage);
         }
     }, [open, currentPage]);
 
@@ -38,8 +39,8 @@ const ShareTodosModal = ({ open, onClose }) => {
         onClose();
     };
 
-    const getAvailableUsers = async (page, limit) => {
-        const response = await getAvailableUsersAsync(page, limit);
+    const getAvailableUsers = async (page) => {
+        const response = await getAvailableUsersAsync(page);
 
         if (response.success) {
             const { list, totalPages } = response.data;

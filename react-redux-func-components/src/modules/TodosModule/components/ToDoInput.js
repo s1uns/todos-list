@@ -8,6 +8,7 @@ import { createTodoRequest } from "../../../store/actions/todosActions";
 
 const ToDoInput = () => {
     const dispatch = useDispatch();
+    
     const createTodo = (e) => {
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();

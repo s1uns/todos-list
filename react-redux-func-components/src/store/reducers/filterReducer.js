@@ -1,14 +1,12 @@
 import { handleActions } from "redux-actions";
 import { actionSuccessType } from "../actions/constants";
+import { FILTER_ALL } from "../../shared/constants";
 
 const filterReducer = handleActions(
     {
-        [actionSuccessType.SET_FILTER_SUCCESS]: (
-            currentFilter = "all",
-            { payload },
-        ) => payload,
+        [actionSuccessType.SET_FILTER_SUCCESS]: (state, { payload }) => payload,
     },
-    "all",
+    FILTER_ALL,
 );
 
 export default filterReducer;

@@ -4,9 +4,11 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material";
 import { setFilterRequest } from "../../../store/actions/filterActions";
 import { clearCompletedRequest } from "../../../store/actions/todosActions";
+import { FILTER_ACTIVE, FILTER_ALL, FILTER_COMPLETED } from "../../../shared/constants";
 
 const Footer = ({ currentFilter, onClearCompleted }) => {
     const dispatch = useDispatch();
+    
     const { count } = useSelector((state) => state.todos);
 
     const setFilter = (filter) => {
@@ -35,22 +37,22 @@ const Footer = ({ currentFilter, onClearCompleted }) => {
             <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <FooterButton
                     id="all-btn"
-                    className={currentFilter === "all" ? "active" : ""}
-                    onClick={() => setFilter("all")}
+                    className={currentFilter === FILTER_ALL ? "active" : ""}
+                    onClick={() => setFilter(FILTER_ALL)}
                 >
                     All
                 </FooterButton>
                 <FooterButton
                     id="active-btn"
-                    className={currentFilter === "active" ? "active" : ""}
-                    onClick={() => setFilter("active")}
+                    className={currentFilter === FILTER_ACTIVE ? "active" : ""}
+                    onClick={() => setFilter(FILTER_ACTIVE)}
                 >
                     Active
                 </FooterButton>
                 <FooterButton
                     id="completed-btn"
-                    className={currentFilter === "completed" ? "active" : ""}
-                    onClick={() => setFilter("completed")}
+                    className={currentFilter === FILTER_COMPLETED ? "active" : ""}
+                    onClick={() => setFilter(FILTER_COMPLETED)}
                 >
                     Completed
                 </FooterButton>

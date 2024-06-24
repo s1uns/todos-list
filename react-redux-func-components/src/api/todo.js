@@ -6,6 +6,7 @@ import {
     POST_REQUEST,
     PUT_REQUEST,
     DELETE_REQUEST,
+    TODOS_LIMIT
 } from "../shared/constants";
 
 axios.defaults.withCredentials = true;
@@ -19,10 +20,10 @@ const createTodo = async (title) => {
     return response;
 };
 
-const getTodos = async (currentPage, limit) => {
+const getTodos = async (currentPage) => {
     const response = await customRequest(
         GET_REQUEST,
-        `${url}todos?page=${currentPage}&limit=${limit}`,
+        `${url}todos?page=${currentPage}&limit=${TODOS_LIMIT}`,
     );
 
     return response;

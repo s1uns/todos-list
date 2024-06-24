@@ -16,31 +16,24 @@ import {
 import styled from "@emotion/styled";
 import ShareTodosModal from "../components/ShareTodosModal";
 import { getTodosRequest } from "../../../store/actions/todosActions";
+import { logoutUserRequest } from "../../../store/actions/authActions";
+import { FILTER_ACTIVE, TODOS_LIMIT } from "../../../shared/constants";
 
 const TodoListPage = () => {
-    const { list: todos, totalPages } = useSelector((state) => state.todos);
-    const currentFilter = useSelector((state) => state.currentFilter);
-    const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
+
+    const currentFilter = useSelector((state) => state.currentFilter);
+    const { list: todos, count } = useSelector((state) => state.todos);
+    const user = useSelector((state) => state.user);
+
+    const [currentPage, setCurrentPage] = useState(1);
     const [open, setOpen] = useState(false);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const filtratedTodos = todos.filter((todo) => {
-        if (currentFilter === "active") {
-            return !todo.isCompleted;
-        }
-
-        if (currentFilter === "completed") {
-            return todo.isCompleted;
-        }
-
-        return true;
-    });
 
     useEffect(() => {
-        dispatch(getTodosRequest({ currentPage: currentPage, limit: 4 }));
+        dispatch(getTodosRequest({ currentPage: currentPage }));
     }, [currentPage]);
 
     const handleChangePage = (event, newPage) => {
@@ -48,10 +41,37 @@ const TodoListPage = () => {
     };
 
     const handleLogOut = () => {
-        dispatch({
-            type: actionRequestType.LOGOUT_USER_REQUEST,
-        });
+        dispatch(logoutUserRequest());
     };
+
+    const filtratedTodos = todos.filter((todo) => {
+        // add useMemo with count and offset
+        if (currentFilter === FILTER_ACTIVE) {
+            return !todo.isCompleted;
+        }
+
+        if (currentFilter === FILTER_ACTIVE) {
+            return todo.isCompleted;
+        }
+
+        return true;
+    });
+
+    // const filtratedTodos = useMemo(
+    //     () =>
+    //         todos.filter((todo) => {
+    //             if (currentFilter === "active") {
+    //                 return !todo.isCompleted;
+    //             }
+
+    //             if (currentFilter === "completed") {
+    //                 return todo.isCompleted;
+    //             }
+
+    //             return true;
+    //         }),
+    //     [currentFilter],
+    // );
 
     return (
         <>
@@ -107,7 +127,7 @@ const TodoListPage = () => {
                 </TodoBlock>
                 <StyledPagination
                     size="large"
-                    count={totalPages}
+                    count={Math.ceil(count / TODOS_LIMIT)}
                     page={currentPage}
                     variant="outlined"
                     shape="rounded"
@@ -122,6 +142,10 @@ const TodoListPage = () => {
         </>
     );
 };
+
+// reddis userId -> socketId
+// on create todo -> check all shared users and emit the event to notify all the shared users
+// on logout remove the id
 
 export default TodoListPage;
 
