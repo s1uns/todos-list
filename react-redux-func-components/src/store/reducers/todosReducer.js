@@ -61,11 +61,6 @@ const todosReducer = handleActions(
             count: 0,
         }),
 
-        [actionSuccessType.SET_PAGE_SUCCESS]: (state, { payload }) => ({
-            list: payload.list,
-            currentPage: payload.currentPage,
-            count: payload.count,
-        }),
     },
     { list: [], currentPage: 1, count: 0 },
 );

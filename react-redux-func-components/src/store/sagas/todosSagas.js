@@ -124,7 +124,6 @@ function* workSetPage({ payload }) {
             }),
         );
     }
-    yield put(setPageSuccess(payload));
 }
 
 function* todosSagas() {

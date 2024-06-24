@@ -48,7 +48,6 @@ const TodoListPage = () => {
 
     const changePage = (newPage) => {
         dispatch(setPageRequest(newPage));
-        alert("Page: ", currentPage);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -60,7 +59,6 @@ const TodoListPage = () => {
     };
 
     const filtratedTodos = todos.filter((todo) => {
-        // add useMemo with count and offset
         if (currentFilter === FILTER_ACTIVE) {
             return !todo.isCompleted;
         }
