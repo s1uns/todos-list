@@ -3,7 +3,6 @@ import ToDoInput from "../components/ToDoInput";
 import ToDoItem from "../components/ToDoItem";
 import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
-import { actionRequestType } from "../../../store/actions/constants";
 import { useDispatch } from "react-redux";
 import {
     Button,
@@ -43,11 +42,21 @@ const TodoListPage = () => {
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
-        dispatch(getTodosRequest({ currentPage: currentPage }));
-    }, []);
+        dispatch(
+            getTodosRequest({
+                currentPage: currentPage,
+                currentFilter: currentFilter,
+            }),
+        );
+    }, [currentFilter]);
 
     const changePage = (newPage) => {
-        dispatch(setPageRequest(newPage));
+        dispatch(
+            setPageRequest({
+                currentPage: newPage,
+                currentFilter: currentFilter,
+            }),
+        );
     };
 
     const handleChangePage = (event, newPage) => {

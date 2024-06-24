@@ -19,8 +19,8 @@ import {
 import { addNotificationRequest } from "../actions/notificationsActions";
 
 function* workGetTodos({ payload }) {
-    const { currentPage } = payload;
-    const response = yield call(() => getTodos(currentPage));
+    const { currentPage, currentFilter } = payload;
+    const response = yield call(() => getTodos(currentPage, currentFilter));
 
     if (response.success) {
         yield put(setTodosSuccess(response.data));
@@ -112,10 +112,14 @@ function* workClearCompleted() {
 }
 
 function* workSetPage({ payload }) {
-    const response = yield call(() => getTodos(payload));
+    const { currentPage, currentFilter } = payload;
+
+    const response = yield call(() => getTodos(currentPage, currentFilter));
 
     if (response.success) {
-        yield put(setTodosSuccess({ ...response.data, currentPage: payload }));
+        yield put(
+            setTodosSuccess({ ...response.data, currentPage: currentPage }),
+        );
     } else {
         yield put(
             addNotificationRequest({
