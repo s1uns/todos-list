@@ -1,5 +1,5 @@
 import { takeEvery, put, call } from "redux-saga/effects";
-import { actionRequestType, actionSuccessType } from "../actions/constants";
+import { actionRequestType } from "../actions/constants";
 import {
     checkTodo,
     clearCompleted,
@@ -14,6 +14,7 @@ import {
     deleteTodoSuccess,
     editTodoSuccess,
     setTodosSuccess,
+    setPageSuccess,
 } from "../actions/todosActions";
 import { addNotificationRequest } from "../actions/notificationsActions";
 
@@ -110,6 +111,22 @@ function* workClearCompleted() {
     }
 }
 
+function* workSetPage({ payload }) {
+    const response = yield call(() => getTodos(payload));
+
+    if (response.success) {
+        yield put(setTodosSuccess({ ...response.data, currentPage: payload }));
+    } else {
+        yield put(
+            addNotificationRequest({
+                id: new Date(Date.now()),
+                message: response.message,
+            }),
+        );
+    }
+    yield put(setPageSuccess(payload));
+}
+
 function* todosSagas() {
     yield takeEvery(actionRequestType.ADD_TODO_REQUEST, workAddTodo);
     yield takeEvery(actionRequestType.GET_TODOS_REQUEST, workGetTodos);
@@ -120,6 +137,7 @@ function* todosSagas() {
         actionRequestType.CLEAR_COMPLETED_REQUEST,
         workClearCompleted,
     );
+    yield takeEvery(actionRequestType.SET_PAGE_REQUEST, workSetPage);
 }
 
 export default todosSagas;

@@ -15,18 +15,28 @@ import {
 } from "@mui/material";
 import styled from "@emotion/styled";
 import ShareTodosModal from "../components/ShareTodosModal";
-import { getTodosRequest } from "../../../store/actions/todosActions";
+import {
+    getTodosRequest,
+    setPageRequest,
+} from "../../../store/actions/todosActions";
 import { logoutUserRequest } from "../../../store/actions/authActions";
-import { FILTER_ACTIVE, TODOS_LIMIT } from "../../../shared/constants";
+import {
+    FILTER_ACTIVE,
+    FILTER_COMPLETED,
+    TODOS_LIMIT,
+} from "../../../shared/constants";
 
 const TodoListPage = () => {
     const dispatch = useDispatch();
 
     const currentFilter = useSelector((state) => state.currentFilter);
-    const { list: todos, count } = useSelector((state) => state.todos);
+    const {
+        list: todos,
+        count,
+        currentPage,
+    } = useSelector((state) => state.todos);
     const user = useSelector((state) => state.user);
 
-    const [currentPage, setCurrentPage] = useState(1);
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -34,10 +44,15 @@ const TodoListPage = () => {
 
     useEffect(() => {
         dispatch(getTodosRequest({ currentPage: currentPage }));
-    }, [currentPage]);
+    }, []);
+
+    const changePage = (newPage) => {
+        dispatch(setPageRequest(newPage));
+        alert("Page: ", currentPage);
+    };
 
     const handleChangePage = (event, newPage) => {
-        setCurrentPage(newPage);
+        changePage(newPage);
     };
 
     const handleLogOut = () => {
@@ -50,7 +65,7 @@ const TodoListPage = () => {
             return !todo.isCompleted;
         }
 
-        if (currentFilter === FILTER_ACTIVE) {
+        if (currentFilter === FILTER_COMPLETED) {
             return todo.isCompleted;
         }
 
@@ -135,7 +150,7 @@ const TodoListPage = () => {
                 />
                 <Footer
                     currentFilter={currentFilter}
-                    onClearCompleted={() => setCurrentPage(1)}
+                    onClearCompleted={() => changePage(1)}
                 />
             </Container>
             <ShareTodosModal open={open} onClose={handleClose} />
