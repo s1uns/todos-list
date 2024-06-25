@@ -11,6 +11,7 @@ import { logger, errorLogger } from "./middleware/winstonLoggingMiddleware.js";
 import expressWinston from "express-winston";
 import url from "url";
 import { v4 as uuid } from "uuid";
+import redisClient from "./redisClient.js";
 
 const app = express();
 
@@ -30,14 +31,8 @@ app.use(
 );
 app.use(responseMiddleware);
 
-const wsServer = new WebSocketServer({ server: app });
 const port = process.env.SERVER_PORT;
 
-wsServer.on("connection", (connection, request) => {
-    const { username } = url.parse(request.url, true).query;
-
-    const connectionId = uuid();
-});
 app.get("/", (req, res) => {
     res.send("Started Working, Express!");
 });
@@ -49,6 +44,19 @@ app.use("/users", userRouter);
 
 app.use(errorLogger);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     logger.info(`Server listening at port: ${port}`);
+});
+
+const wsServer = new WebSocketServer({ server });
+
+wsServer.on("connection", function connection(ws, request, client) {
+    console.log("Client: ", client);
+    logger.info("New connection to the websocket");
+
+    ws.on("error", console.error);
+
+    ws.on("message", function message(data) {
+        console.log(`Received message ${data} from user ${client}`);
+    });
 });
