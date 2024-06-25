@@ -31,9 +31,9 @@ const TodoListPage = () => {
     const currentFilter = useSelector((state) => state.currentFilter);
     const {
         list: todos,
-        count,
         currentPage,
-        // totalPages,
+        totalTodos,
+        activeTodos,
     } = useSelector((state) => state.todos);
     const user = useSelector((state) => state.user);
 
@@ -47,7 +47,7 @@ const TodoListPage = () => {
             getTodosRequest({
                 currentPage: currentPage,
                 currentFilter: currentFilter,
-            }),
+            })
         );
     }, [currentFilter]);
 
@@ -56,7 +56,7 @@ const TodoListPage = () => {
             setPageRequest({
                 currentPage: newPage,
                 currentFilter: currentFilter,
-            }),
+            })
         );
     };
 
@@ -68,24 +68,10 @@ const TodoListPage = () => {
         dispatch(logoutUserRequest());
     };
 
-    // const filtratedTodos = todos.filter((todo) => {
-    //     if (currentFilter === FILTER_ACTIVE) {
-    //         return !todo.isCompleted;
-    //     }
-
-    //     if (currentFilter === FILTER_COMPLETED) {
-    //         return todo.isCompleted;
-    //     }
-
-    //     return true;
-    // });
-
     const totalPages = useMemo(
-        () => Math.ceil(count / TODOS_LIMIT),
-        [currentFilter],
+        () => Math.ceil(totalTodos / TODOS_LIMIT),
+        [todos, currentFilter]
     );
-
-    console.log("Counter: ", count);
 
     return (
         <>

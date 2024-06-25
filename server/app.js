@@ -27,7 +27,7 @@ app.use(
         colorize: true,
         requestWhitelist: [...expressWinston.requestWhitelist, "body"],
         responseWhitelist: [...expressWinston.responseWhitelist, "body"],
-    }),
+    })
 );
 app.use(responseMiddleware);
 
@@ -52,9 +52,9 @@ const server = app.listen(port, () => {
 const wsServer = new WebSocketServer({ server });
 
 wsServer.on("connection", function connection(ws, request, client) {
-    const connectionId = uuid();
-    redisClient.setConnection(connectionId, userId);
-    console.log("Client: ", client);
+    // const connectionId = uuid();
+    // redisClient.setConnection(connectionId, userId);
+    // console.log("Client: ", client);
     logger.info("New connection to the websocket");
 
     ws.on("error", console.error);
@@ -62,6 +62,8 @@ wsServer.on("connection", function connection(ws, request, client) {
     ws.on("message", function message(data) {
         console.log(`Received message ${data} from user ${client}`);
     });
+
+    ws.on("close", () => console.log("Disconnected from the socket."));
 });
 
 // emit events from controllers

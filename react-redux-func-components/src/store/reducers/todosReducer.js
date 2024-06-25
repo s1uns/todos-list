@@ -9,8 +9,8 @@ const todosReducer = handleActions(
             return {
                 list: newList,
                 currentPage: state.currentPage,
-                count: ++state.count,
-                totalPages: newList.length / TODOS_LIMIT,
+                totalTodos: ++state.totalTodos,
+                activeTodos: ++state.activeTodos,
             };
         },
 
@@ -20,8 +20,10 @@ const todosReducer = handleActions(
             return {
                 list: newList,
                 currentPage: state.currentPage,
-                count: !payload.isCompleted ? --state.count : state.count,
-                totalPages: newList.length / TODOS_LIMIT,
+                totalTodos: --state.totalTodos,
+                activeTodos: !payload.isCompleted
+                    ? --state.activeTodos
+                    : state.activeTodos,
             };
         },
 
@@ -40,8 +42,10 @@ const todosReducer = handleActions(
             return {
                 list: newList,
                 currentPage: state.currentPage,
-                count: payload.isCompleted ? --state.count : ++state.count,
-                totalPages: newList.length / TODOS_LIMIT,
+                totalTodos: state.totalTodos,
+                activeTodos: payload.isCompleted
+                    ? --state.activeTodos
+                    : ++state.activeTodos,
             };
         },
 
@@ -60,8 +64,8 @@ const todosReducer = handleActions(
             return {
                 list: newList,
                 currentPage: state.currentPage,
-                count: state.count,
-                totalPages: newList.length / TODOS_LIMIT,
+                totalTodos: state.totalTodos,
+                activeTodos: state.activeTodos,
             };
         },
 
@@ -69,19 +73,19 @@ const todosReducer = handleActions(
             return {
                 list: payload.list,
                 currentPage: payload.currentPage ? payload.currentPage : 1,
-                count: payload.count,
-                totalPages: payload.list.length / TODOS_LIMIT,
+                totalTodos: payload.totalTodos ? payload.totalTodos : 1,
+                activeTodos: payload.activeTodos ? payload.activeTodos : 0,
             };
         },
 
         [actionSuccessType.CLEAR_TODOS_SUCCESS]: (state) => ({
             list: [],
             currentPage: 1,
-            count: 0,
-            totalPages: 1,
+            totalTodos: 1,
+            activeTodos: 0,
         }),
     },
-    { list: [], currentPage: 1, count: 0, totalPages: 1 }
+    { list: [], currentPage: 1, totalTodos: 1, activeTodos: 0 }
 );
 
 export default todosReducer;

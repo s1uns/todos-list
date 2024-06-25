@@ -9,7 +9,7 @@ import { FILTER_ACTIVE, FILTER_ALL, FILTER_COMPLETED } from "../../../shared/con
 const Footer = ({ currentFilter, onClearCompleted }) => {
     const dispatch = useDispatch();
     
-    const { count } = useSelector((state) => state.todos);
+    const { activeTodos } = useSelector((state) => state.todos);
 
     const setFilter = (filter) => {
         dispatch(setFilterRequest(filter));
@@ -32,7 +32,7 @@ const Footer = ({ currentFilter, onClearCompleted }) => {
             }}
         >
             <Typography id="counter" style={{ fontSize: "2.5rem" }}>
-                {count} items left
+                {activeTodos} items left
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <FooterButton

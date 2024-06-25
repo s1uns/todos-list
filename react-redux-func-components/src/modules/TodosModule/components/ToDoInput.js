@@ -5,10 +5,12 @@ import styled from "@emotion/styled";
 import { Input } from "../../../shared/components/Input";
 import { addNotificationRequest } from "../../../store/actions/notificationsActions";
 import { createTodoRequest } from "../../../store/actions/todosActions";
+import { setFilterRequest } from "../../../store/actions/filterActions";
+import { FILTER_ALL } from "../../../shared/constants";
 
 const ToDoInput = () => {
     const dispatch = useDispatch();
-    
+
     const createTodo = (e) => {
         if (e.key === "Enter") {
             const trimmedString = e.target.value.trim();
@@ -23,6 +25,7 @@ const ToDoInput = () => {
             }
 
             e.target.value = "";
+            dispatch(setFilterRequest(FILTER_ALL));
             dispatch(createTodoRequest(trimmedString));
         }
     };
