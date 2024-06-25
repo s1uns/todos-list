@@ -3,7 +3,6 @@ import { router as todosRouter } from "./routes/todos/index.js";
 import { router as sharedRouter } from "./routes/shared/index.js";
 import { router as userRouter } from "./routes/user/index.js";
 import express from "express";
-import { WebSocketServer } from "ws";
 import cookieParser from "cookie-parser";
 import responseMiddleware from "./middleware/responseMiddleware.js";
 import cors from "cors";
@@ -12,6 +11,7 @@ import expressWinston from "express-winston";
 import url from "url";
 import { v4 as uuid } from "uuid";
 import redisClient from "./redisClient.js";
+import { Server } from "socket.io";
 
 const app = express();
 
@@ -33,9 +33,9 @@ app.use(responseMiddleware);
 
 const port = process.env.SERVER_PORT;
 
-app.get("/", (req, res) => {
-    res.send("Started Working, Express!");
-});
+// app.get("/", (req, res) => {
+//     res.send("Started Working, Express!");
+// });
 
 app.use("/auth", authRouter);
 app.use("/todos", todosRouter);
@@ -49,21 +49,21 @@ const server = app.listen(port, () => {
 });
 //socket.io
 
-const wsServer = new WebSocketServer({ server });
+const io = new Server(server);
 
-wsServer.on("connection", function connection(ws, request, client) {
+io.on("connect", (socket) => {
+    console.log("Connected to the socket");
+
     // const connectionId = uuid();
     // redisClient.setConnection(connectionId, userId);
     // console.log("Client: ", client);
-    logger.info("New connection to the websocket");
+    socket.on("error", console.error);
 
-    ws.on("error", console.error);
-
-    ws.on("message", function message(data) {
+    socket.on("message", function message(data) {
         console.log(`Received message ${data} from user ${client}`);
     });
 
-    ws.on("close", () => console.log("Disconnected from the socket."));
+    socket.on("close", () => console.log("Disconnected"));
 });
 
 // emit events from controllers
