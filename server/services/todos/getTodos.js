@@ -29,6 +29,15 @@ const getTodos = async ({ page, limit, userId, filter }) => {
         whereStatement.isCompleted = true;
     }
 
+    const activeTodos = await Todos.count({
+        where: {
+            creatorId: {
+                [Op.in]: [...sharedTodosOwners, userId],
+            },
+            isCompleted: false,
+        },
+    });
+
     const todos = await Todos.findAndCountAll({
         where: whereStatement,
         include: {
@@ -53,7 +62,7 @@ const getTodos = async ({ page, limit, userId, filter }) => {
 
     const totalPages = Math.ceil(todos?.count / limit);
 
-    return { list: list, totalPages: totalPages, count: todos?.count };
+    return { list: list, totalPages: totalPages, count: activeTodos };
 };
 
 export default getTodos;

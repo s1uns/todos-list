@@ -22,7 +22,6 @@ import { logoutUserRequest } from "../../../store/actions/authActions";
 import {
     FILTER_ACTIVE,
     FILTER_COMPLETED,
-    TODOS_LIMIT,
 } from "../../../shared/constants";
 
 const TodoListPage = () => {
@@ -33,6 +32,7 @@ const TodoListPage = () => {
         list: todos,
         count,
         currentPage,
+        totalPages,
     } = useSelector((state) => state.todos);
     const user = useSelector((state) => state.user);
 
@@ -46,7 +46,7 @@ const TodoListPage = () => {
             getTodosRequest({
                 currentPage: currentPage,
                 currentFilter: currentFilter,
-            }),
+            })
         );
     }, [currentFilter]);
 
@@ -55,7 +55,7 @@ const TodoListPage = () => {
             setPageRequest({
                 currentPage: newPage,
                 currentFilter: currentFilter,
-            }),
+            })
         );
     };
 
@@ -67,17 +67,17 @@ const TodoListPage = () => {
         dispatch(logoutUserRequest());
     };
 
-    const filtratedTodos = todos.filter((todo) => {
-        if (currentFilter === FILTER_ACTIVE) {
-            return !todo.isCompleted;
-        }
+    // const filtratedTodos = todos.filter((todo) => {
+    //     if (currentFilter === FILTER_ACTIVE) {
+    //         return !todo.isCompleted;
+    //     }
 
-        if (currentFilter === FILTER_COMPLETED) {
-            return todo.isCompleted;
-        }
+    //     if (currentFilter === FILTER_COMPLETED) {
+    //         return todo.isCompleted;
+    //     }
 
-        return true;
-    });
+    //     return true;
+    // });
 
     // const filtratedTodos = useMemo(
     //     () =>
@@ -134,7 +134,7 @@ const TodoListPage = () => {
                 <ToDoInput />
                 <TodoBlock>
                     <TodosList className="todos-list" id="todos-list">
-                        {filtratedTodos.map((item) => (
+                        {todos.map((item) => (
                             <ToDoItem
                                 key={item.id}
                                 id={item.id}
@@ -149,7 +149,7 @@ const TodoListPage = () => {
                 </TodoBlock>
                 <StyledPagination
                     size="large"
-                    count={Math.ceil(count / TODOS_LIMIT)}
+                    count={totalPages}
                     page={currentPage}
                     variant="outlined"
                     shape="rounded"

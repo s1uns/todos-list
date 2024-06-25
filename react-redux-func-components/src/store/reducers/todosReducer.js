@@ -1,22 +1,32 @@
 import { handleActions } from "redux-actions";
 import { actionSuccessType } from "../actions/constants";
+import { TODOS_LIMIT } from "../../shared/constants";
 
 const todosReducer = handleActions(
     {
-        [actionSuccessType.ADD_TODO_SUCCESS]: (state, { payload }) => ({
-            list: [...state.list, payload],
-            currentPage: state.currentPage,
-            count: ++state.count,
-        }),
+        [actionSuccessType.ADD_TODO_SUCCESS]: (state, { payload }) => {
+            const newList = [...state.list, payload];
+            return {
+                list: newList,
+                currentPage: state.currentPage,
+                count: ++state.count,
+                totalPages: newList.length / TODOS_LIMIT,
+            };
+        },
 
-        [actionSuccessType.DELETE_TODO_SUCCESS]: (state, { payload }) => ({
-            list: state.list.filter((todo) => todo.id !== payload.id),
-            currentPage: state.currentPage,
-            count: !payload.isCompleted ? --state.count : state.count,
-        }),
+        [actionSuccessType.DELETE_TODO_SUCCESS]: (state, { payload }) => {
+            const newList = state.list.filter((todo) => todo.id !== payload.id);
 
-        [actionSuccessType.CHECK_TODO_SUCCESS]: (state, { payload }) => ({
-            list: state.list.map((todo) =>
+            return {
+                list: newList,
+                currentPage: state.currentPage,
+                count: !payload.isCompleted ? --state.count : state.count,
+                totalPages: newList.length / TODOS_LIMIT,
+            };
+        },
+
+        [actionSuccessType.CHECK_TODO_SUCCESS]: (state, { payload }) => {
+            const newList = state.list.map((todo) =>
                 todo.id === payload.id
                     ? {
                           ...todo,
@@ -24,14 +34,19 @@ const todosReducer = handleActions(
                           isUpdated: payload.isUpdated,
                           updatedAt: payload.updatedAt,
                       }
-                    : todo,
-            ),
-            currentPage: state.currentPage,
-            count: payload.isCompleted ? --state.count : ++state.count,
-        }),
+                    : todo
+            );
 
-        [actionSuccessType.EDIT_TODO_SUCCESS]: (state, { payload }) => ({
-            list: state.list.map((todo) =>
+            return {
+                list: newList,
+                currentPage: state.currentPage,
+                count: payload.isCompleted ? --state.count : ++state.count,
+                totalPages: newList.length / TODOS_LIMIT,
+            };
+        },
+
+        [actionSuccessType.EDIT_TODO_SUCCESS]: (state, { payload }) => {
+            const newList = state.list.map((todo) =>
                 todo.id === payload.id
                     ? {
                           ...todo,
@@ -39,19 +54,23 @@ const todosReducer = handleActions(
                           isUpdated: payload.isUpdated,
                           updatedAt: payload.updatedAt,
                       }
-                    : todo,
-            ),
-            currentPage: state.currentPage,
-            count: state.count,
-        }),
+                    : todo
+            );
+
+            return {
+                list: newList,
+                currentPage: state.currentPage,
+                count: state.count,
+                totalPages: newList.length / TODOS_LIMIT,
+            };
+        },
 
         [actionSuccessType.SET_TODOS_SUCCESS]: (state, { payload }) => {
-            console.log("Payload: ", payload);
-
             return {
                 list: payload.list,
                 currentPage: payload.currentPage ? payload.currentPage : 1,
                 count: payload.count,
+                totalPages: payload.list.length / TODOS_LIMIT,
             };
         },
 
@@ -59,10 +78,10 @@ const todosReducer = handleActions(
             list: [],
             currentPage: 1,
             count: 0,
+            totalPages: 1,
         }),
-
     },
-    { list: [], currentPage: 1, count: 0 },
+    { list: [], currentPage: 1, count: 0, totalPages: 1 }
 );
 
 export default todosReducer;

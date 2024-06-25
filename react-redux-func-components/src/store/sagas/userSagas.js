@@ -9,6 +9,7 @@ import {
 import { addNotificationRequest } from "../actions/notificationsActions";
 import { clearTodosSuccess } from "../actions/todosActions";
 import { setFilterSuccess } from "../actions/filterActions";
+import { FILTER_ALL } from "../../shared/constants";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));
@@ -50,7 +51,7 @@ function* workLogoutUser() {
     if (response.success) {
         yield put(clearTodosSuccess());
 
-        yield put(setFilterSuccess("all"));
+        yield put(setFilterSuccess(FILTER_ALL));
 
         yield put(logoutUserSuccess());
     } else {
