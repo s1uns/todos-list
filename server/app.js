@@ -47,10 +47,13 @@ app.use(errorLogger);
 const server = app.listen(port, () => {
     logger.info(`Server listening at port: ${port}`);
 });
+//socket.io
 
 const wsServer = new WebSocketServer({ server });
 
 wsServer.on("connection", function connection(ws, request, client) {
+    const connectionId = uuid();
+    redisClient.setConnection(connectionId, userId);
     console.log("Client: ", client);
     logger.info("New connection to the websocket");
 
@@ -60,3 +63,6 @@ wsServer.on("connection", function connection(ws, request, client) {
         console.log(`Received message ${data} from user ${client}`);
     });
 });
+
+// emit events from controllers
+// socket.io

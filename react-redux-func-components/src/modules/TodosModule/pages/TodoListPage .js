@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import ToDoInput from "../components/ToDoInput";
 import ToDoItem from "../components/ToDoItem";
 import Footer from "../components/Footer";
@@ -22,6 +22,7 @@ import { logoutUserRequest } from "../../../store/actions/authActions";
 import {
     FILTER_ACTIVE,
     FILTER_COMPLETED,
+    TODOS_LIMIT,
 } from "../../../shared/constants";
 
 const TodoListPage = () => {
@@ -32,7 +33,7 @@ const TodoListPage = () => {
         list: todos,
         count,
         currentPage,
-        totalPages,
+        // totalPages,
     } = useSelector((state) => state.todos);
     const user = useSelector((state) => state.user);
 
@@ -46,7 +47,7 @@ const TodoListPage = () => {
             getTodosRequest({
                 currentPage: currentPage,
                 currentFilter: currentFilter,
-            })
+            }),
         );
     }, [currentFilter]);
 
@@ -55,7 +56,7 @@ const TodoListPage = () => {
             setPageRequest({
                 currentPage: newPage,
                 currentFilter: currentFilter,
-            })
+            }),
         );
     };
 
@@ -79,21 +80,12 @@ const TodoListPage = () => {
     //     return true;
     // });
 
-    // const filtratedTodos = useMemo(
-    //     () =>
-    //         todos.filter((todo) => {
-    //             if (currentFilter === "active") {
-    //                 return !todo.isCompleted;
-    //             }
+    const totalPages = useMemo(
+        () => Math.ceil(count / TODOS_LIMIT),
+        [currentFilter],
+    );
 
-    //             if (currentFilter === "completed") {
-    //                 return todo.isCompleted;
-    //             }
-
-    //             return true;
-    //         }),
-    //     [currentFilter],
-    // );
+    console.log("Counter: ", count);
 
     return (
         <>
