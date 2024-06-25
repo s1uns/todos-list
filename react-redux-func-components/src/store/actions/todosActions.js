@@ -63,11 +63,6 @@ const clearTodosSuccess = () => ({
     type: actionSuccessType.CLEAR_TODOS_SUCCESS,
 });
 
-const setPageRequest = (payload) => ({
-    type: actionRequestType.SET_PAGE_REQUEST,
-    payload: payload,
-});
-
 export {
     createTodoRequest,
     createTodoSuccess,
@@ -82,5 +77,4 @@ export {
     clearCompletedRequest,
     clearCompletedSuccess,
     clearTodosSuccess,
-    setPageRequest,
 };

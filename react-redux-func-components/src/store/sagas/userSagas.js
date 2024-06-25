@@ -8,7 +8,7 @@ import {
 } from "../actions/authActions";
 import { addNotificationRequest } from "../actions/notificationsActions";
 import { clearTodosSuccess } from "../actions/todosActions";
-import { setFilterSuccess } from "../actions/filterActions";
+import { setQuerySuccess } from "../actions/queryActions";
 import { FILTER_ALL } from "../../shared/constants";
 
 function* workRegisterUser({ payload }) {
@@ -51,7 +51,7 @@ function* workLogoutUser() {
     if (response.success) {
         yield put(clearTodosSuccess());
 
-        yield put(setFilterSuccess(FILTER_ALL));
+        yield put(setQuerySuccess(1, FILTER_ALL));
 
         yield put(logoutUserSuccess());
     } else {

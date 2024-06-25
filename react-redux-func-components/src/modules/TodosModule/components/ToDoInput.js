@@ -1,14 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { Input } from "../../../shared/components/Input";
 import { addNotificationRequest } from "../../../store/actions/notificationsActions";
 import { createTodoRequest } from "../../../store/actions/todosActions";
-import { setFilterRequest } from "../../../store/actions/filterActions";
 import { FILTER_ALL } from "../../../shared/constants";
+import { setQueryRequest } from "../../../store/actions/queryActions";
 
 const ToDoInput = () => {
     const dispatch = useDispatch();
+
+    const { currentPage } = useSelector((state) => state.query);
 
     const createTodo = (e) => {
         if (e.key === "Enter") {
@@ -24,7 +26,12 @@ const ToDoInput = () => {
             }
 
             e.target.value = "";
-            dispatch(setFilterRequest(FILTER_ALL));
+            dispatch(
+                setQueryRequest({
+                    currentPage: currentPage,
+                    currentFilter: FILTER_ALL,
+                })
+            );
             dispatch(createTodoRequest(trimmedString));
         }
     };

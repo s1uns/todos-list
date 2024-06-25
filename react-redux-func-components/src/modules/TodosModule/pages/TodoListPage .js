@@ -14,11 +14,9 @@ import {
 } from "@mui/material";
 import styled from "@emotion/styled";
 import ShareTodosModal from "../components/ShareTodosModal";
-import {
-    getTodosRequest,
-    setPageRequest,
-} from "../../../store/actions/todosActions";
+import { getTodosRequest } from "../../../store/actions/todosActions";
 import { logoutUserRequest } from "../../../store/actions/authActions";
+import { setQueryRequest } from "../../../store/actions/queryActions";
 import {
     FILTER_ACTIVE,
     FILTER_COMPLETED,
@@ -28,19 +26,19 @@ import {
 const TodoListPage = () => {
     const dispatch = useDispatch();
 
-    const currentFilter = useSelector((state) => state.currentFilter);
-    const {
-        list: todos,
-        currentPage,
-        totalTodos,
-        activeTodos,
-    } = useSelector((state) => state.todos);
+    const { currentPage, currentFilter } = useSelector((state) => state.query);
+    const { list: todos, totalTodos } = useSelector((state) => state.todos);
     const user = useSelector((state) => state.user);
 
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const totalPages = useMemo(
+        () => Math.ceil(totalTodos / TODOS_LIMIT),
+        [todos, currentFilter]
+    );
 
     useEffect(() => {
         dispatch(
@@ -49,11 +47,15 @@ const TodoListPage = () => {
                 currentFilter: currentFilter,
             })
         );
-    }, [currentFilter]);
+
+        if (todos.length === 0) {
+            setQueryRequest({ currentPage: 1, currentFilter: currentFilter });
+        }
+    }, [currentPage, currentFilter, totalPages]);
 
     const changePage = (newPage) => {
         dispatch(
-            setPageRequest({
+            setQueryRequest({
                 currentPage: newPage,
                 currentFilter: currentFilter,
             })
@@ -68,10 +70,7 @@ const TodoListPage = () => {
         dispatch(logoutUserRequest());
     };
 
-    const totalPages = useMemo(
-        () => Math.ceil(totalTodos / TODOS_LIMIT),
-        [todos, currentFilter]
-    );
+
 
     return (
         <>

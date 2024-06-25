@@ -52,7 +52,7 @@ app.use(errorLogger);
 io.on("connect", (socket) => {
     console.log("Connected to the socket");
 
-    socket.on("error", console.error);
+    socket.on("error", logger.error);
 
     socket.on("message", function message(data) {
         console.log(`Received message ${data} from user ${client}`);

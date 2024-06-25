@@ -2,17 +2,21 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material";
-import { setFilterRequest } from "../../../store/actions/filterActions";
+import { setQueryRequest } from "../../../store/actions/queryActions";
 import { clearCompletedRequest } from "../../../store/actions/todosActions";
-import { FILTER_ACTIVE, FILTER_ALL, FILTER_COMPLETED } from "../../../shared/constants";
+import {
+    FILTER_ACTIVE,
+    FILTER_ALL,
+    FILTER_COMPLETED,
+} from "../../../shared/constants";
 
-const Footer = ({ currentFilter, onClearCompleted }) => {
+const Footer = ({ onClearCompleted }) => {
     const dispatch = useDispatch();
-    
+    const { currentFilter } = useSelector((state) => state.query);
     const { activeTodos } = useSelector((state) => state.todos);
 
     const setFilter = (filter) => {
-        dispatch(setFilterRequest(filter));
+        dispatch(setQueryRequest({ currentPage: 1, currentFilter: filter }));
     };
 
     const clearCompleted = () => {
@@ -51,7 +55,9 @@ const Footer = ({ currentFilter, onClearCompleted }) => {
                 </FooterButton>
                 <FooterButton
                     id="completed-btn"
-                    className={currentFilter === FILTER_COMPLETED ? "active" : ""}
+                    className={
+                        currentFilter === FILTER_COMPLETED ? "active" : ""
+                    }
                     onClick={() => setFilter(FILTER_COMPLETED)}
                 >
                     Completed

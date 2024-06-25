@@ -23,13 +23,13 @@ function* workGetTodos({ payload }) {
     const response = yield call(() => getTodos(currentPage, currentFilter));
 
     if (response.success) {
-        yield put(setTodosSuccess(response.data));
+        yield put(setTodosSuccess({ ...response.data, currentPage }));
     } else {
         yield put(
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }
@@ -45,7 +45,7 @@ function* workAddTodo({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }
@@ -60,7 +60,7 @@ function* workDeleteTodo({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }
@@ -75,7 +75,7 @@ function* workCheckTodo({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }
@@ -92,7 +92,7 @@ function* workEditTodo({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }
@@ -106,26 +106,7 @@ function* workClearCompleted() {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
-        );
-    }
-}
-
-function* workSetPage({ payload }) {
-    const { currentPage, currentFilter } = payload;
-
-    const response = yield call(() => getTodos(currentPage, currentFilter));
-
-    if (response.success) {
-        yield put(
-            setTodosSuccess({ ...response.data, currentPage: currentPage }),
-        );
-    } else {
-        yield put(
-            addNotificationRequest({
-                id: new Date(Date.now()),
-                message: response.message,
-            }),
+            })
         );
     }
 }
@@ -138,9 +119,8 @@ function* todosSagas() {
     yield takeEvery(actionRequestType.EDIT_TODO_REQUEST, workEditTodo);
     yield takeEvery(
         actionRequestType.CLEAR_COMPLETED_REQUEST,
-        workClearCompleted,
+        workClearCompleted
     );
-    yield takeEvery(actionRequestType.SET_PAGE_REQUEST, workSetPage);
 }
 
 export default todosSagas;
