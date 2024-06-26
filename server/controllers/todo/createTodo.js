@@ -8,7 +8,7 @@ import getUser from "../../services/user/getUser.js";
 import redisClient from "../../redisClient.js";
 
 const createTodo = async (req, res) => {
-    const { title } = req.body;
+    const { title, socketId } = req.body;
     const io = socketService.getIO();
 
     const userId = req.userId;
@@ -26,6 +26,16 @@ const createTodo = async (req, res) => {
     if (!user) {
         return res.notFound("Couldn't get the info about the user");
     }
+
+    const connections = await redisClient.getSharedConnections(userId);
+
+    connections.map(async (socketId) => {
+        io.to(socketId).emit(SOCKET_TODO_CREATION, {
+            ...newTodo,
+            socketId: socketId,
+        });
+        logger.info(`Added the "${newTodo.title}" to the socket ${socketId}`);
+    });
 
     return res.success(newTodo);
 };

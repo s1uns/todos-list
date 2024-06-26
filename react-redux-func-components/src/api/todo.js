@@ -12,9 +12,10 @@ import {
 axios.defaults.withCredentials = true;
 const url = process.env.REACT_APP_BACKEND_URL;
 
-const createTodo = async (title) => {
+const createTodo = async ({ title, socketId }) => {
     const response = await customRequest(POST_REQUEST, `${url}todos`, {
         title: title,
+        socketId: socketId,
     });
 
     return response;
@@ -23,7 +24,7 @@ const createTodo = async (title) => {
 const getTodos = async (currentPage, currentFilter) => {
     const response = await customRequest(
         GET_REQUEST,
-        `${url}todos?page=${currentPage}&limit=${TODOS_LIMIT}&filter=${currentFilter}`,
+        `${url}todos?page=${currentPage}&limit=${TODOS_LIMIT}&filter=${currentFilter}`
     );
 
     return response;
@@ -32,7 +33,7 @@ const getTodos = async (currentPage, currentFilter) => {
 const clearCompleted = async () => {
     const response = await customRequest(
         PATCH_REQUEST,
-        `${url}todos/clear-completed`,
+        `${url}todos/clear-completed`
     );
 
     return response;
@@ -50,7 +51,7 @@ const updateTodo = async (todoId, newTitle) => {
 const deleteTodo = async (todoId) => {
     const response = await customRequest(
         DELETE_REQUEST,
-        `${url}todos/${todoId}`,
+        `${url}todos/${todoId}`
     );
 
     return response;
@@ -59,7 +60,7 @@ const deleteTodo = async (todoId) => {
 const checkTodo = async (todoId) => {
     const response = await customRequest(
         PATCH_REQUEST,
-        `${url}todos/${todoId}/check`,
+        `${url}todos/${todoId}/check`
     );
 
     return response;

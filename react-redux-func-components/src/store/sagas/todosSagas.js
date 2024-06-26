@@ -38,23 +38,19 @@ function* workGetTodos({ payload }) {
 }
 
 function* workAddTodo({ payload }) {
-    const response = yield call(() => createTodo(payload.title));
+    const response = yield call(() =>
+        createTodo({ title: payload.title, socketId: socket.id })
+    );
     const newTodo = response.data;
 
     if (response.success) {
         yield put(
             createTodoSuccess({
-                ...newTodo,
-                isAuthor: true,
                 author: payload.author,
+                isAuthor: true,
+                ...newTodo,
             })
         );
-
-        socket.emit(SOCKET_TODO_CREATION, {
-            ...newTodo,
-            isAuthor: false,
-            author: payload.author,
-        });
     } else {
         yield put(
             addToastRequest({

@@ -75,29 +75,6 @@ io.on("connect", async (socket) => {
         await redisClient.setConnection(socket.id, userId);
     });
 
-    socket.on(SOCKET_TODO_CREATION, async (data) => {
-        const connections = (await redisClient
-            .getSharedConnections(socket.id))
-            .filter((socketId) => socketId !== null);
-        console.log("Connections: ", connections);
-
-        connections.map(async (connectionId) => {
-            const socket = io.sockets.sockets.get(connectionId);
-
-            const userId = redisClient.get(connectionId);
-
-            socket.emit(
-                todoCreationAction({
-                    ...data,
-                    isAuthor: data.creatorId === userId,
-                    author: data.author,
-                })
-            );
-
-            logger.info(`Sent new todo to ${connectionId}`);
-        });
-    });
-
     socket.on(SOCKET_USER_LOGOUT, async () => {
         logger.info(`The user disconnected from the socket ${socket.id}`);
         redisClient.deleteConnection(socket.id);

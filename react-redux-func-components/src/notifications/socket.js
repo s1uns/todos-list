@@ -10,8 +10,10 @@ const socket = io(url, {
 });
 
 socket.on(SOCKET_TODO_CREATION, (newTodo) => {
-    alert("NEW TODO");
-    console.log("New todo: ", newTodo);
+    if (socket.id !== newTodo.socketId) {
+        alert("NEW TODO");
+        console.log("New todo: ", newTodo);
+    }
 });
 
 // special notification saga

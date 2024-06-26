@@ -12,33 +12,25 @@ redisClient.setConnection = async (connectionId, userId) => {
     await redisClient.set(`${connectionId}`, userId);
 };
 
-redisClient.getSharedConnections = async (connectionId) => {
-    const userId = await redisClient.get(connectionId);
-
+redisClient.getSharedConnections = async (userId) => {
     const sharedUsers = await getSharedUsers(userId);
+
     const keys = await redisClient.keys("*", async (err, keys) => {
         if (err) return logger.error(err);
     });
 
-    console.log("Keys: ", keys);
-
-    const connections = Promise.all(
+    const connections = await Promise.all(
         keys.map(async (key) => {
             const id = await redisClient.get(key);
-            console.log(`${id} - ${key} `);
 
-            const applies =
-                key != connectionId &&
-                (sharedUsers.includes(id) || id == userId);
-
-            if (applies) {
-                return key;
-            }
-            return null;
+            const applies = sharedUsers.includes(id) || id == userId;
+            return applies ? key : null;
         })
     );
 
-    return connections;
+    const filteredConnections = connections.filter((key) => key !== null);
+
+    return filteredConnections;
 };
 
 redisClient.deleteConnection = async (connectionId) =>
