@@ -20,7 +20,9 @@ redisClient.getSharedConnections = async (connectionId) => {
         if (err) return logger.error(err);
     });
 
-    const connections = await Promise.all(
+    console.log("Keys: ", keys);
+
+    const connections = Promise.all(
         keys.map(async (key) => {
             const id = await redisClient.get(key);
             console.log(`${id} - ${key} `);
@@ -36,7 +38,7 @@ redisClient.getSharedConnections = async (connectionId) => {
         })
     );
 
-    return connections.filter((socketId) => socketId !== null);
+    return connections;
 };
 
 redisClient.deleteConnection = async (connectionId) =>

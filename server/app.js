@@ -76,10 +76,13 @@ io.on("connect", async (socket) => {
     });
 
     socket.on(SOCKET_TODO_CREATION, async (data) => {
-        const connections = await redisClient.getSharedConnections(socket.id);
-        const userId = await redisClient.get(socket.id);
+        const connections = (await redisClient
+            .getSharedConnections(socket.id))
+            .filter((socketId) => socketId !== null);
+        console.log("Connections: ", connections);
+
         connections.map(async (connectionId) => {
-            const socket = await io.in(connectionId).fetchSockets();
+            const socket = io.sockets.sockets.get(connectionId);
 
             const userId = redisClient.get(connectionId);
 
