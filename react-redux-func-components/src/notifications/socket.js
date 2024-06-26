@@ -1,7 +1,14 @@
 import { io } from "socket.io-client";
-import { SOCKET_ACTION, SOCKET_TODO_CREATION } from "../shared/constants";
+import {
+    SOCKET_ACTION,
+    SOCKET_TODO_CREATION,
+    SOCKET_TODO_DELETE,
+} from "../shared/constants";
 import { store } from "../store/store";
-import { createTodoSuccess } from "../store/actions/todosActions";
+import {
+    createTodoSuccess,
+    deleteTodoSuccess,
+} from "../store/actions/todosActions";
 
 const url = process.env.REACT_APP_SOCKET_URL;
 
@@ -17,8 +24,12 @@ socket.on(SOCKET_ACTION, (action) => {
                 store.dispatch(createTodoSuccess(data.newTodo));
                 break;
 
+            case SOCKET_TODO_DELETE:
+                store.dispatch(deleteTodoSuccess(data.todoId));
+                break;
+
             default:
-                alert("Unknown action");
+                console.log("Unknown action");
                 break;
         }
     }

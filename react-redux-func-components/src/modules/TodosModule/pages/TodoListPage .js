@@ -18,13 +18,12 @@ import { getTodosRequest } from "../../../store/actions/todosActions";
 import { logoutUserRequest } from "../../../store/actions/authActions";
 import { setQueryRequest } from "../../../store/actions/queryActions";
 import {
-    FILTER_ACTIVE,
-    FILTER_COMPLETED,
     SOCKET_USER_AUTHORIZATION,
     SOCKET_USER_LOGOUT,
     TODOS_LIMIT,
 } from "../../../shared/constants";
 import socket from "../../../notifications/socket";
+import { setCurrentPageRequest } from "../../../store/actions/queryActions";
 
 const TodoListPage = () => {
     const dispatch = useDispatch();
@@ -48,6 +47,14 @@ const TodoListPage = () => {
 
         return () => socket.emit(SOCKET_USER_LOGOUT);
     }, []);
+
+    useEffect(() => {
+        if (todos.length === 0) {
+            dispatch(
+                setCurrentPageRequest(currentPage - 1 ? currentPage - 1 : 1),
+            );
+        }
+    }, [todos]);
 
     useEffect(() => {
         dispatch(

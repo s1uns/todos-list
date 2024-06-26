@@ -11,14 +11,11 @@ import {
     editTodoRequest,
 } from "../../../store/actions/todosActions";
 import { addToastRequest } from "../../../store/actions/toastsActions";
-import { setCurrentPageRequest } from "../../../store/actions/queryActions";
 
 const ToDoItem = ({ id, title, isCompleted, isUpdated, creatorId, author }) => {
     const dispatch = useDispatch();
     const [isEditing, setIsEditing] = useState(false);
     const { userId } = useSelector((state) => state.user);
-    const { list } = useSelector((state) => state.todos);
-    const { currentPage } = useSelector((state) => state.query);
 
     const isAuthor = creatorId === userId;
 
@@ -29,10 +26,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, creatorId, author }) => {
     };
 
     const deleteTodo = () => {
-        if (list.length === 1) {
-            dispatch(setCurrentPageRequest(currentPage - 1));
-        }
-        dispatch(deleteTodoRequest({ id: id, isCompleted: isCompleted }));
+        dispatch(deleteTodoRequest(id));
     };
 
     const getTodoAuthor = (authorFullname) => {

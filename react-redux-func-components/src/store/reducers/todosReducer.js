@@ -1,6 +1,5 @@
 import { handleActions } from "redux-actions";
 import { actionSuccessType } from "../actions/constants";
-import { TODOS_LIMIT } from "../../shared/constants";
 
 const todosReducer = handleActions(
     {
@@ -15,22 +14,28 @@ const todosReducer = handleActions(
 
             return {
                 list: newList,
-                currentPage: state.currentPage,
                 totalTodos: ++state.totalTodos,
                 activeTodos: ++state.activeTodos,
             };
         },
 
         [actionSuccessType.DELETE_TODO_SUCCESS]: (state, { payload }) => {
-            const newList = state.list.filter((todo) => todo.id !== payload.id);
+            let wasCompleted;
+            const newList = state.list.filter((todo) => {
+                if (todo.id == payload) {
+                    wasCompleted = todo.isCompleted;
+                    return false;
+                }
+
+                return true;
+            });
 
             return {
                 list: newList,
-                currentPage: state.currentPage,
                 totalTodos: --state.totalTodos,
-                activeTodos: !payload.isCompleted
-                    ? --state.activeTodos
-                    : state.activeTodos,
+                activeTodos: wasCompleted
+                    ? state.activeTodos
+                    : --state.activeTodos,
             };
         },
 
@@ -43,12 +48,11 @@ const todosReducer = handleActions(
                           isUpdated: payload.isUpdated,
                           updatedAt: payload.updatedAt,
                       }
-                    : todo
+                    : todo,
             );
 
             return {
                 list: newList,
-                currentPage: state.currentPage,
                 totalTodos: state.totalTodos,
                 activeTodos: payload.isCompleted
                     ? --state.activeTodos
@@ -65,12 +69,11 @@ const todosReducer = handleActions(
                           isUpdated: payload.isUpdated,
                           updatedAt: payload.updatedAt,
                       }
-                    : todo
+                    : todo,
             );
 
             return {
                 list: newList,
-                currentPage: state.currentPage,
                 totalTodos: state.totalTodos,
                 activeTodos: state.activeTodos,
             };
@@ -79,7 +82,6 @@ const todosReducer = handleActions(
         [actionSuccessType.SET_TODOS_SUCCESS]: (state, { payload }) => {
             return {
                 list: payload.list,
-                currentPage: payload.currentPage ? payload.currentPage : 1,
                 totalTodos: payload.totalTodos ? payload.totalTodos : 1,
                 activeTodos: payload.activeTodos ? payload.activeTodos : 0,
             };
@@ -87,12 +89,11 @@ const todosReducer = handleActions(
 
         [actionSuccessType.CLEAR_TODOS_SUCCESS]: (state) => ({
             list: [],
-            currentPage: 1,
             totalTodos: 1,
             activeTodos: 0,
         }),
     },
-    { list: [], currentPage: 1, totalTodos: 1, activeTodos: 0 }
+    { list: [], totalTodos: 1, activeTodos: 0 },
 );
 
 export default todosReducer;

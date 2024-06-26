@@ -24,7 +24,7 @@ const createTodo = async ({ title, socketId }) => {
 const getTodos = async (currentPage, currentFilter) => {
     const response = await customRequest(
         GET_REQUEST,
-        `${url}todos?page=${currentPage}&limit=${TODOS_LIMIT}&filter=${currentFilter}`
+        `${url}todos?page=${currentPage}&limit=${TODOS_LIMIT}&filter=${currentFilter}`,
     );
 
     return response;
@@ -33,7 +33,7 @@ const getTodos = async (currentPage, currentFilter) => {
 const clearCompleted = async () => {
     const response = await customRequest(
         PATCH_REQUEST,
-        `${url}todos/clear-completed`
+        `${url}todos/clear-completed`,
     );
 
     return response;
@@ -48,10 +48,11 @@ const updateTodo = async (todoId, newTitle) => {
     return response;
 };
 
-const deleteTodo = async (todoId) => {
+const deleteTodo = async (todoId, socketId) => {
     const response = await customRequest(
         DELETE_REQUEST,
-        `${url}todos/${todoId}`
+        `${url}todos/${todoId}`,
+        { socketId: socketId },
     );
 
     return response;
@@ -60,7 +61,7 @@ const deleteTodo = async (todoId) => {
 const checkTodo = async (todoId) => {
     const response = await customRequest(
         PATCH_REQUEST,
-        `${url}todos/${todoId}/check`
+        `${url}todos/${todoId}/check`,
     );
 
     return response;

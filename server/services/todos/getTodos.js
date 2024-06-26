@@ -54,7 +54,6 @@ const getTodos = async ({ page, limit, userId, filter }) => {
 
         return {
             author: `${creator.firstName} ${creator.lastName}`,
-            isAuthor: creator.id === userId,
             ...rest,
         };
     });

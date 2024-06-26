@@ -29,14 +29,14 @@ function* workGetTodos({ payload }) {
             addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
 
 function* workAddTodo({ payload }) {
     const response = yield call(() =>
-        createTodo({ title: payload.title, socketId: socket.id })
+        createTodo({ title: payload.title, socketId: socket.id }),
     );
     const newTodo = response.data;
 
@@ -45,20 +45,20 @@ function* workAddTodo({ payload }) {
             createTodoSuccess({
                 author: payload.author,
                 ...newTodo,
-            })
+            }),
         );
     } else {
         yield put(
             addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
 
 function* workDeleteTodo({ payload }) {
-    const response = yield call(() => deleteTodo(payload.id));
+    const response = yield call(() => deleteTodo(payload, socket.id));
 
     if (response.success) {
         yield put(deleteTodoSuccess(payload));
@@ -67,7 +67,7 @@ function* workDeleteTodo({ payload }) {
             addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -82,7 +82,7 @@ function* workCheckTodo({ payload }) {
             addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -99,7 +99,7 @@ function* workEditTodo({ payload }) {
             addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -113,7 +113,7 @@ function* workClearCompleted() {
             addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -126,7 +126,7 @@ function* todosSagas() {
     yield takeEvery(actionRequestType.EDIT_TODO_REQUEST, workEditTodo);
     yield takeEvery(
         actionRequestType.CLEAR_COMPLETED_REQUEST,
-        workClearCompleted
+        workClearCompleted,
     );
 }
 

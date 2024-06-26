@@ -2,10 +2,7 @@ import Todo from "../../database/models/Todos.js";
 import { v4 as uuid } from "uuid";
 import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 import socketService from "../../socket.js";
-import {
-    SOCKET_ACTION,
-    SOCKET_TODO_CREATION,
-} from "../../utils/constants/socketActions.js";
+import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
 import { todoCreationAction } from "../../utils/actions/notificationActions.js";
 import getUser from "../../services/user/getUser.js";
 import redisClient from "../../redisClient.js";
@@ -33,10 +30,9 @@ const createTodo = async (req, res) => {
         return res.notFound("Couldn't get the info about the user");
     }
 
-    const connections = await redisClient.getSharedConnections(userId);
-
     const todo = newTodo.toJSON();
 
+    const connections = await redisClient.getSharedConnections(userId);
     connections.map(async (socketId) => {
         io.to(socketId).emit(
             SOCKET_ACTION,
