@@ -8,8 +8,21 @@ const queryReducer = handleActions(
             currentPage: payload.currentPage,
             currentFilter: payload.currentFilter,
         }),
+
+        [actionSuccessType.SET_CURRENT_PAGE_SUCCESS]: (state, { payload }) => ({
+            currentPage: payload,
+            currentFilter: state.currentFilter,
+        }),
+
+        [actionSuccessType.SET_CURRENT_FILTER_SUCCESS]: (
+            state,
+            { payload },
+        ) => ({
+            currentPage: state.currentPage,
+            currentFilter: payload,
+        }),
     },
-    { currentPage: 1, currentFilter: FILTER_ALL }
+    { currentPage: 1, currentFilter: FILTER_ALL },
 );
 
 export default queryReducer;

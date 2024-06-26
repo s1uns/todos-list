@@ -1,18 +1,26 @@
 import { io } from "socket.io-client";
-import { SOCKET_TODO_CREATION } from "../shared/constants";
+import { SOCKET_ACTION, SOCKET_TODO_CREATION } from "../shared/constants";
+import { store } from "../store/store";
+import { createTodoSuccess } from "../store/actions/todosActions";
 
 const url = process.env.REACT_APP_SOCKET_URL;
-const urlBack = process.env.REACT_APP_BACKEND_URL;
-console.log("Url: ", url);
-console.log("Url BACKEND: ", urlBack);
+
 const socket = io(url, {
     cors: { withCredentials: true },
 });
 
-socket.on(SOCKET_TODO_CREATION, (newTodo) => {
-    if (socket.id !== newTodo.socketId) {
-        alert("NEW TODO");
-        console.log("New todo: ", newTodo);
+socket.on(SOCKET_ACTION, (action) => {
+    if (socket.id !== action.data.socketId) {
+        const { type, data } = action;
+        switch (type) {
+            case SOCKET_TODO_CREATION:
+                store.dispatch(createTodoSuccess(data.newTodo));
+                break;
+
+            default:
+                alert("Unknown action");
+                break;
+        }
     }
 });
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { actionRequestType } from "../../../store/actions/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, ClickAwayListener, ListItem, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CheckBox from "../../../shared/components/CheckBox";
@@ -11,11 +11,16 @@ import {
     editTodoRequest,
 } from "../../../store/actions/todosActions";
 import { addToastRequest } from "../../../store/actions/toastsActions";
+import { setCurrentPageRequest } from "../../../store/actions/queryActions";
 
-const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
+const ToDoItem = ({ id, title, isCompleted, isUpdated, creatorId, author }) => {
     const dispatch = useDispatch();
-
     const [isEditing, setIsEditing] = useState(false);
+    const { userId } = useSelector((state) => state.user);
+    const { list } = useSelector((state) => state.todos);
+    const { currentPage } = useSelector((state) => state.query);
+
+    const isAuthor = creatorId === userId;
 
     const toggleEditing = () => {
         if (!isCompleted) {
@@ -23,8 +28,12 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
         }
     };
 
-    const deleteTodo = () =>
+    const deleteTodo = () => {
+        if (list.length === 1) {
+            dispatch(setCurrentPageRequest(currentPage - 1));
+        }
         dispatch(deleteTodoRequest({ id: id, isCompleted: isCompleted }));
+    };
 
     const getTodoAuthor = (authorFullname) => {
         const fullName = authorFullname.split(" ");
@@ -39,7 +48,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
                     addToastRequest({
                         id: new Date(Date.now()),
                         message: "Enter something first!",
-                    })
+                    }),
                 );
                 return;
             }
@@ -64,7 +73,7 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
                 addToastRequest({
                     id: new Date(Date.now()),
                     message: "Finish editing the todo first!",
-                })
+                }),
             );
             return;
         }

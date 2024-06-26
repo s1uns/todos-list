@@ -5,13 +5,11 @@ import { Input } from "../../../shared/components/Input";
 import { addToastRequest } from "../../../store/actions/toastsActions";
 import { createTodoRequest } from "../../../store/actions/todosActions";
 import { FILTER_ALL } from "../../../shared/constants";
-import { setQueryRequest } from "../../../store/actions/queryActions";
+import { setCurrentFilterRequest } from "../../../store/actions/queryActions";
 
 const ToDoInput = () => {
     const dispatch = useDispatch();
     const { fullName } = useSelector((state) => (state.user ? state.user : {}));
-
-    const { currentPage } = useSelector((state) => state.query);
 
     const createTodo = (e) => {
         if (e.key === "Enter") {
@@ -21,23 +19,18 @@ const ToDoInput = () => {
                     addToastRequest({
                         id: new Date(Date.now()),
                         message: "Enter something first!",
-                    })
+                    }),
                 );
                 return;
             }
 
             e.target.value = "";
-            dispatch(
-                setQueryRequest({
-                    currentPage: currentPage,
-                    currentFilter: FILTER_ALL,
-                })
-            );
+            dispatch(setCurrentFilterRequest(FILTER_ALL));
             dispatch(
                 createTodoRequest({
                     author: fullName,
                     title: trimmedString,
-                })
+                }),
             );
         }
     };

@@ -10,6 +10,32 @@ const setQueryRequest = (payload) => ({
     type: actionRequestType.SET_QUERY_REQUEST,
     payload: payload,
 });
-// maybe separate in two requests
 
-export { setQuerySuccess, setQueryRequest };
+const setCurrentPageRequest = (payload) => ({
+    type: actionRequestType.SET_CURRENT_PAGE_REQUEST,
+    payload: payload,
+});
+
+const setCurrentPageSuccess = (payload) => ({
+    type: actionSuccessType.SET_CURRENT_PAGE_SUCCESS,
+    payload: payload,
+});
+
+const setCurrentFilterRequest = (payload) => ({
+    type: actionRequestType.SET_CURRENT_FILTER_REQUEST,
+    payload: payload,
+});
+
+const setCurrentFilterSuccess = (payload) => ({
+    type: actionSuccessType.SET_CURRENT_FILTER_SUCCESS,
+    payload: payload,
+});
+
+export {
+    setQuerySuccess,
+    setQueryRequest,
+    setCurrentPageRequest,
+    setCurrentPageSuccess,
+    setCurrentFilterRequest,
+    setCurrentFilterSuccess,
+};

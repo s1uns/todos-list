@@ -40,11 +40,10 @@ const TodoListPage = () => {
 
     const totalPages = useMemo(
         () => Math.ceil(totalTodos / TODOS_LIMIT),
-        [todos, currentFilter]
+        [todos, currentFilter],
     );
 
     useEffect(() => {
-        console.log("User: ", user);
         socket.emit(SOCKET_USER_AUTHORIZATION, user.userId);
 
         return () => socket.emit(SOCKET_USER_LOGOUT);
@@ -55,7 +54,7 @@ const TodoListPage = () => {
             getTodosRequest({
                 currentPage: currentPage,
                 currentFilter: currentFilter,
-            })
+            }),
         );
 
         if (todos.length === 0) {
@@ -68,7 +67,7 @@ const TodoListPage = () => {
             setQueryRequest({
                 currentPage: newPage,
                 currentFilter: currentFilter,
-            })
+            }),
         );
     };
 
@@ -126,8 +125,8 @@ const TodoListPage = () => {
                                 title={item.title}
                                 isCompleted={item.isCompleted}
                                 isUpdated={item.isUpdated}
-                                isAuthor={item.isAuthor}
                                 author={item.author}
+                                creatorId={item.creatorId}
                             />
                         ))}
                     </TodosList>

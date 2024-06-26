@@ -14,12 +14,9 @@ import {
     deleteTodoSuccess,
     editTodoSuccess,
     setTodosSuccess,
-    setPageSuccess,
 } from "../actions/todosActions";
 import { addToastRequest } from "../actions/toastsActions";
-import { setQueryRequest } from "../actions/queryActions";
 import socket from "../../notifications/socket";
-import { SOCKET_TODO_CREATION } from "../../shared/constants";
 
 function* workGetTodos({ payload }) {
     const { currentPage, currentFilter } = payload;
@@ -47,7 +44,6 @@ function* workAddTodo({ payload }) {
         yield put(
             createTodoSuccess({
                 author: payload.author,
-                isAuthor: true,
                 ...newTodo,
             })
         );

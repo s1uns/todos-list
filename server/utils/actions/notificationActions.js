@@ -15,9 +15,9 @@ const logoutAction = () => ({
     type: SOCKET_USER_LOGOUT,
 });
 
-const todoCreationAction = (newTodo) => ({
+const todoCreationAction = (payload) => ({
     type: SOCKET_TODO_CREATION,
-    data: newTodo,
+    data: payload,
 });
 
 const todoUpdateAction = (updatedTodo) => ({

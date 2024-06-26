@@ -25,7 +25,6 @@ const ShareTodosModal = ({ open, onClose }) => {
     useEffect(() => {
         if (open) {
             getAvailableUsers(currentPage);
-            console.log("Users: ", users);
         }
     }, [open, currentPage]);
 
