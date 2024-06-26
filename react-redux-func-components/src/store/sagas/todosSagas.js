@@ -35,7 +35,7 @@ function* workGetTodos({ payload }) {
 }
 
 function* workAddTodo({ payload }) {
-    const response = yield call(() => createTodo(payload));
+    const response = yield call(() => createTodo(payload)); //check
     const newTodo = response.data;
 
     if (response.success) {

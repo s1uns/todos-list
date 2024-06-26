@@ -8,7 +8,7 @@ const redisClient = createClient(REDIS_PORT);
 redisClient.on("error", (err) => console.log("Redis Client Error", err));
 
 redisClient.setConnection = async (connectionId, userId) =>
-    await redisClient.set(`connections:${connectionId}`, userId);
+    await redisClient.set(`${connectionId}`, userId);
 
 try {
     await redisClient.connect(REDIS_PORT);

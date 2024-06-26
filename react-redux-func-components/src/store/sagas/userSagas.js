@@ -10,6 +10,7 @@ import { addNotificationRequest } from "../actions/notificationsActions";
 import { clearTodosSuccess } from "../actions/todosActions";
 import { setQuerySuccess } from "../actions/queryActions";
 import { FILTER_ALL } from "../../shared/constants";
+import socket from "../../sockets/socket";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));
@@ -23,7 +24,7 @@ function* workRegisterUser({ payload }) {
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -32,15 +33,16 @@ function* workLoginUser({ payload }) {
     const response = yield call(() => loginUser(payload));
 
     if (response.success) {
-        const { id, email, fullName, username } = response.data;
+        const { userId, email, fullName, username } = response.data;
+        socket.emit("authorization", userId);
 
-        yield put(loginUserSuccess({ id, email, fullName, username }));
+        yield put(loginUserSuccess({ userId, email, fullName, username }));
     } else {
         yield put(
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
@@ -50,16 +52,16 @@ function* workLogoutUser() {
 
     if (response.success) {
         yield put(clearTodosSuccess());
-
-        yield put(setQuerySuccess(1, FILTER_ALL));
-
+        yield put(
+            setQuerySuccess({ currentPage: 1, currentFilter: FILTER_ALL }),
+        );
         yield put(logoutUserSuccess());
     } else {
         yield put(
             addNotificationRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            })
+            }),
         );
     }
 }
