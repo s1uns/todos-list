@@ -41,7 +41,7 @@ const deleteTodo = async (req, res) => {
             }),
         );
 
-        logger.info(`Deleted the "${todoId}" todo from the socket ${socketId}`);
+        logger.info(`Deleted the todo ${todoId} on the socket ${socketId}`);
     });
 
     logger.info(`User ${userId} deleted a todo ${todoId}.`);

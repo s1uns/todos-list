@@ -15,7 +15,6 @@ const customRequest = async (method, url, data = null) => {
         const response = await axios(config);
         return response.data;
     } catch (err) {
-        console.log("err: ", err);
         if (err.response) {
             if (err.response.status === 401) {
                 store.dispatch(logoutUserRequest());

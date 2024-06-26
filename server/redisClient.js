@@ -6,7 +6,7 @@ const REDIS_PORT = process.env.REDIS_PORT || 6379;
 
 const redisClient = createClient(REDIS_PORT);
 
-redisClient.on("error", (err) => console.log("Redis Client Error", err));
+redisClient.on("error", (err) => logger.error("Redis Client Error", err));
 
 redisClient.setConnection = async (connectionId, userId) => {
     await redisClient.set(`${connectionId}`, userId);
@@ -25,7 +25,7 @@ redisClient.getSharedConnections = async (userId) => {
 
             const applies = sharedUsers.includes(id) || id == userId;
             return applies ? key : null;
-        })
+        }),
     );
 
     const filteredConnections = connections.filter((key) => key !== null);

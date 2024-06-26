@@ -1,13 +1,17 @@
 import { io } from "socket.io-client";
 import {
     SOCKET_ACTION,
+    SOCKET_TODO_CHECK,
     SOCKET_TODO_CREATION,
     SOCKET_TODO_DELETE,
+    SOCKET_TODO_UPDATE,
 } from "../shared/constants";
 import { store } from "../store/store";
 import {
+    checkTodoSuccess,
     createTodoSuccess,
     deleteTodoSuccess,
+    editTodoSuccess,
 } from "../store/actions/todosActions";
 
 const url = process.env.REACT_APP_SOCKET_URL;
@@ -28,16 +32,26 @@ socket.on(SOCKET_ACTION, (action) => {
                 store.dispatch(deleteTodoSuccess(data.todoId));
                 break;
 
+            case SOCKET_TODO_UPDATE:
+                store.dispatch(editTodoSuccess(data.newTodo));
+                break;
+
+            case SOCKET_TODO_CHECK:
+                store.dispatch(checkTodoSuccess(data.newTodo));
+                break;
+
             default:
-                console.log("Unknown action");
+                store.dispatch(
+                    addToastSuccess({
+                        id: new Date(Date.now()),
+                        message: "Unknown action type catched.",
+                    }),
+                );
                 break;
         }
     }
 });
 
-// special notification saga
-// rename to notifications/socket
-// notificationsSaga
 // notification with {type: , data: }
 
 export default socket;

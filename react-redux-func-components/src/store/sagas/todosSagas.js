@@ -73,7 +73,7 @@ function* workDeleteTodo({ payload }) {
 }
 
 function* workCheckTodo({ payload }) {
-    const response = yield call(() => checkTodo(payload));
+    const response = yield call(() => checkTodo(payload, socket.id));
 
     if (response.success) {
         yield put(checkTodoSuccess(response.data));
@@ -90,7 +90,7 @@ function* workCheckTodo({ payload }) {
 function* workEditTodo({ payload }) {
     const { id, title } = payload;
 
-    const response = yield call(() => updateTodo(id, title));
+    const response = yield call(() => updateTodo(id, title, socket.id));
 
     if (response.success) {
         yield put(editTodoSuccess(response.data));

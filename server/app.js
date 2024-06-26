@@ -58,16 +58,10 @@ app.use("/users", userRouter);
 
 app.use(errorLogger);
 
-//socket.io
-
 io.on("connect", async (socket) => {
     logger.info(`Unauthorized user connected to the socket ${socket.id}`);
 
     socket.on("error", logger.error);
-
-    socket.on("message", function message(data) {
-        console.log(`Received message ${data} from user ${socket.id}`);
-    });
 
     socket.on(SOCKET_USER_AUTHORIZATION, async (userId) => {
         logger.info(`The user ${userId} connected to the socket ${socket.id}`);
@@ -80,9 +74,6 @@ io.on("connect", async (socket) => {
         redisClient.deleteConnection(socket.id);
     });
 });
-
-// emit events from controllers
-// socket.io
 
 httpServer.listen(port, () => {
     logger.info(`Server listening at port: ${port}`);

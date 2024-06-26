@@ -192,7 +192,6 @@ const TodoTitle = styled(Typography)({
 const UpdatedIcon = styled(Typography)({
     paddingLeft: "4rem",
     fontSize: "3rem",
-    width: "100%",
     position: "absolute",
     left: "75%",
     ".completed &": {

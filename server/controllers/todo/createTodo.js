@@ -9,7 +9,6 @@ import redisClient from "../../redisClient.js";
 
 const createTodo = async (req, res) => {
     const { title, socketId: authorSocketId } = req.body;
-    console.log("Author socket id: ", authorSocketId);
     const io = socketService.getIO();
 
     const userId = req.userId;
@@ -41,7 +40,7 @@ const createTodo = async (req, res) => {
                 socketId: authorSocketId,
             }),
         );
-        logger.info(`Added the "${newTodo.title}" to the socket ${socketId}`);
+        logger.info(`Added the todo ${todo.id} on the socket ${socketId}`);
     });
 
     return res.success(newTodo);

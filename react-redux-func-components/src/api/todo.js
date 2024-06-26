@@ -39,10 +39,11 @@ const clearCompleted = async () => {
     return response;
 };
 
-const updateTodo = async (todoId, newTitle) => {
+const updateTodo = async (todoId, newTitle, socketId) => {
     const response = await customRequest(PUT_REQUEST, `${url}todos`, {
         id: todoId,
         newTitle: newTitle,
+        socketId: socketId,
     });
 
     return response;
@@ -58,10 +59,11 @@ const deleteTodo = async (todoId, socketId) => {
     return response;
 };
 
-const checkTodo = async (todoId) => {
+const checkTodo = async (todoId, socketId) => {
     const response = await customRequest(
         PATCH_REQUEST,
         `${url}todos/${todoId}/check`,
+        { socketId: socketId },
     );
 
     return response;
