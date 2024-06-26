@@ -3,17 +3,15 @@ import { actionSuccessType } from "../actions/constants";
 
 const toastsReducer = handleActions(
     {
-        [actionSuccessType.ADD_NOTIFICATION_SUCCESS]: (
-            oldNotifications = [],
-            { payload },
-        ) => [...oldNotifications, payload],
+        [actionSuccessType.ADD_TOAST_SUCCESS]: (state, { payload }) => [
+            ...state,
+            payload,
+        ],
 
-        [actionSuccessType.DISMISS_NOTIFICATION_SUCCESS]: (
-            oldNotifications = [],
-            { payload },
-        ) => oldNotifications.filter((toast) => toast.id !== payload),
+        [actionSuccessType.DISMISS_TOAST_SUCCESS]: (state, { payload }) =>
+            state.filter((toast) => toast.id !== payload),
     },
-    [],
+    []
 );
 
 export default toastsReducer;

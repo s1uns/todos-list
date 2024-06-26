@@ -13,7 +13,7 @@ import {
     ListItem,
 } from "@mui/material";
 import styled from "@emotion/styled";
-import { addNotificationSuccess } from "../../../store/actions/notificationsActions";
+import { addToastSuccess } from "../../../store/actions/toastsActions";
 
 const ShareTodosModal = ({ open, onClose }) => {
     const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const ShareTodosModal = ({ open, onClose }) => {
     useEffect(() => {
         if (open) {
             getAvailableUsers(currentPage);
+            console.log("Users: ", users);
         }
     }, [open, currentPage]);
 
@@ -49,10 +50,10 @@ const ShareTodosModal = ({ open, onClose }) => {
             setTotalPages((prevTotalPages) => totalPages);
         } else {
             dispatch(
-                addNotificationSuccess({
+                addToastSuccess({
                     id: new Date(Date.now()),
                     message: response.message,
-                }),
+                })
             );
         }
     };
@@ -62,19 +63,19 @@ const ShareTodosModal = ({ open, onClose }) => {
 
         if (response.success) {
             dispatch(
-                addNotificationSuccess({
+                addToastSuccess({
                     id: new Date(Date.now()),
                     message: response.data,
-                }),
+                })
             );
 
             onClose();
         } else {
             dispatch(
-                addNotificationSuccess({
+                addToastSuccess({
                     id: new Date(Date.now()),
                     message: response.message,
-                }),
+                })
             );
         }
     };

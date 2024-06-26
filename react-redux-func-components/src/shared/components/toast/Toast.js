@@ -6,12 +6,12 @@ import { actionRequestType } from "../../../store/actions/constants";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
-import { dismissNotificationRequest } from "../../../store/actions/notificationsActions";
+import { dismissToastRequest } from "../../../store/actions/toastsActions";
 
 const Toast = ({ id, message }) => {
     const dispatch = useDispatch();
 
-    const handleCloseToast = () => dispatch(dismissNotificationRequest(id));
+    const handleCloseToast = () => dispatch(dismissToastRequest(id));
 
     useTimeout(handleCloseToast, 3000);
 

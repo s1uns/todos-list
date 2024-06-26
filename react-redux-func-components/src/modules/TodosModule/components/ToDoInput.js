@@ -2,13 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { Input } from "../../../shared/components/Input";
-import { addNotificationRequest } from "../../../store/actions/notificationsActions";
+import { addToastRequest } from "../../../store/actions/toastsActions";
 import { createTodoRequest } from "../../../store/actions/todosActions";
 import { FILTER_ALL } from "../../../shared/constants";
 import { setQueryRequest } from "../../../store/actions/queryActions";
 
 const ToDoInput = () => {
     const dispatch = useDispatch();
+    const { fullName } = useSelector((state) => (state.user ? state.user : {}));
 
     const { currentPage } = useSelector((state) => state.query);
 
@@ -17,7 +18,7 @@ const ToDoInput = () => {
             const trimmedString = e.target.value.trim();
             if (trimmedString.length === 0) {
                 dispatch(
-                    addNotificationRequest({
+                    addToastRequest({
                         id: new Date(Date.now()),
                         message: "Enter something first!",
                     })
@@ -32,7 +33,12 @@ const ToDoInput = () => {
                     currentFilter: FILTER_ALL,
                 })
             );
-            dispatch(createTodoRequest(trimmedString));
+            dispatch(
+                createTodoRequest({
+                    author: fullName,
+                    title: trimmedString,
+                })
+            );
         }
     };
 

@@ -12,6 +12,12 @@ import expressWinston from "express-winston";
 import url from "url";
 import redisClient from "./redisClient.js";
 import socketService from "./socket.js";
+import {
+    SOCKET_TODO_CREATION,
+    SOCKET_USER_AUTHORIZATION,
+    SOCKET_USER_LOGOUT,
+} from "./utils/constants/socketActions.js";
+import { todoCreationAction } from "./utils/actions/notificationActions.js";
 
 const origin = process.env.CORS_ORIGIN;
 const port = process.env.SERVER_PORT;
@@ -25,7 +31,7 @@ app.use(
     cors({
         credentials: true,
         origin: origin,
-    }),
+    })
 );
 
 app.use(express.json());
@@ -37,7 +43,7 @@ app.use(
         colorize: true,
         requestWhitelist: [...expressWinston.requestWhitelist, "body"],
         responseWhitelist: [...expressWinston.responseWhitelist, "body"],
-    }),
+    })
 );
 app.use(responseMiddleware);
 
@@ -54,8 +60,8 @@ app.use(errorLogger);
 
 //socket.io
 
-io.on("connect", (socket) => {
-    console.log(`Connected to the socket ${socket.id}`);
+io.on("connect", async (socket) => {
+    logger.info(`Unauthorized user connected to the socket ${socket.id}`);
 
     socket.on("error", logger.error);
 
@@ -63,12 +69,36 @@ io.on("connect", (socket) => {
         console.log(`Received message ${data} from user ${socket.id}`);
     });
 
-    socket.on("authorization", async (userId) => {
+    socket.on(SOCKET_USER_AUTHORIZATION, async (userId) => {
+        logger.info(`The user ${userId} connected to the socket ${socket.id}`);
+
         await redisClient.setConnection(socket.id, userId);
-        console.log(`The user ${userId} connected to the socket ${socket.id}`);
     });
 
-    socket.on("disconnect", () => console.log(`Disconnected ${socket.id}`));
+    socket.on(SOCKET_TODO_CREATION, async (data) => {
+        const connections = await redisClient.getSharedConnections(socket.id);
+        const userId = await redisClient.get(socket.id);
+        connections.map(async (connectionId) => {
+            const socket = await io.in(connectionId).fetchSockets();
+
+            const userId = redisClient.get(connectionId);
+
+            socket.emit(
+                todoCreationAction({
+                    ...data,
+                    isAuthor: data.creatorId === userId,
+                    author: data.author,
+                })
+            );
+
+            logger.info(`Sent new todo to ${connectionId}`);
+        });
+    });
+
+    socket.on(SOCKET_USER_LOGOUT, async () => {
+        logger.info(`The user disconnected from the socket ${socket.id}`);
+        redisClient.deleteConnection(socket.id);
+    });
 });
 
 // emit events from controllers

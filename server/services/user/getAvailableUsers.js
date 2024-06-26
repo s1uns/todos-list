@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import { Shared, Users } from "../../database/models/relations.js";
-import { SHARE_ACTIVE } from "../../utils/constraints/sharedStatus.js";
+import { SHARE_ACTIVE } from "../../utils/constants/sharedStatus.js";
 
 const getAvailableUsers = async ({ page, limit, userId }) => {
     const queries = {
@@ -15,19 +15,24 @@ const getAvailableUsers = async ({ page, limit, userId }) => {
             },
         },
         attributes: ["id", "username", "firstName", "lastName", "fullName"],
-        include: { model: Shared, as: "sharedWith", attributes: ["status"] }, 
+        include: { model: Shared, as: "sharedWith", attributes: ["status"] },
         ...queries,
     });
 
-    const list = availableUsers.rows.map((userInfo) => ({
-        id: userInfo.id,
-        username: userInfo.username,
-        fullName: userInfo.fullName,
-        isShared:
-            !!userInfo.sharedWith[0] && userInfo.sharedWith[0].status === SHARE_ACTIVE
+    const list = availableUsers.rows.map((userInfo) => {
+        const shareStatus =
+            !!userInfo.sharedWith[0] &&
+            +userInfo.sharedWith[0].status === SHARE_ACTIVE
                 ? true
-                : false,
-    }));
+                : false;
+
+        return {
+            id: userInfo.id,
+            username: userInfo.username,
+            fullName: userInfo.fullName,
+            isShared: shareStatus,
+        };
+    });
 
     const totalPages = Math.ceil(availableUsers?.count / limit);
 

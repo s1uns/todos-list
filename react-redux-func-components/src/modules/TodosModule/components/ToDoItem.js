@@ -10,11 +10,11 @@ import {
     deleteTodoRequest,
     editTodoRequest,
 } from "../../../store/actions/todosActions";
-import { addNotificationRequest } from "../../../store/actions/notificationsActions";
+import { addToastRequest } from "../../../store/actions/toastsActions";
 
 const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
     const dispatch = useDispatch();
-    
+
     const [isEditing, setIsEditing] = useState(false);
 
     const toggleEditing = () => {
@@ -36,10 +36,10 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
             const trimmedString = e.target.value.trim();
             if (trimmedString.length === 0) {
                 dispatch(
-                    addNotificationRequest({
+                    addToastRequest({
                         id: new Date(Date.now()),
                         message: "Enter something first!",
-                    }),
+                    })
                 );
                 return;
             }
@@ -61,10 +61,10 @@ const ToDoItem = ({ id, title, isCompleted, isUpdated, isAuthor, author }) => {
             dispatch(checkTodoRequest(id));
         } else {
             dispatch(
-                addNotificationRequest({
+                addToastRequest({
                     id: new Date(Date.now()),
                     message: "Finish editing the todo first!",
-                }),
+                })
             );
             return;
         }

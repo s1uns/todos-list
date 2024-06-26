@@ -1,3 +1,4 @@
+// share status
 const SHARE_INACTIVE = 0;
 const SHARE_ACTIVE = 1;
 

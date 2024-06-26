@@ -16,7 +16,10 @@ import {
     setTodosSuccess,
     setPageSuccess,
 } from "../actions/todosActions";
-import { addNotificationRequest } from "../actions/notificationsActions";
+import { addToastRequest } from "../actions/toastsActions";
+import { setQueryRequest } from "../actions/queryActions";
+import socket from "../../notifications/socket";
+import { SOCKET_TODO_CREATION } from "../../shared/constants";
 
 function* workGetTodos({ payload }) {
     const { currentPage, currentFilter } = payload;
@@ -26,7 +29,7 @@ function* workGetTodos({ payload }) {
         yield put(setTodosSuccess({ ...response.data, currentPage }));
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
             })
@@ -35,14 +38,26 @@ function* workGetTodos({ payload }) {
 }
 
 function* workAddTodo({ payload }) {
-    const response = yield call(() => createTodo(payload)); //check
+    const response = yield call(() => createTodo(payload.title));
     const newTodo = response.data;
 
     if (response.success) {
-        yield put(createTodoSuccess({ ...newTodo, isAuthor: true }));
+        yield put(
+            createTodoSuccess({
+                ...newTodo,
+                isAuthor: true,
+                author: payload.author,
+            })
+        );
+
+        socket.emit(SOCKET_TODO_CREATION, {
+            ...newTodo,
+            isAuthor: false,
+            author: payload.author,
+        });
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
             })
@@ -57,7 +72,7 @@ function* workDeleteTodo({ payload }) {
         yield put(deleteTodoSuccess(payload));
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
             })
@@ -72,7 +87,7 @@ function* workCheckTodo({ payload }) {
         yield put(checkTodoSuccess(response.data));
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
             })
@@ -89,7 +104,7 @@ function* workEditTodo({ payload }) {
         yield put(editTodoSuccess(response.data));
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
             })
@@ -103,7 +118,7 @@ function* workClearCompleted() {
         yield put(setTodosSuccess(response.data));
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
             })

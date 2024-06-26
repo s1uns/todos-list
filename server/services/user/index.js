@@ -1,3 +1,5 @@
 import getAvailableUsers from "./getAvailableUsers.js";
+import getSharedUsers from "./getSharedUsers.js";
+import getUser from "./getUser.js";
 
-export { getAvailableUsers };
+export { getAvailableUsers, getSharedUsers, getUser };

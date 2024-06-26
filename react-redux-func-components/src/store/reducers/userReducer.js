@@ -5,7 +5,7 @@ const userReducer = handleActions(
     {
         [actionSuccessType.REGISTER_USER_SUCCESS]: (state, { payload }) => {
             return {
-                id: payload.id,
+                userId: payload.userId,
                 email: payload.email,
                 fullName: payload.fullName,
                 username: payload.username,
@@ -14,7 +14,7 @@ const userReducer = handleActions(
 
         [actionSuccessType.LOGIN_USER_SUCCESS]: (state, { payload }) => {
             return {
-                id: payload.id,
+                userId: payload.userId,
                 email: payload.email,
                 fullName: payload.fullName,
                 username: payload.username,

@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import {
     SHARE_ACTIVE,
     SHARE_INACTIVE,
-} from "../../utils/constraints/sharedStatus.js";
+} from "../../utils/constants/sharedStatus.js";
 import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 
 const manageShared = async (req, res) => {
@@ -13,10 +13,10 @@ const manageShared = async (req, res) => {
 
     if (!sharedWithId) {
         logger.warn(
-            `User ${userId} tried to share his todos with undefined user.`,
+            `User ${userId} tried to share his todos with undefined user.`
         );
         return res.badRequest(
-            "Specify the id of user you want to share todos with",
+            "Specify the id of user you want to share todos with"
         );
     }
 
@@ -38,22 +38,22 @@ const manageShared = async (req, res) => {
         });
 
         logger.info(
-            `User ${userId} shared his todos with user ${sharedWithId}.`,
+            `User ${userId} shared his todos with user ${sharedWithId}.`
         );
         return res.success("Successfully shared the todos!");
     } else {
         const newStatus =
-            relation.status === SHARE_ACTIVE ? SHARE_INACTIVE : SHARE_ACTIVE;
+            relation.status == SHARE_ACTIVE ? SHARE_INACTIVE : SHARE_ACTIVE;
 
         relation.status = newStatus;
         relation.save();
 
-        const stringStatus = newStatus ? "active" : "inactive";
+        const stringStatus = newStatus === SHARE_ACTIVE ? "active" : "inactive";
         logger.info(
-            `User ${userId} changed his sharing status with user ${sharedWithId} to ${stringStatus}.`,
+            `User ${userId} changed his sharing status with user ${sharedWithId} to ${stringStatus}.`
         );
         return res.success(
-            `Successfully changed the shared status to ${stringStatus}!`,
+            `Successfully changed the shared status to ${stringStatus}!`
         );
     }
 };

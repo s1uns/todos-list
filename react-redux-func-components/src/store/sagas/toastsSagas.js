@@ -1,26 +1,23 @@
 import { takeEvery, put } from "redux-saga/effects";
 import { actionRequestType, actionSuccessType } from "../actions/constants";
-import {
-    addNotificationSuccess,
-    dismissNotificationSuccess,
-} from "../actions/notificationsActions";
+import { addToastSuccess, dismissToastSuccess } from "../actions/toastsActions";
 
-function* workAddNotification({ payload }) {
-    yield put(addNotificationSuccess(payload));
+function* workAddToast({ payload }) {
+    yield put(addToastSuccess(payload));
 }
 
-function* workDismissNotification({ payload }) {
-    yield put(dismissNotificationSuccess(payload));
+function* workDismissToast({ payload }) {
+    yield put(dismissToastSuccess(payload));
 }
 
 function* toastsSagas() {
     yield takeEvery(
-        actionRequestType.ADD_NOTIFICATION_REQUEST,
-        workAddNotification
+        actionRequestType.ADD_TOAST_REQUEST,
+        workAddToast
     );
     yield takeEvery(
-        actionRequestType.DISMISS_NOTIFICATION_REQUEST,
-        workDismissNotification
+        actionRequestType.DISMISS_TOAST_REQUEST,
+        workDismissToast
     );
 }
 

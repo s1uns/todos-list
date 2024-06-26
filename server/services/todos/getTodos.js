@@ -1,6 +1,6 @@
 import { Users, Todos, Shared } from "../../database/models/relations.js";
 import { Op } from "sequelize";
-import { SHARE_ACTIVE } from "../../utils/constraints/sharedStatus.js";
+import { SHARE_ACTIVE } from "../../utils/constants/sharedStatus.js";
 
 const getTodos = async ({ page, limit, userId, filter }) => {
     const queries = {

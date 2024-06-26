@@ -5,7 +5,14 @@ import { TODOS_LIMIT } from "../../shared/constants";
 const todosReducer = handleActions(
     {
         [actionSuccessType.ADD_TODO_SUCCESS]: (state, { payload }) => {
-            const newList = [...state.list, payload];
+            let newList = [];
+
+            if (state.list.length === 4) {
+                newList = [payload, ...state.list.slice(0, 3)];
+            } else {
+                newList = [payload, ...state.list];
+            }
+
             return {
                 list: newList,
                 currentPage: state.currentPage,

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const withAuth = (WrappedComponent, shouldBeLogged) => {
     return (props) => {
         const user = useSelector((state) => state.user);
+        console.log("User: ", user);
         const navigate = useNavigate();
 
         useEffect(() => {

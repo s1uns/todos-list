@@ -6,11 +6,11 @@ import {
     registerUserSuccess,
     logoutUserSuccess,
 } from "../actions/authActions";
-import { addNotificationRequest } from "../actions/notificationsActions";
+import { addToastRequest } from "../actions/toastsActions";
 import { clearTodosSuccess } from "../actions/todosActions";
 import { setQuerySuccess } from "../actions/queryActions";
 import { FILTER_ALL } from "../../shared/constants";
-import socket from "../../sockets/socket";
+import socket from "../../notifications/socket";
 
 function* workRegisterUser({ payload }) {
     const response = yield call(() => registerUser(payload));
@@ -18,13 +18,16 @@ function* workRegisterUser({ payload }) {
     if (response.success) {
         const { id, email, fullName, username } = response.data;
 
+        yield put(
+            setQuerySuccess({ currentPage: 1, currentFilter: FILTER_ALL })
+        );
         yield put(registerUserSuccess({ id, email, fullName, username }));
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }
@@ -34,15 +37,16 @@ function* workLoginUser({ payload }) {
 
     if (response.success) {
         const { userId, email, fullName, username } = response.data;
-        socket.emit("authorization", userId);
-
+        yield put(
+            setQuerySuccess({ currentPage: 1, currentFilter: FILTER_ALL })
+        );
         yield put(loginUserSuccess({ userId, email, fullName, username }));
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }
@@ -52,16 +56,13 @@ function* workLogoutUser() {
 
     if (response.success) {
         yield put(clearTodosSuccess());
-        yield put(
-            setQuerySuccess({ currentPage: 1, currentFilter: FILTER_ALL }),
-        );
         yield put(logoutUserSuccess());
     } else {
         yield put(
-            addNotificationRequest({
+            addToastRequest({
                 id: new Date(Date.now()),
                 message: response.message,
-            }),
+            })
         );
     }
 }

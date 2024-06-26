@@ -20,8 +20,11 @@ import { setQueryRequest } from "../../../store/actions/queryActions";
 import {
     FILTER_ACTIVE,
     FILTER_COMPLETED,
+    SOCKET_USER_AUTHORIZATION,
+    SOCKET_USER_LOGOUT,
     TODOS_LIMIT,
 } from "../../../shared/constants";
+import socket from "../../../notifications/socket";
 
 const TodoListPage = () => {
     const dispatch = useDispatch();
@@ -41,6 +44,13 @@ const TodoListPage = () => {
     );
 
     useEffect(() => {
+        console.log("User: ", user);
+        socket.emit(SOCKET_USER_AUTHORIZATION, user.userId);
+
+        return () => socket.emit(SOCKET_USER_LOGOUT);
+    }, []);
+
+    useEffect(() => {
         dispatch(
             getTodosRequest({
                 currentPage: currentPage,
@@ -51,7 +61,7 @@ const TodoListPage = () => {
         if (todos.length === 0) {
             setQueryRequest({ currentPage: 1, currentFilter: currentFilter });
         }
-    }, [currentPage, currentFilter, totalPages]);
+    }, [currentPage, currentFilter]);
 
     const changePage = (newPage) => {
         dispatch(
@@ -69,8 +79,6 @@ const TodoListPage = () => {
     const handleLogOut = () => {
         dispatch(logoutUserRequest());
     };
-
-
 
     return (
         <>
