@@ -16,7 +16,6 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(connectionRefreshAction());
         dispatch(connectionRefreshAction());
     }, []);
     // emit refresh page, if user is in store, connect to the socket

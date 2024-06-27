@@ -57,6 +57,10 @@ function* workAddTodo({ data }) {
                 ...data,
             }),
         );
+    } else {
+        yield put(
+            setQueryRequest({ currentPage: 1, currentFilter: FILTER_ALL }),
+        );
     }
 }
 
@@ -99,7 +103,20 @@ function* workEditTodo({ data }) {
 }
 
 function* workClearCompleted() {
-    yield put(setQueryRequest({ currentPage: 1, currentFilter: FILTER_ALL }));
+    const { currentPage, currentFilter } = yield select((state) => state.query);
+
+    if (currentPage !== 1 && currentFilter !== FILTER_ALL) {
+        yield put(
+            setQueryRequest({ currentPage: 1, currentFilter: FILTER_ALL }),
+        );
+    } else {
+        yield put(
+            getTodosRequest({
+                currentPage: currentPage,
+                currentFilter: currentFilter,
+            }),
+        );
+    }
 }
 
 function* notificationsSagas() {

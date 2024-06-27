@@ -46,26 +46,12 @@ const TodoListPage = () => {
     );
 
     useEffect(() => {
-        return () => socket.emit(SOCKET_ACTION, logoutAction());
-    }, []);
-
-    //refresh page
-
-    // additional request to back-end
-
-    useEffect(() => {
         dispatch(
             getTodosRequest({
                 currentPage: currentPage,
                 currentFilter: currentFilter,
             }),
         );
-
-        // if (!todos.length) {
-        //     //check in saga
-
-        //     setQueryRequest({ currentPage: 1, currentFilter: currentFilter });
-        // }
     }, [currentPage, currentFilter]);
 
     const changePage = (newPage) => {
