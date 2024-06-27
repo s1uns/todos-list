@@ -33,6 +33,7 @@ const updateTodo = async (req, res) => {
     logger.info(
         `User ${userId} updated todo ${todoId} with new title "${newTitle}".`,
     );
+    
     const todo = updatedTodo.toJSON();
 
     const connections = await redisClient.getSharedConnections(userId);

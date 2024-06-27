@@ -13,7 +13,7 @@ import url from "url";
 import redisClient from "./redisClient.js";
 import socketService from "./socket.js";
 import {
-    SOCKET_TODO_CREATION,
+    SOCKET_ACTION,
     SOCKET_USER_AUTHORIZATION,
     SOCKET_USER_LOGOUT,
 } from "./utils/constants/socketActions.js";
@@ -31,7 +31,7 @@ app.use(
     cors({
         credentials: true,
         origin: origin,
-    })
+    }),
 );
 
 app.use(express.json());
@@ -43,7 +43,7 @@ app.use(
         colorize: true,
         requestWhitelist: [...expressWinston.requestWhitelist, "body"],
         responseWhitelist: [...expressWinston.responseWhitelist, "body"],
-    })
+    }),
 );
 app.use(responseMiddleware);
 
@@ -63,13 +63,33 @@ io.on("connect", async (socket) => {
 
     socket.on("error", logger.error);
 
-    socket.on(SOCKET_USER_AUTHORIZATION, async (userId) => {
-        logger.info(`The user ${userId} connected to the socket ${socket.id}`);
+    socket.on(SOCKET_ACTION, async (action) => {
+        const { type, data } = action;
 
-        await redisClient.setConnection(socket.id, userId);
+        switch (type) {
+            case SOCKET_USER_AUTHORIZATION:
+                logger.info(
+                    `The user ${data.userId} connected to the socket ${socket.id}`,
+                );
+                await redisClient.setConnection(socket.id, data.userId);
+                break;
+
+            case SOCKET_USER_LOGOUT:
+                logger.info(
+                    `The user disconnected from the socket ${socket.id}`,
+                );
+                redisClient.deleteConnection(socket.id);
+                break;
+
+            default:
+                logger.warn("Wrong action catched");
+                break;
+        }
     });
 
-    socket.on(SOCKET_USER_LOGOUT, async () => {
+    socket.on(SOCKET_USER_LOGOUT, async () => {});
+
+    socket.on("disconnect", async () => {
         logger.info(`The user disconnected from the socket ${socket.id}`);
         redisClient.deleteConnection(socket.id);
     });

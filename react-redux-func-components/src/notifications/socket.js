@@ -13,6 +13,7 @@ import {
     deleteTodoSuccess,
     editTodoSuccess,
 } from "../store/actions/todosActions";
+import { addToastSuccess } from "../store/actions/toastsActions";
 
 const url = process.env.REACT_APP_SOCKET_URL;
 
@@ -23,6 +24,7 @@ const socket = io(url, {
 socket.on(SOCKET_ACTION, (action) => {
     if (socket.id !== action.data.socketId) {
         const { type, data } = action;
+
         switch (type) {
             case SOCKET_TODO_CREATION:
                 store.dispatch(createTodoSuccess(data.newTodo));
@@ -51,7 +53,5 @@ socket.on(SOCKET_ACTION, (action) => {
         }
     }
 });
-
-// notification with {type: , data: }
 
 export default socket;

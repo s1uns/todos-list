@@ -30,6 +30,8 @@ const deleteTodo = async (req, res) => {
             id: todoId,
         },
     });
+    
+    logger.info(`User ${userId} deleted a todo ${todoId}.`);
 
     const connections = await redisClient.getSharedConnections(userId);
     connections.map(async (socketId) => {
@@ -44,7 +46,6 @@ const deleteTodo = async (req, res) => {
         logger.info(`Deleted the todo ${todoId} on the socket ${socketId}`);
     });
 
-    logger.info(`User ${userId} deleted a todo ${todoId}.`);
     return res.success();
 };
 

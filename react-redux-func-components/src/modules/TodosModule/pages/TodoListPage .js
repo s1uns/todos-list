@@ -17,13 +17,13 @@ import ShareTodosModal from "../components/ShareTodosModal";
 import { getTodosRequest } from "../../../store/actions/todosActions";
 import { logoutUserRequest } from "../../../store/actions/authActions";
 import { setQueryRequest } from "../../../store/actions/queryActions";
-import {
-    SOCKET_USER_AUTHORIZATION,
-    SOCKET_USER_LOGOUT,
-    TODOS_LIMIT,
-} from "../../../shared/constants";
+import { SOCKET_ACTION, TODOS_LIMIT } from "../../../shared/constants";
 import socket from "../../../notifications/socket";
 import { setCurrentPageRequest } from "../../../store/actions/queryActions";
+import {
+    authAction,
+    logoutAction,
+} from "../../../notifications/notificationActions";
 
 const TodoListPage = () => {
     const dispatch = useDispatch();
@@ -43,9 +43,14 @@ const TodoListPage = () => {
     );
 
     useEffect(() => {
-        socket.emit(SOCKET_USER_AUTHORIZATION, user.userId);
+        socket.emit(
+            SOCKET_ACTION,
+            authAction({
+                userId: user.userId,
+            }),
+        );
 
-        return () => socket.emit(SOCKET_USER_LOGOUT);
+        return () => socket.emit(SOCKET_ACTION, logoutAction());
     }, []);
 
     useEffect(() => {
