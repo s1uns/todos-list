@@ -18,24 +18,24 @@ const logoutAction = () => ({
     type: SOCKET_USER_LOGOUT,
 });
 
-const todoCreationAction = (newTodo) => ({
+const todoCreationAction = (data) => ({
     type: SOCKET_TODO_CREATION,
-    data: newTodo,
+    data: data,
 });
 
-const todoUpdateAction = (updatedTodo) => ({
+const todoUpdateAction = (data) => ({
     type: SOCKET_TODO_UPDATE,
-    data: updatedTodo,
+    data: data,
 });
 
-const todoDeleteAction = (deletedTodoId) => ({
+const todoDeleteAction = (data) => ({
     type: SOCKET_TODO_DELETE,
-    data: deletedTodoId,
+    data: data,
 });
 
-const todoCheckAction = (checkedTodoId) => ({
+const todoCheckAction = (data) => ({
     type: SOCKET_TODO_CHECK,
-    data: checkedTodoId,
+    data: data,
 });
 
 const todoClearCompletedAction = () => ({
