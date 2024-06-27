@@ -1,21 +1,12 @@
-import { takeEvery, put, call, select } from "redux-saga/effects";
-import {
-    checkTodo,
-    clearCompleted,
-    createTodo,
-    deleteTodo,
-    getTodos,
-    updateTodo,
-} from "../../api";
+import { takeEvery, put, select } from "redux-saga/effects";
+
 import {
     checkTodoSuccess,
     createTodoSuccess,
     deleteTodoSuccess,
     editTodoSuccess,
     getTodosRequest,
-    setTodosSuccess,
 } from "../actions/todosActions";
-import { addToastRequest } from "../actions/toastsActions";
 import socket from "../../notifications/socket";
 import {
     FILTER_ACTIVE,
