@@ -11,7 +11,10 @@ import {
     Box,
     List,
     Pagination,
+    Table,
 } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+
 import styled from "@emotion/styled";
 import ShareTodosModal from "../components/ShareTodosModal";
 import { getTodosRequest } from "../../../store/actions/todosActions";
@@ -43,23 +46,12 @@ const TodoListPage = () => {
     );
 
     useEffect(() => {
-        socket.emit(
-            SOCKET_ACTION,
-            authAction({
-                userId: user.userId,
-            }),
-        );
-
         return () => socket.emit(SOCKET_ACTION, logoutAction());
     }, []);
 
-    useEffect(() => {
-        if (todos.length === 0) {
-            dispatch(
-                setCurrentPageRequest(currentPage - 1 ? currentPage - 1 : 1),
-            );
-        }
-    }, [todos]);
+    //refresh page
+
+    // additional request to back-end
 
     useEffect(() => {
         dispatch(
@@ -69,9 +61,11 @@ const TodoListPage = () => {
             }),
         );
 
-        if (todos.length === 0) {
-            setQueryRequest({ currentPage: 1, currentFilter: currentFilter });
-        }
+        // if (!todos.length) {
+        //     //check in saga
+
+        //     setQueryRequest({ currentPage: 1, currentFilter: currentFilter });
+        // }
     }, [currentPage, currentFilter]);
 
     const changePage = (newPage) => {
@@ -129,18 +123,20 @@ const TodoListPage = () => {
             >
                 <ToDoInput />
                 <TodoBlock>
-                    <TodosList className="todos-list" id="todos-list">
-                        {todos.map((item) => (
-                            <ToDoItem
-                                key={item.id}
-                                id={item.id}
-                                title={item.title}
-                                isCompleted={item.isCompleted}
-                                isUpdated={item.isUpdated}
-                                author={item.author}
-                                creatorId={item.creatorId}
-                            />
-                        ))}
+                    <TodosList>
+                        {todos
+                            .map((item) => (
+                                <ToDoItem
+                                    key={item.id}
+                                    id={item.id}
+                                    title={item.title}
+                                    isCompleted={item.isCompleted}
+                                    isUpdated={item.isUpdated}
+                                    author={item.author}
+                                    creatorId={item.creatorId}
+                                />
+                            ))
+                            .slice(0, 4)}
                     </TodosList>
                 </TodoBlock>
                 <StyledPagination
@@ -178,7 +174,6 @@ const TodoBlock = styled(Box)({
 const TodosList = styled(List)({
     marginTop: 5,
     width: "95%",
-    listStyleType: "none",
     padding: 0,
 });
 

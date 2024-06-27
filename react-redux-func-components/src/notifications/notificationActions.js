@@ -5,6 +5,8 @@ import {
     SOCKET_TODO_UPDATE,
     SOCKET_USER_AUTHORIZATION,
     SOCKET_USER_LOGOUT,
+    SOCKET_CONNECTION_REFRESH,
+    SOCKET_TODO_CLEAR_COMPLETED,
 } from "../shared/constants";
 
 const authAction = (userId) => ({
@@ -36,6 +38,14 @@ const todoCheckAction = (checkedTodoId) => ({
     data: checkedTodoId,
 });
 
+const todoClearCompletedAction = () => ({
+    type: SOCKET_TODO_CLEAR_COMPLETED,
+});
+
+const connectionRefreshAction = () => ({
+    type: SOCKET_CONNECTION_REFRESH,
+});
+
 export {
     authAction,
     logoutAction,
@@ -43,4 +53,6 @@ export {
     todoCheckAction,
     todoUpdateAction,
     todoDeleteAction,
+    connectionRefreshAction,
+    todoClearCompletedAction,
 };

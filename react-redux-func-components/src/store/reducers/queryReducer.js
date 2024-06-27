@@ -18,7 +18,7 @@ const queryReducer = handleActions(
             state,
             { payload },
         ) => ({
-            currentPage: state.currentPage,
+            currentPage: 1,
             currentFilter: payload,
         }),
     },

@@ -5,6 +5,7 @@ import {
     SOCKET_TODO_UPDATE,
     SOCKET_USER_AUTHORIZATION,
     SOCKET_USER_LOGOUT,
+    SOCKET_TODO_CLEAR_COMPLETED,
 } from "../constants/socketActions.js";
 
 const authAction = () => ({
@@ -15,24 +16,29 @@ const logoutAction = () => ({
     type: SOCKET_USER_LOGOUT,
 });
 
-const todoCreationAction = (payload) => ({
+const todoCreationAction = (data) => ({
     type: SOCKET_TODO_CREATION,
-    data: payload,
+    data: data,
 });
 
-const todoUpdateAction = (updatedTodo) => ({
+const todoUpdateAction = (data) => ({
     type: SOCKET_TODO_UPDATE,
-    data: updatedTodo,
+    data: data,
 });
 
-const todoDeleteAction = (deletedTodoId) => ({
+const todoDeleteAction = (data) => ({
     type: SOCKET_TODO_DELETE,
-    data: deletedTodoId,
+    data: data,
 });
 
-const todoCheckAction = (checkedTodoId) => ({
+const todoCheckAction = (data) => ({
     type: SOCKET_TODO_CHECK,
-    data: checkedTodoId,
+    data: data,
+});
+
+const todoClearCompletedAction = (data) => ({
+    type: SOCKET_TODO_CLEAR_COMPLETED,
+    data: data,
 });
 
 export {
@@ -42,4 +48,5 @@ export {
     todoCheckAction,
     todoUpdateAction,
     todoDeleteAction,
+    todoClearCompletedAction,
 };

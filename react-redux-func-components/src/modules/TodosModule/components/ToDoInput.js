@@ -4,8 +4,7 @@ import styled from "@emotion/styled";
 import { Input } from "../../../shared/components/Input";
 import { addToastRequest } from "../../../store/actions/toastsActions";
 import { createTodoRequest } from "../../../store/actions/todosActions";
-import { FILTER_ALL } from "../../../shared/constants";
-import { setCurrentFilterRequest } from "../../../store/actions/queryActions";
+
 
 const ToDoInput = () => {
     const dispatch = useDispatch();
@@ -25,7 +24,6 @@ const ToDoInput = () => {
             }
 
             e.target.value = "";
-            dispatch(setCurrentFilterRequest(FILTER_ALL));
             dispatch(
                 createTodoRequest({
                     author: fullName,

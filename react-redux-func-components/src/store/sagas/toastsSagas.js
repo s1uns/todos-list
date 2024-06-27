@@ -1,5 +1,5 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { actionRequestType, actionSuccessType } from "../actions/constants";
+import { actionRequestType, } from "../actions/constants";
 import { addToastSuccess, dismissToastSuccess } from "../actions/toastsActions";
 
 function* workAddToast({ payload }) {

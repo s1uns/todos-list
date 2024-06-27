@@ -2,18 +2,20 @@ import { io } from "socket.io-client";
 import {
     SOCKET_ACTION,
     SOCKET_TODO_CHECK,
+    SOCKET_TODO_CLEAR_COMPLETED,
     SOCKET_TODO_CREATION,
     SOCKET_TODO_DELETE,
     SOCKET_TODO_UPDATE,
 } from "../shared/constants";
 import { store } from "../store/store";
-import {
-    checkTodoSuccess,
-    createTodoSuccess,
-    deleteTodoSuccess,
-    editTodoSuccess,
-} from "../store/actions/todosActions";
 import { addToastSuccess } from "../store/actions/toastsActions";
+import {
+    todoCheckAction,
+    todoClearCompletedAction,
+    todoCreationAction,
+    todoDeleteAction,
+    todoUpdateAction,
+} from "./notificationActions";
 
 const url = process.env.REACT_APP_SOCKET_URL;
 
@@ -27,19 +29,23 @@ socket.on(SOCKET_ACTION, (action) => {
 
         switch (type) {
             case SOCKET_TODO_CREATION:
-                store.dispatch(createTodoSuccess(data.newTodo));
+                store.dispatch(todoCreationAction(data.newTodo));
                 break;
 
             case SOCKET_TODO_DELETE:
-                store.dispatch(deleteTodoSuccess(data.todoId));
+                store.dispatch(todoDeleteAction(data.todoId));
                 break;
 
             case SOCKET_TODO_UPDATE:
-                store.dispatch(editTodoSuccess(data.newTodo));
+                store.dispatch(todoUpdateAction(data.newTodo));
                 break;
 
             case SOCKET_TODO_CHECK:
-                store.dispatch(checkTodoSuccess(data.newTodo));
+                store.dispatch(todoCheckAction(data.newTodo));
+                break;
+
+            case SOCKET_TODO_CLEAR_COMPLETED:
+                store.dispatch(todoClearCompletedAction());
                 break;
 
             default:

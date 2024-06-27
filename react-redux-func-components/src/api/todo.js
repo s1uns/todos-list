@@ -30,10 +30,11 @@ const getTodos = async (currentPage, currentFilter) => {
     return response;
 };
 
-const clearCompleted = async () => {
+const clearCompleted = async (socketId) => {
     const response = await customRequest(
         PATCH_REQUEST,
         `${url}todos/clear-completed`,
+        { socketId: socketId },
     );
 
     return response;

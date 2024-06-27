@@ -17,7 +17,6 @@ import {
     SOCKET_USER_AUTHORIZATION,
     SOCKET_USER_LOGOUT,
 } from "./utils/constants/socketActions.js";
-import { todoCreationAction } from "./utils/actions/notificationActions.js";
 
 const origin = process.env.CORS_ORIGIN;
 const port = process.env.SERVER_PORT;
@@ -87,7 +86,6 @@ io.on("connect", async (socket) => {
         }
     });
 
-    socket.on(SOCKET_USER_LOGOUT, async () => {});
 
     socket.on("disconnect", async () => {
         logger.info(`The user disconnected from the socket ${socket.id}`);

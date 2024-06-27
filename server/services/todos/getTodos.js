@@ -46,6 +46,7 @@ const getTodos = async ({ page, limit, userId, filter }) => {
         },
         raw: true,
         nest: true,
+        order: [["createdAt", "DESC"]],
         ...queries,
     });
 
