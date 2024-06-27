@@ -42,7 +42,7 @@ function* workRefreshConnection() {
 function* workAddTodo({ data }) {
     const { currentPage, currentFilter } = yield select((state) => state.query);
 
-    if (currentPage === 1 && currentFilter !== FILTER_COMPLETED) {
+    if (currentPage === 1 && currentFilter !== FILTER_COMPLETED) { //create notification
         yield put(
             createTodoSuccess({
                 ...data,
@@ -60,7 +60,7 @@ function* workDeleteTodo({ data }) {
     const { list } = yield select((state) => state.todos);
 
     if (list.length === 1 && list[0].id === data && currentPage > 1) {
-        yield put(setCurrentPageRequest(currentPage - 1 ? currentPage - 1 : 1));
+        yield put(setCurrentPageRequest(currentPage - 1 ? currentPage - 1 : 1)); // create notification
     } else {
         yield put(deleteTodoSuccess(data));
     }
@@ -71,7 +71,7 @@ function* workCheckTodo({ data }) {
 
     if (currentFilter === FILTER_ACTIVE || currentFilter === FILTER_COMPLETED) {
         if (currentPage !== 1) {
-            yield put(setCurrentPageRequest(1));
+            yield put(setCurrentPageRequest(1)); // create notification // additional action to update the counter
         } else {
             yield put(
                 getTodosRequest({
@@ -98,7 +98,7 @@ function* workClearCompleted() {
 
     if (currentPage !== 1 && currentFilter !== FILTER_ALL) {
         yield put(
-            setQueryRequest({ currentPage: 1, currentFilter: FILTER_ALL }),
+            setQueryRequest({ currentPage: 1, currentFilter: FILTER_ALL }), // notification
         );
     } else {
         yield put(

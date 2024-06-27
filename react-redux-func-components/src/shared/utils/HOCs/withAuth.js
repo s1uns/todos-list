@@ -22,3 +22,5 @@ const withAuth = (WrappedComponent, shouldBeLogged) => {
 };
 
 export default withAuth;
+
+// hook for todo data to map it
