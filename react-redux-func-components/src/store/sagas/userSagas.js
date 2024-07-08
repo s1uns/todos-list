@@ -41,7 +41,6 @@ function* workRegisterUser({ payload }) {
 
 function* workLoginUser({ payload }) {
     const response = yield call(() => loginUser(payload));
-
     if (response.success) {
         const { userId, email, fullName, username } = response.data;
         yield put(

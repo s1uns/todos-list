@@ -16,7 +16,7 @@ const todosReducer = handleActions(
         [actionSuccessType.DELETE_TODO_SUCCESS]: (state, { payload }) => {
             let wasCompleted;
             const newList = state.list.filter((todo) => {
-                if (todo.id == payload) {
+                if (todo.id === payload) {
                     wasCompleted = todo.isCompleted;
                     return false;
                 }

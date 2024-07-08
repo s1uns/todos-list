@@ -8,7 +8,7 @@ const withAuth = (WrappedComponent, shouldBeLogged) => {
         const navigate = useNavigate();
 
         useEffect(() => {
-            if (!user && shouldBeLogged) {
+            if (!user.id && shouldBeLogged) {
                 navigate("/login");
             }
 
@@ -20,6 +20,8 @@ const withAuth = (WrappedComponent, shouldBeLogged) => {
         return <WrappedComponent {...props} />;
     };
 };
+
+
 
 export default withAuth;
 
