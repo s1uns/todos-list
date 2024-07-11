@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import { Shared, Todos, Users } from "../../database/models/relations.js";
 import { SHARE_ACTIVE } from "../../utils/constants/sharedStatus.js";
+import { FILTER_ACTIVE, FILTER_COMPLETED } from "../../utils/constants/filter.js";
 
 const getTodos = async ({ page, limit, userId, filter, search }) => {
 	const queries = {
@@ -25,9 +26,9 @@ const getTodos = async ({ page, limit, userId, filter, search }) => {
 		},
 	};
 
-	if (filter === 1) {
+	if (filter === FILTER_ACTIVE) {
 		whereStatement.isCompleted = false;
-	} else if (filter === 2) {
+	} else if (filter === FILTER_COMPLETED) {
 		whereStatement.isCompleted = true;
 	}
 

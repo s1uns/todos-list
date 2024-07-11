@@ -1,0 +1,6 @@
+// filter
+const FILTER_ALL = 0;
+const FILTER_ACTIVE = 1;
+const FILTER_COMPLETED = 2;
+
+export { FILTER_ACTIVE, FILTER_ALL, FILTER_COMPLETED };
