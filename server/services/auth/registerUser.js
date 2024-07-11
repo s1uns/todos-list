@@ -53,8 +53,6 @@ const registerUser = async (credentials) => {
 		city: createdUser.city,
 	};
 
-    	console.log("Result: ", userInfo);
-
 
 	return userInfo;
 };

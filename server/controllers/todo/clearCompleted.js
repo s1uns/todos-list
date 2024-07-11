@@ -18,13 +18,13 @@ const clearCompleted = async (req, res) => {
 		where: { creatorId: userId, isCompleted: true },
 	});
 
-	const todos = await getTodos({
-		page: 1,
-		limit: TODOS_LIMIT,
-		userId: userId,
-		filter: FILTER_ALL,
-		search: "",
-	});
+	// const todos = await getTodos({
+	// 	page: 1,
+	// 	limit: TODOS_LIMIT,
+	// 	userId: userId,
+	// 	filter: FILTER_ALL,
+	// 	search: "",
+	// });
 
 	logger.info(`User ${userId} cleared completed todos.`);
 
@@ -38,7 +38,7 @@ const clearCompleted = async (req, res) => {
 			`Cleared all the completed todos of the user ${userId} on the socket ${socketId}`,
 		);
 	});
-	return res.success(todos);
+	return res.success("Successfully cleared your completed todos!");
 };
 
 export default clearCompleted;

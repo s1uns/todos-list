@@ -32,8 +32,6 @@ const getTodos = async ({ page, limit, userId, filter, search }) => {
 		whereStatement.isCompleted = true;
 	}
 
-	console.log("Search: ", search);
-
 	const activeTodos = await Todos.count({
 		where: {
 			creatorId: {
