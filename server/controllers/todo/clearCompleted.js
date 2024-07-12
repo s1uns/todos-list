@@ -1,18 +1,17 @@
 import Todo from "../../database/models/Todos.js";
 import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 import redisClient from "../../redisClient.js";
-import { getTodos } from "../../services/todos/index.js";
+import getUser from "../../services/user/getUser.js";
 import socketService from "../../socket.js";
 import { todoClearCompletedAction } from "../../utils/actions/notificationActions.js";
-import { FILTER_ALL } from "../../utils/constants/filter.js";
 import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
-import { TODOS_LIMIT } from "../../utils/constants/todos.js";
 
 const clearCompleted = async (req, res) => {
 	const { socketId: authorSocketId } = req.body;
 	const io = socketService.getIO();
 
 	const { userId } = req;
+	const user = await getUser(userId);
 
 	await Todo.destroy({
 		where: { creatorId: userId, isCompleted: true },
@@ -32,7 +31,11 @@ const clearCompleted = async (req, res) => {
 	connections.map(async (socketId) => {
 		io.to(socketId).emit(
 			SOCKET_ACTION,
-			todoClearCompletedAction({ socketId: authorSocketId }),
+			todoClearCompletedAction({
+				socketId: authorSocketId,
+				userId: userId,
+				author: user.fullName,
+			}),
 		);
 		logger.info(
 			`Cleared all the completed todos of the user ${userId} on the socket ${socketId}`,
