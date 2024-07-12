@@ -1,53 +1,56 @@
 import Todo from "../../database/models/Todos.js";
 import { logger } from "../../middleware/winstonLoggingMiddleware.js";
-import socketService from "../../socket.js";
-import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
-import { todoCheckAction } from "../../utils/actions/notificationActions.js";
 import redisClient from "../../redisClient.js";
+import getUser from "../../services/user/getUser.js";
+import socketService from "../../socket.js";
+import { todoCheckAction } from "../../utils/actions/notificationActions.js";
+import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
 
 const checkTodo = async (req, res) => {
-    const { id: todoId } = req.params;
-    const io = socketService.getIO();
-    const { userId } = req;
-    const { socketId: authorSocketId } = req.body;
+	const { id: todoId } = req.params;
+	const io = socketService.getIO();
+	const { userId } = req;
+	const { socketId: authorSocketId } = req.body;
+	const user = await getUser(userId);
 
-    const checkedTodo = await Todo.findByPk(todoId);
+	const checkedTodo = await Todo.findByPk(todoId);
 
-    if (!checkedTodo) {
-        logger.warn(
-            `User ${userId} tried to update the completion status of todo ${todoId} (NOT FOUND).`,
-        );
-        return res.notFound("Todo not found.");
-    }
+	if (!checkedTodo) {
+		logger.warn(
+			`User ${userId} tried to update the completion status of todo ${todoId} (NOT FOUND).`,
+		);
+		return res.notFound("Todo not found.");
+	}
 
-    if (checkedTodo.creatorId != userId) {
-        logger.warn(
-            `User ${userId} tried to update the completion status of not his todo ${todoId}.`,
-        );
-        return res.forbidden("It's not your todo.");
-    }
+	if (checkedTodo.creatorId != userId) {
+		logger.warn(
+			`User ${userId} tried to update the completion status of not his todo ${todoId}.`,
+		);
+		return res.forbidden("It's not your todo.");
+	}
 
-    checkedTodo.isCompleted = !checkedTodo.isCompleted;
-    checkedTodo.save();
+	checkedTodo.isCompleted = !checkedTodo.isCompleted;
+	checkedTodo.save();
 
-    const todo = checkedTodo.toJSON();
+	const todo = checkedTodo.toJSON();
+	todo.author = user.fullName;
 
-    logger.info(
-        `User ${userId} updated the completion status of todo ${todoId} to "${todo.isCompleted}".`,
-    );
+	logger.info(
+		`User ${userId} updated the completion status of todo ${todoId} to "${todo.isCompleted}".`,
+	);
 
-    const connections = await redisClient.getSharedConnections(userId);
-    connections.map(async (socketId) => {
-        io.to(socketId).emit(
-            SOCKET_ACTION,
-            todoCheckAction({
-                newTodo: { ...todo },
-                socketId: authorSocketId,
-            }),
-        );
-        logger.info(`Checked the todo ${todo.id} on the socket ${socketId}`);
-    });
-    return res.success(todo);
+	const connections = await redisClient.getSharedConnections(userId);
+	connections.map(async (socketId) => {
+		io.to(socketId).emit(
+			SOCKET_ACTION,
+			todoCheckAction({
+				newTodo: { ...todo },
+				socketId: authorSocketId,
+			}),
+		);
+		logger.info(`Checked the todo ${todo.id} on the socket ${socketId}`);
+	});
+	return res.success(todo);
 };
 
 export default checkTodo;
