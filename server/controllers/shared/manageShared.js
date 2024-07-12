@@ -46,7 +46,6 @@ const manageShared = async (req, res) => {
 			sharedWithId: sharedWithId,
 			status: SHARE_ACTIVE,
 		});
-		relation.status = true;
 
 		logger.info(
 			`User ${userId} shared his todos with user ${sharedWithId}.`,
@@ -75,7 +74,7 @@ const manageShared = async (req, res) => {
 				socketId: authorSocketId,
 				userId: userId,
 				author: user.fullName,
-				isShared: relation.status,
+				isShared: relation ? relation.status : true,
 			}),
 		);
 		logger.info(
