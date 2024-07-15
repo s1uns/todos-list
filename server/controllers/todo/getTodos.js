@@ -1,9 +1,9 @@
 import { logger } from "../../middleware/winstonLoggingMiddleware.js";
 import { getTodos as getTodosAsync } from "../../services/todos/index.js";
+import { SORT_CREATED_AT } from "../../utils/constants/sortBy.js";
 
 const getTodos = async (req, res) => {
-	const { page, limit, filter, search } = req.query;
-
+	const { page, limit, filter, search, sortBy, isAscending } = req.query;
 	const userId = req.userId;
 
 	const todos = await getTodosAsync({
@@ -12,6 +12,8 @@ const getTodos = async (req, res) => {
 		userId: userId,
 		filter: +filter ? +filter : 0,
 		search: search ? search : "",
+		sortBy: +sortBy ? +sortBy : SORT_CREATED_AT,
+		isAscending: isAscending ? isAscending : false,
 	});
 
 	logger.info(

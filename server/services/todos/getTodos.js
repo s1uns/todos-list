@@ -1,9 +1,25 @@
 import { Op } from "sequelize";
 import { Shared, Todos, Users } from "../../database/models/relations.js";
+import {
+	FILTER_ACTIVE,
+	FILTER_COMPLETED,
+} from "../../utils/constants/filter.js";
 import { SHARE_ACTIVE } from "../../utils/constants/sharedStatus.js";
-import { FILTER_ACTIVE, FILTER_COMPLETED } from "../../utils/constants/filter.js";
+import {
+	SORT_CREATED_AT,
+	SORT_TITLE,
+	SORT_UPDATED_AT,
+} from "../../utils/constants/sortBy.js";
 
-const getTodos = async ({ page, limit, userId, filter, search }) => {
+const getTodos = async ({
+	page,
+	limit,
+	userId,
+	filter,
+	search,
+	sortBy,
+	isAscending,
+}) => {
 	const queries = {
 		offset: (page - 1) * limit,
 		limit: limit,
@@ -32,6 +48,26 @@ const getTodos = async ({ page, limit, userId, filter, search }) => {
 		whereStatement.isCompleted = true;
 	}
 
+	const sortingStatement = {};
+
+	if (sortBy === SORT_CREATED_AT) {
+		sortingStatement.sortBy = "createdAt";
+	}
+
+	if (sortBy === SORT_UPDATED_AT) {
+		sortingStatement.sortBy = "updatedAt";
+	}
+
+	if (sortBy === SORT_TITLE) {
+		sortingStatement.sortBy = "title";
+	}
+
+	console.log("Is ascending: ", isAscending);
+
+	sortingStatement.order = isAscending ? "ASC" : "DESC";
+
+	console.log("Sorting: ", sortingStatement);
+
 	const activeTodos = await Todos.count({
 		where: {
 			creatorId: {
@@ -51,7 +87,7 @@ const getTodos = async ({ page, limit, userId, filter, search }) => {
 		},
 		raw: true,
 		nest: true,
-		order: [["createdAt", "DESC"]],
+		order: [[sortingStatement.sortBy, sortingStatement.order]],
 		...queries,
 	});
 
