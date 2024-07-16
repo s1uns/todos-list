@@ -7,7 +7,6 @@ import { todoClearCompletedAction } from "../../utils/actions/notificationAction
 import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
 
 const clearCompleted = async (req, res) => {
-	const { socketId: authorSocketId } = req.body;
 	const io = socketService.getIO();
 
 	const { userId } = req;
@@ -32,7 +31,6 @@ const clearCompleted = async (req, res) => {
 		io.to(socketId).emit(
 			SOCKET_ACTION,
 			todoClearCompletedAction({
-				socketId: authorSocketId,
 				userId: userId,
 				author: user.fullName,
 			}),

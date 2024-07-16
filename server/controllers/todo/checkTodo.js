@@ -10,7 +10,6 @@ const checkTodo = async (req, res) => {
 	const { id: todoId } = req.params;
 	const io = socketService.getIO();
 	const { userId } = req;
-	const { socketId: authorSocketId } = req.body;
 	const user = await getUser(userId);
 
 	const checkedTodo = await Todo.findByPk(todoId);
@@ -44,8 +43,7 @@ const checkTodo = async (req, res) => {
 		io.to(socketId).emit(
 			SOCKET_ACTION,
 			todoCheckAction({
-				newTodo: { ...todo },
-				socketId: authorSocketId,
+				newTodo: { ...todo }
 			}),
 		);
 		logger.info(`Checked the todo ${todo.id} on the socket ${socketId}`);

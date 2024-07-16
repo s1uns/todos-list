@@ -8,7 +8,6 @@ import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
 
 const deleteTodo = async (req, res) => {
 	const { id: todoId } = req.params;
-	const { socketId: authorSocketId } = req.body;
 	const { userId } = req;
 	const io = socketService.getIO();
 	const user = await getUser(userId);
@@ -43,7 +42,6 @@ const deleteTodo = async (req, res) => {
 				todoId: todoId,
 				author: user.fullName,
 				creatorId: todo.creatorId,
-				socketId: authorSocketId,
 			}),
 		);
 

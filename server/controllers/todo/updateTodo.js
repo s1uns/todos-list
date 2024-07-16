@@ -7,7 +7,7 @@ import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
 import getUser from "../../services/user/getUser.js";
 
 const updateTodo = async (req, res) => {
-	const { id: todoId, newTitle, socketId: authorSocketId } = req.body;
+	const { id: todoId, newTitle } = req.body;
 	const { userId } = req;
 	const user = await getUser(userId);
 
@@ -49,7 +49,6 @@ const updateTodo = async (req, res) => {
 			SOCKET_ACTION,
 			todoUpdateAction({
 				newTodo: { ...todo },
-				socketId: authorSocketId,
 			}),
 		);
 		logger.info(

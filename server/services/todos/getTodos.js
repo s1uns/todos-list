@@ -62,11 +62,7 @@ const getTodos = async ({
 		sortingStatement.sortBy = "title";
 	}
 
-	console.log("Is ascending: ", isAscending);
-
 	sortingStatement.order = isAscending ? "ASC" : "DESC";
-
-	console.log("Sorting: ", sortingStatement);
 
 	const activeTodos = await Todos.count({
 		where: {

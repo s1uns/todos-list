@@ -8,7 +8,7 @@ import { todoCreationAction } from "../../utils/actions/notificationActions.js";
 import { SOCKET_ACTION } from "../../utils/constants/socketActions.js";
 
 const createTodo = async (req, res) => {
-	const { title, socketId: authorSocketId } = req.body;
+	const { title} = req.body;
 	const io = socketService.getIO();
 
 	const userId = req.userId;
@@ -37,8 +37,7 @@ const createTodo = async (req, res) => {
 		io.to(socketId).emit(
 			SOCKET_ACTION,
 			todoCreationAction({
-				newTodo: todo,
-				socketId: authorSocketId,
+				newTodo: todo
 			}),
 		);
 		logger.info(`Added the todo ${todo.id} on the socket ${socketId}`);

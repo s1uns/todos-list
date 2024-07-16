@@ -15,7 +15,6 @@ const manageShared = async (req, res) => {
 	const userId = req.userId;
 
 	const { id: sharedWithId } = req.params;
-	const { socketId: authorSocketId } = req.body;
 	const io = socketService.getIO();
 	const user = await getUser(userId);
 
@@ -71,7 +70,6 @@ const manageShared = async (req, res) => {
 		io.to(socketId).emit(
 			SOCKET_ACTION,
 			sharedTodosActions({
-				socketId: authorSocketId,
 				userId: userId,
 				author: user.fullName,
 				isShared: relation ? relation.status : true,
