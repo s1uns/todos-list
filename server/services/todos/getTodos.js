@@ -12,7 +12,7 @@ import {
 } from "../../utils/constants/sortBy.js";
 
 const getTodos = async ({
-	page,
+	offset,
 	limit,
 	userId,
 	filter,
@@ -21,7 +21,7 @@ const getTodos = async ({
 	isAscending,
 }) => {
 	const queries = {
-		offset: (page - 1) * limit,
+		offset: offset,
 		limit: limit,
 	};
 
