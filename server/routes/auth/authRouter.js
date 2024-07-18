@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-	checkEmailAvailability,
+	checkCredentialAvailability,
 	login,
 	logout,
 	register,
@@ -11,7 +11,7 @@ import userRegistrationSchema from "../../utils/validators/auth/UserRegistration
 
 const router = Router();
 
-router.post("/available-email", checkEmailAvailability);
+router.post("/available-credential", checkCredentialAvailability);
 router.post("/login", validateBody(userLoginSchema), login);
 router.post("/registration", validateBody(userRegistrationSchema), register);
 router.post("/logout", logout);

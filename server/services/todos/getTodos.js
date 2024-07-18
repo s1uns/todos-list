@@ -50,7 +50,6 @@ const getTodos = async ({
 	}
 
 	if (sharers) {
-		// console.log("Type of sharers: ", typeof sharers);
 		if (typeof sharers === "string") {
 			whereStatement.creatorId = {
 				[Op.like]: sharers,

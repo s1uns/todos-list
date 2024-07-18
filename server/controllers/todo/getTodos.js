@@ -5,8 +5,7 @@ import { SORT_CREATED_AT } from "../../utils/constants/sortBy.js";
 const getTodos = async (req, res) => {
 	const { offset, limit, filter, search, sortBy, isAscending, sharers } =
 		req.query;
-	console.log("Query: ", req.query);
-	console.log("User id: ", req.userId);
+
 	const userId = req.userId;
 
 	const todos = await getTodosAsync({

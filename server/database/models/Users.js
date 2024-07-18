@@ -20,7 +20,7 @@ const Users = sequelize.define(
                     msg: "Must be a valid email address",
                 },
             },
-            unique: true,
+            unique: true,   
         },
         username: {
             allowNull: false,

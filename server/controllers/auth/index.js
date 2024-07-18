@@ -1,6 +1,6 @@
-import checkEmailAvailability from "./checkEmailAvailability.js";
+import checkCredentialAvailability from "./checkCredentialAvailability.js";
 import login from "./login.js";
 import logout from "./logout.js";
 import register from "./register.js";
 
-export { checkEmailAvailability, login, logout, register };
+export { checkCredentialAvailability, login, logout, register };
