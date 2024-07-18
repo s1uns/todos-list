@@ -29,7 +29,7 @@ redisClient.getSharedConnections = async (userId) => {
 	);
 
 	const filteredConnections = connections.filter((key) => key !== null);
-
+	console.log("Shared connections: ", filteredConnections);
 	return filteredConnections;
 };
 
