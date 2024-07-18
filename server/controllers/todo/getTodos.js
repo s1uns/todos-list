@@ -3,7 +3,8 @@ import { getTodos as getTodosAsync } from "../../services/todos/index.js";
 import { SORT_CREATED_AT } from "../../utils/constants/sortBy.js";
 
 const getTodos = async (req, res) => {
-	const { offset, limit, filter, search, sortBy, isAscending } = req.query;
+	const { offset, limit, filter, search, sortBy, isAscending, sharers } =
+		req.query;
 	console.log("Query: ", req.query);
 	console.log("User id: ", req.userId);
 	const userId = req.userId;
@@ -16,6 +17,7 @@ const getTodos = async (req, res) => {
 		search: search ? search : "",
 		sortBy: +sortBy ? +sortBy : SORT_CREATED_AT,
 		isAscending: isAscending ? isAscending : false,
+		sharers: sharers ? sharers : null,
 	});
 
 	logger.info(

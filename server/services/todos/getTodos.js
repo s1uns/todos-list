@@ -19,6 +19,7 @@ const getTodos = async ({
 	search,
 	sortBy,
 	isAscending,
+	sharers,
 }) => {
 	const queries = {
 		offset: offset,
@@ -46,6 +47,20 @@ const getTodos = async ({
 		whereStatement.isCompleted = false;
 	} else if (filter === FILTER_COMPLETED) {
 		whereStatement.isCompleted = true;
+	}
+
+	if (sharers) {
+		// console.log("Type of sharers: ", typeof sharers);
+		if (typeof sharers === "string") {
+			whereStatement.creatorId = {
+				[Op.like]: sharers,
+			};
+		}
+		if (typeof sharers === "object") {
+			whereStatement.creatorId = {
+				[Op.in]: sharers,
+			};
+		}
 	}
 
 	const sortingStatement = {};
