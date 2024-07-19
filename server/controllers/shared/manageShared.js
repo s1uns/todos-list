@@ -75,7 +75,8 @@ const manageShared = async (req, res) => {
 			sharedTodosActions({
 				sharerId: userId,
 				receiverId: sharedWithId,
-				author: user.fullName,
+				sharerFullname: user.fullName,
+				sharerUsername: user.username,
 				isShared: relation ? relation.status : true,
 			}),
 		);
