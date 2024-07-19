@@ -18,16 +18,32 @@ const getAvailableUsers = async ({ page, limit, userId, search }) => {
 			},
 		},
 		attributes: ["id", "username", "firstName", "lastName", "fullName"],
-		include: { model: Shared, as: "sharedWith", attributes: ["status"] },
+		include: {
+			model: Shared,
+			as: "sharedWith",
+			attributes: ["ownerId", "status"],
+		},
 		...queries,
 	});
 
+	const usersCount = await Users.count({
+		where: {
+			id: {
+				[Op.not]: userId,
+			},
+			username: {
+				[Op.like]: `%${search}%`,
+			},
+		},
+	});
 	const list = availableUsers.rows.map((userInfo) => {
-		const shareStatus =
-			!!userInfo.sharedWith[0] &&
-			+userInfo.sharedWith[0].status === SHARE_ACTIVE
-				? true
-				: false;
+		const usersSharedWith = JSON.parse(JSON.stringify(userInfo.sharedWith));
+
+		const shareStatus = usersSharedWith.filter(
+			(connection) =>
+				connection.ownerId === userId &&
+				+connection.status === SHARE_ACTIVE,
+		).length;
 
 		return {
 			id: userInfo.id,
@@ -37,7 +53,7 @@ const getAvailableUsers = async ({ page, limit, userId, search }) => {
 		};
 	});
 
-	const totalPages = Math.ceil(availableUsers?.count / limit);
+	const totalPages = Math.ceil(usersCount / limit);
 
 	return { list: list, totalPages: totalPages };
 };

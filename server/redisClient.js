@@ -1,6 +1,7 @@
 import { createClient } from "redis";
 import { logger } from "./middleware/winstonLoggingMiddleware.js";
 import { getSharedUsers } from "./services/user/index.js";
+import { ROLE_RECEIVER, ROLE_SHARER } from "./utils/constants/sharedRoles.js";
 
 const REDIS_PORT = process.env.REDIS_PORT || 6379;
 
@@ -10,6 +11,29 @@ redisClient.on("error", (err) => logger.error("Redis Client Error", err));
 
 redisClient.setConnection = async (connectionId, userId) => {
 	await redisClient.set(`${connectionId}`, userId);
+};
+
+redisClient.getSharerAndReceiverConnections = async (sharerId, receiverId) => {
+	const keys = await redisClient.keys("*", async (err, keys) => {
+		if (err) return logger.error(err);
+	});
+
+	const connections = await Promise.all(
+		keys.map(async (key) => {
+			const id = await redisClient.get(key);
+
+			const applies = id == sharerId || id === receiverId;
+			return applies
+				? {
+						connectionId: key,
+						role: id === sharerId ? ROLE_SHARER : ROLE_RECEIVER,
+				  }
+				: null;
+		}),
+	);
+
+	const filteredConnections = connections.filter((item) => item !== null);
+	return filteredConnections;
 };
 
 redisClient.getSharedConnections = async (userId) => {

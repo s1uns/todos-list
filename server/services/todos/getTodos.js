@@ -55,6 +55,7 @@ const getTodos = async ({
 				[Op.like]: sharers,
 			};
 		}
+		
 		if (typeof sharers === "object") {
 			whereStatement.creatorId = {
 				[Op.in]: sharers,

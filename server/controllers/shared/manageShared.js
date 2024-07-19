@@ -36,7 +36,10 @@ const manageShared = async (req, res) => {
 		where: { ownerId: userId, sharedWithId: sharedWithId },
 	});
 
-	const connections = await redisClient.getSharedConnections(sharedWithId);
+	const connections = await redisClient.getSharerAndReceiverConnections(
+		userId,
+		sharedWithId,
+	);
 
 	if (!relation) {
 		await Shared.create({
@@ -66,17 +69,18 @@ const manageShared = async (req, res) => {
 		);
 	}
 
-	connections.map(async (socketId) => {
-		io.to(socketId).emit(
+	connections.map(async (connection) => {
+		io.to(connection.connectionId).emit(
 			SOCKET_ACTION,
 			sharedTodosActions({
-				userId: userId,
+				sharerId: userId,
+				receiverId: sharedWithId,
 				author: user.fullName,
 				isShared: relation ? relation.status : true,
 			}),
 		);
 		logger.info(
-			`Changed the sharing status between user ${userId} and user ${sharedWithId} on the socket ${socketId}`,
+			`Changed the sharing status between user ${userId} and user ${sharedWithId} on the socket ${connection.connectionId}`,
 		);
 	});
 
