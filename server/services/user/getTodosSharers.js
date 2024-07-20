@@ -1,48 +1,45 @@
-import { Op } from "sequelize";
 import { Shared, Users } from "../../database/models/relations.js";
 import { SHARE_ACTIVE } from "../../utils/constants/sharedStatus.js";
+import getUser from "./getUser.js";
 
 const getTodosSharers = async ({ offset, limit, userId, search }) => {
 	const queries = {
 		offset: offset,
 		limit: limit,
 	};
-	const todosSharersIdsQuery = await Shared.findAndCountAll({
+	const todosSharers = await Shared.findAndCountAll({
 		where: {
 			sharedWithId: userId,
 			status: SHARE_ACTIVE,
 		},
-		attributes: ["ownerId"],
-		raw: true,
-	});
-
-	const todosSharersIds = [
-		...todosSharersIdsQuery.rows.map((row) => row.ownerId),
-		userId,
-	];
-
-	const todosSharers = await Users.findAndCountAll({
-		where: {
-			id: {
-				[Op.in]: todosSharersIds,
-			},
-			username: {
-				[Op.like]: `%${search}%`,
-			},
+		attributes: [],
+		include: {
+			model: Users,
+			as: "owner",
+			attributes: ["id", "firstName", "lastName", "username", "fullName"],
 		},
-		attributes: ["id", "username", "firstName", "lastName", "fullName"],
-		...queries,
+		order: [["updatedAt", "ASC"]],
 	});
+	const user = await getUser(userId);
 
 	const list = todosSharers.rows.map((userInfo) => {
+		const { id, username, fullName } = JSON.parse(
+			JSON.stringify(userInfo),
+		).owner;
 		return {
-			id: userInfo.id,
-			username: userInfo.username,
-			fullName: userId === userInfo.id ? "You" : userInfo.fullName,
+			id: id,
+			username: username,
+			fullName: userId === id ? "You" : fullName,
 		};
 	});
 
-	return { list: list, totalUsers: todosSharers.count };
+	return {
+		list: [
+			{ id: userId, username: user.username, fullName: "You" },
+			...list,
+		],
+		totalUsers: todosSharers.count + 1,
+	};
 };
 
 export default getTodosSharers;
